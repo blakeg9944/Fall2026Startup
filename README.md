@@ -38,7 +38,7 @@ sequenceDiagram
 I am going to use the required technologies in the following ways.
 
 - **HTML** - Mobile friendly homepage, a restaurant search page, a restaurant detail/review page, a review submission form, and a login/register page that prompts upon opening the site. Explicitly mobile friendly.
-- **CSS** - Description here
+- **CSS** - User friendly styling that is designed to work with both mobile and desktop views. Consistent styling for review indicators (color-coded cross-contamination ratings).
 - **React** - Description here
 - **Service** - Description here
 - **DB/Login** - Description here
