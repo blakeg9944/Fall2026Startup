@@ -37,7 +37,7 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
+- **HTML** - A React single-page application with a mobile-first layout. Restaurant search and review cards need to work well on a phone screen since that's when people are actually deciding where to eat.
 - **CSS** - Description here
 - **React** - Description here
 - **Service** - Description here
