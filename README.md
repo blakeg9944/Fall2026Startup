@@ -42,7 +42,7 @@ I am going to use the required technologies in the following ways.
 - **React** - Description here
 - **Service** - Description here
 - **DB/Login** - Description here
-- **WebSocket** - Description here
+- **WebSocket** - Real-time broadcast of new reviews (and updated average rating) to everyone viewing that restaurant's page.
 
 ## 🚀 Specification Deliverable
 
