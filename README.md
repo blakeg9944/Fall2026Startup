@@ -1,4 +1,4 @@
-GlutenGuard
+#GlutenGuard
 
 [My Notes](notes.md)
 
@@ -12,7 +12,7 @@ Gluten Guard is a mobile/web app designed for users to share their experiences a
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+GlutenGuard helps people with celiac disease or gluten sensitivity find restaurants they can actually trust. Not just dining locations with a gluten-free item on the menu, but ones with practices that prevent cross-contamination. Users search for a restaurant and see or submit reviews answering questions a typical review site never asks. For example, does the kitchen use a separate fryer or grill? Is there a dedicated gluten-free prep area? How confident would someone with celiac disease feel eating here versus someone who's just gluten-sensitive? After answering these questions: other people who struggle with the same troubles of finding reliable gluten free vendors will be able to view and share their own reviews. All this goes to helping and protecting the ones we love most while still maintaining the magic of a going out to eat a meal.
 
 ### Design
 
