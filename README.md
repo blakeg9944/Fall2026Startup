@@ -2,7 +2,7 @@
 
 [My Notes](notes.md)
 
-Gluten Guard is a mobile/web app designed for users to share their experiences about how manageable different restaurants are about allergies and sensitivity to glutenous items. The app will be integrated with google maps API. Users will be able to login/register and then search for the desired restaurant and fill out a review. 
+Gluten Guard is a mobile/web app designed for users to share their experiences about how manageable different restaurants are about allergies and sensitivity to glutenous items. Users will be able to login/register and then search for the desired restaurant and fill out a review. The website will be integrated with google places/maps API to tie user review data to address/location so other users can view reviews. 
 
 > [!NOTE]
 > This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
@@ -45,11 +45,11 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Git commit requirement)
+- [x] I completed the prerequisites for this deliverable (Git commit requirement)
 - [x] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
+- [x] A concise and compelling elevator pitch
 - [x] Description of key features
-- [ ] Description of how you will use each technology including your 3rd party API and use of WebSocket
+- [x] Description of how you will use each technology including your 3rd party API and use of WebSocket
 - [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ## 🚀 AWS deliverable
