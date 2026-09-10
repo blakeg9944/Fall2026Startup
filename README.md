@@ -39,7 +39,7 @@ I am going to use the required technologies in the following ways.
 
 - **HTML** - Mobile friendly homepage, a restaurant search page, a restaurant detail/review page, a review submission form, and a login/register page that prompts upon opening the site. Explicitly mobile friendly.
 - **CSS** - User friendly styling that is designed to work with both mobile and desktop views. Consistent styling for review indicators (color-coded cross-contamination ratings).
-- **React** - Description here
+- **React** - Components for restaurant search-as-you-type (Google Places autocomplete), restaurant detail view with aggregated GF stats, a review submission form, and a live viewer/review feed that updates via WebSocket without a page reload.
 - **Service** - Description here
 - **DB/Login** - Description here
 - **WebSocket** - Real-time broadcast of new reviews (and updated average rating) to everyone viewing that restaurant's page.
