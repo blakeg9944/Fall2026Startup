@@ -34,7 +34,7 @@ I am going to use the required technologies in the following ways.
 - **HTML** - Mobile friendly homepage, a restaurant search page, a restaurant detail/review page, a review submission form, and a login/register page that prompts upon opening the site (can be skipped if just wanting to browse). Explicitly mobile friendly.
 - **CSS** - User friendly styling that is designed to work with both mobile and desktop views. Consistent styling for review indicators (color-coded cross-contamination ratings).
 - **React** - Components for restaurant search-as-you-type, restaurant detail view with aggregated gluten free stats, a review submission form, and a live viewer/review feed that updates via WebSocket without a page reload.
-- **Service** - A backend with endpoints for authentication (register/login/logout/session check). Includes app-specific functionality like utilizing Google Places search, fetching/caching restaurant data, and creating/editing/deleting gluten-free reviews.
+- **Service** - A backend with endpoints for authentication (register/login/logout/session check). Includes app-specific functionality like utilizing Google Places API to search for specific locations, fetching/caching restaurant data, and creating/editing/deleting gluten-free reviews.
 - **DB/Login** - Three main categories: users, review, and restaurants. Login is required to submit a review but any user can browse. Users table includes a secure way to do auths and store username and passwords.
 - **WebSocket** - Real-time broadcast of new reviews (and updated average rating) to everyone viewing that restaurant's page.
 
