@@ -23,9 +23,9 @@ Diagram highlights the search bar with google maps/google places API integrated.
 
 ### Key features
 
-- Search bar using Google Places API
-- Describe your key feature
-- Describe your key feature
+- **Gluten-free safety search** — Search any restaurant via the Google Places API and see a GF safety profile. This includes whether they use a separate grill/fryer, have a dedicated GF menu, and an aggregated cross-contamination rating.
+- **Structured community reviews** — Logged-in users submit detailed GF reviews (not just star ratings) covering kitchen practices, and can browse, edit, or delete their own review history.
+- **Real-time activity feed** — WebSocket-powered live updates show how many people are currently viewing a restaurant and push new reviews to everyone on that page instantly, without a refresh.
 
 ### Technologies
 
