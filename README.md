@@ -16,20 +16,14 @@ Ever been out to eat with someone with a bad allergy? Growing up my mother and o
 
 ### Design
 
-![Design image](placeholder.png)
+![Design image](design_pic.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Diagram highlights the search bar with google maps/google places API integrated. Users use the already large library to ping their reviews to the address associated with the restaurant. 
 
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
 
 ### Key features
 
-- Describe your key feature
+- Search bar using Google Places API
 - Describe your key feature
 - Describe your key feature
 
