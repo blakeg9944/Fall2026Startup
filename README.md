@@ -37,7 +37,7 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - A React single-page application with a mobile-first layout. Restaurant search and review cards need to work well on a phone screen since that's when people are actually deciding where to eat.
+- **HTML** - Mobile friendly homepage, a restaurant search page, a restaurant detail/review page, a review submission form, and a login/register page that prompts upon opening the site. Explicitly mobile friendly.
 - **CSS** - Description here
 - **React** - Description here
 - **Service** - Description here
