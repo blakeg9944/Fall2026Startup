@@ -18,7 +18,7 @@ Ever been out to eat with someone with a bad allergy? Growing up my mother and o
 
 ![Design image](design_pic.png)
 
-Diagram highlights the search bar with google maps/google places API integrated. Users use the already large library to ping their reviews to the address associated with the restaurant. 
+Diagram highlights the search bar with google maps/google places API integrated. Users use the already large library to ping their reviews to the address associated with the restaurant. Easy to use homepage with header that includes a way to login/logout. Only two other links that let users browse different reviews from a map or view their previous reviews from other dining locations.
 
 
 ### Key features
