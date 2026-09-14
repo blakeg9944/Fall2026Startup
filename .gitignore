@@ -1,0 +1,24 @@
+# Key pairs and secrets — put your dev key pair (e.g. AWS .pem) in keys/
+keys/*
+!keys/.gitkeep
+*.pem
+*.key
+*.ppk
+id_rsa*
+id_ed25519*
+.env
+.env.*
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
