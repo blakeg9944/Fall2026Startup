@@ -8,6 +8,7 @@
   <body>
     <header>
       <h1>GlutenGuard</h1>
+      <p>Welcome, <span id="username">guest</span></p>
       <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -20,6 +21,21 @@
     <main>
       <h2>Find gluten-free restaurants you can trust</h2>
       <p>Search for a restaurant to see community reviews about cross-contamination and kitchen practices.</p>
+
+      <section>
+        <h3>Login</h3>
+        <form method="get" action="browse.html">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="password" required />
+
+          <button type="submit">Login</button>
+          <button type="submit">Create Account</button>
+        </form>
+        <p>You can also <a href="browse.html">browse reviews</a> without an account. Login is only required to submit a review.</p>
+      </section>
     </main>
 
     <footer>
