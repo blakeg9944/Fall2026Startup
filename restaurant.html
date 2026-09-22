@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GlutenGuard - Restaurant</title>
+  </head>
+  <body>
+    <header>
+      <h1>GlutenGuard</h1>
+      <p>Welcome, <span id="username">guest</span></p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="browse.html">Browse Reviews</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Placeholder: name, address, and hours come from the Google Places API -->
+      <h2>Black Sheep Cafe</h2>
+      <p>19 N University Ave, Provo UT &mdash; Open until 9:00 PM</p>
+
+      <section>
+        <h3>Gluten-free safety profile</h3>
+        <!-- Placeholder: these numbers are aggregated from all reviews in the database -->
+        <p>Cross-contamination rating: <strong>4.2 / 5</strong> from 38 reviews</p>
+        <ul>
+          <li>Separate fryer: <strong>Yes</strong> (34 of 38 reviewers agree)</li>
+          <li>Separate grill or prep surface: <strong>Yes</strong> (30 of 38 reviewers agree)</li>
+          <li>Dedicated gluten-free menu: <strong>Yes</strong></li>
+          <li>Staff trained on celiac safety: <strong>Usually</strong></li>
+        </ul>
+        <p>Celiac confidence: <strong>High</strong> &mdash; Gluten-sensitive confidence: <strong>High</strong></p>
+        <p><a href="review.html">Write a review for this restaurant</a></p>
+      </section>
+
+      <section>
+        <h3>Reviews</h3>
+        <!-- Placeholder: every review below is stored in and loaded from the database -->
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Rating</th>
+              <th>Separate fryer</th>
+              <th>Review</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>celiac_sarah</td>
+              <td>5 / 5</td>
+              <td>Yes</td>
+              <td>Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</td>
+              <td>2026-09-14</td>
+            </tr>
+            <tr>
+              <td>mtn_biker_dave</td>
+              <td>4 / 5</td>
+              <td>Yes</td>
+              <td>Dedicated GF fryer for the fries. Buns are stored on a separate shelf, but prep counter is shared.</td>
+              <td>2026-09-09</td>
+            </tr>
+            <tr>
+              <td>glutenfree_mom3</td>
+              <td>3 / 5</td>
+              <td>Unsure</td>
+              <td>Food was good and I felt fine, but nobody could answer my question about the grill.</td>
+              <td>2026-08-28</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><em>Reviews are stored in the database and loaded when this page opens.</em></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Blake Gertsch</p>
+      <a href="https://github.com/blakeg9944/Fall2026Startup">GitHub Repository</a>
+    </footer>
+  </body>
+</html>
