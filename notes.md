@@ -2,8 +2,8 @@
 
 This file represents what I have learned about web programming.
 
-- [My startup](https://startup.cs260.click)
-- [My simon](https://simon.cs260.click)
+- [My startup](https://startup.glutenguard.click)
+- [My simon](https://simon.glutenguard.click)
 
 ## Helpful links
 
@@ -27,6 +27,23 @@ Interesting things I have learned about AWS
 ## HTML
 
 Interesting things I have learned about HTML
+
+- Every page starts with `<!DOCTYPE html>` and `<html lang="en">`, and the `<head>` needs `<meta charset="utf-8">`, the viewport meta tag (`width=device-width, initial-scale=1`) so it works on phones, and a `<title>` for the browser tab.
+- Structure each page with semantic elements instead of a pile of `<div>`s: `header` (title and `nav`), `main` (the page content broken into `section`s), and `footer` (my name and the GitHub link). This matters for screen readers and makes CSS easier later.
+- Headings go in order (`h1` for the app name, `h2` for the page, `h3` for each section) — don't skip levels just to get a smaller font; that's CSS's job.
+- Links between my own pages are relative (`href="browse.html"`), so they work both locally and on the server. External links like GitHub use the full URL.
+- Forms:
+  - Every input should have a `<label for="id">` matching the input's `id`, so clicking the label focuses the input.
+  - Useful input types: `search`, `email`, `password`, `checkbox`, `radio`, and `file` (with `accept="image/*"` to only allow images). The browser gives some validation for free with `type="email"` and `required`.
+  - Radio buttons are grouped by giving them the same `name` — only one in the group can be picked.
+  - `select`/`option` for dropdowns, `textarea` for long text, and `fieldset` + `legend` to group related questions.
+  - The `action` attribute says where the form goes on submit. For now I point it at another page since there's no backend yet.
+- Tables: `table` > `thead`/`tbody` > `tr` > `th`/`td`. Only use tables for actual tabular data (like a list of reviews), not for page layout.
+- Images need an `alt` attribute describing the image. I put my images in an `images/` folder and set `width` so big photos don't blow up the page before CSS exists.
+- HTML entities for special characters: `&mdash;` for —, `&amp;` for &.
+- Placeholders for future tech: I used HTML comments (`<!-- ... -->`) plus a short italic note on the page to show where the Google Places/Maps API, the database, login, and WebSocket data will go once those parts are built.
+- The `<span id="username">` in each header is there so JavaScript can swap in the logged-in user's name later.
+- Deploying: `./deployFiles.sh -k <pem key file> -h glutenguard.click -s startup` copies the files to the server (use `-s simon` for Simon). Check the live site afterward — if it still shows the default "Web Programming 260" page, the deploy didn't happen.
 
 ## React
 
