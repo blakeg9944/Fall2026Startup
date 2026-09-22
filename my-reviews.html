@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GlutenGuard - My Reviews</title>
+  </head>
+  <body>
+    <header>
+      <h1>GlutenGuard</h1>
+      <p>Welcome, <span id="username">celiac_sarah</span></p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="browse.html">Browse Reviews</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>My reviews</h2>
+      <!-- Placeholder: the logged in user's name comes from the authenticated session -->
+      <p>Signed in as <strong>celiac_sarah</strong>. <a href="index.html">Logout</a></p>
+      <p>You have written 3 reviews. Thanks for helping other people eat safely.</p>
+
+      <section>
+        <h3>Review history</h3>
+        <!-- Placeholder: these reviews are read from the database and filtered to this user -->
+        <table>
+          <thead>
+            <tr>
+              <th>Restaurant</th>
+              <th>Rating</th>
+              <th>Review</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="restaurant.html">Black Sheep Cafe</a></td>
+              <td>5 / 5</td>
+              <td>Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</td>
+              <td>2026-09-14</td>
+              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
+            </tr>
+            <tr>
+              <td><a href="restaurant.html">Communal Restaurant</a></td>
+              <td>5 / 5</td>
+              <td>They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</td>
+              <td>2026-08-30</td>
+              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
+            </tr>
+            <tr>
+              <td><a href="restaurant.html">Guru's Cafe</a></td>
+              <td>2 / 5</td>
+              <td>Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</td>
+              <td>2026-08-12</td>
+              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <p><em>Your reviews are stored in the database and can be edited or deleted at any time.</em></p>
+      </section>
+
+      <section>
+        <h3>Replies to your reviews</h3>
+        <!-- Placeholder: pushed over a WebSocket when someone interacts with this user's reviews -->
+        <ul>
+          <li>2 people marked your Black Sheep Cafe review helpful &mdash; a moment ago</li>
+          <li>Black Sheep Cafe average rating changed to 4.2 / 5 &mdash; 6 minutes ago</li>
+        </ul>
+        <p><em>These notifications arrive in real time over a WebSocket.</em></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Blake Gertsch</p>
+      <a href="https://github.com/blakeg9944/Fall2026Startup">GitHub Repository</a>
+    </footer>
+  </body>
+</html>
