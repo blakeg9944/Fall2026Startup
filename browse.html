@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GlutenGuard - Browse Reviews</title>
+  </head>
+  <body>
+    <header>
+      <h1>GlutenGuard</h1>
+      <p>Welcome, <span id="username">guest</span></p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="browse.html">Browse Reviews</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Browse reviews near you</h2>
+      <p>Every pin is a restaurant that GlutenGuard users have reviewed. Pick one to read the full safety profile.</p>
+
+      <section>
+        <h3>Map</h3>
+        <!-- Placeholder: replaced by an interactive map from the Google Maps API -->
+        <img src="placeholder.png" alt="Map of reviewed restaurants near Provo, Utah" width="600" />
+        <p><em>This map is rendered by the Google Maps API and pinned using place IDs from the Google Places API.</em></p>
+      </section>
+
+      <section>
+        <h3>Reviewed restaurants</h3>
+        <!-- Placeholder: this list is loaded from the database -->
+        <table>
+          <thead>
+            <tr>
+              <th>Restaurant</th>
+              <th>Address</th>
+              <th>Rating</th>
+              <th>Reviews</th>
+              <th>Separate fryer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="restaurant.html">Black Sheep Cafe</a></td>
+              <td>19 N University Ave, Provo UT</td>
+              <td>4.2 / 5</td>
+              <td>38</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="restaurant.html">Communal Restaurant</a></td>
+              <td>102 N University Ave, Provo UT</td>
+              <td>4.8 / 5</td>
+              <td>21</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="restaurant.html">Rockwell Ice Cream Co.</a></td>
+              <td>165 N University Ave, Provo UT</td>
+              <td>3.6 / 5</td>
+              <td>12</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td><a href="restaurant.html">Guru's Cafe</a></td>
+              <td>45 E Center St, Provo UT</td>
+              <td>2.9 / 5</td>
+              <td>17</td>
+              <td>No</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><em>Restaurants and their aggregated ratings are stored in the database.</em></p>
+      </section>
+
+      <section>
+        <h3>Recent activity</h3>
+        <!-- Placeholder: pushed over a WebSocket as users post reviews anywhere in the app -->
+        <ul>
+          <li>celiac_sarah reviewed Black Sheep Cafe &mdash; a moment ago</li>
+          <li>provo_foodie reviewed Guru's Cafe &mdash; 4 minutes ago</li>
+          <li>mtn_biker_dave reviewed Communal Restaurant &mdash; 11 minutes ago</li>
+        </ul>
+        <p><em>New reviews appear here in real time over a WebSocket.</em></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Blake Gertsch</p>
+      <a href="https://github.com/blakeg9944/Fall2026Startup">GitHub Repository</a>
+    </footer>
+  </body>
+</html>
