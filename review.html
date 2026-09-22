@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GlutenGuard - Write a Review</title>
+  </head>
+  <body>
+    <header>
+      <h1>GlutenGuard</h1>
+      <p>Welcome, <span id="username">guest</span></p>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="browse.html">Browse Reviews</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Write a review</h2>
+      <!-- Placeholder: the restaurant being reviewed comes from the Google Places API -->
+      <p>Reviewing <strong>Black Sheep Cafe</strong> &mdash; 19 N University Ave, Provo UT</p>
+      <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
+
+      <form method="get" action="restaurant.html">
+        <fieldset>
+          <legend>Kitchen practices</legend>
+
+          <label for="fryer">Does the kitchen use a separate fryer?</label>
+          <select id="fryer" name="fryer">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Unsure</option>
+          </select>
+
+          <label for="grill">Does the kitchen use a separate grill or prep surface?</label>
+          <select id="grill" name="grill">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Unsure</option>
+          </select>
+
+          <label for="prep">Is there a dedicated gluten-free prep area?</label>
+          <select id="prep" name="prep">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Unsure</option>
+          </select>
+
+          <label for="menu">Is there a dedicated gluten-free menu?</label>
+          <select id="menu" name="menu">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="unsure">Unsure</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Confidence</legend>
+
+          <p>How confident would someone with celiac disease feel eating here?</p>
+          <label><input type="radio" name="celiac" value="5" /> Very confident</label>
+          <label><input type="radio" name="celiac" value="4" /> Mostly confident</label>
+          <label><input type="radio" name="celiac" value="3" /> Neutral</label>
+          <label><input type="radio" name="celiac" value="2" /> Uneasy</label>
+          <label><input type="radio" name="celiac" value="1" /> Would not risk it</label>
+
+          <p>How confident would someone who is gluten-sensitive feel eating here?</p>
+          <label><input type="radio" name="sensitive" value="5" /> Very confident</label>
+          <label><input type="radio" name="sensitive" value="4" /> Mostly confident</label>
+          <label><input type="radio" name="sensitive" value="3" /> Neutral</label>
+          <label><input type="radio" name="sensitive" value="2" /> Uneasy</label>
+          <label><input type="radio" name="sensitive" value="1" /> Would not risk it</label>
+
+          <label for="staff">Did the staff understand celiac safety?</label>
+          <input type="checkbox" id="staff" name="staff" />
+        </fieldset>
+
+        <fieldset>
+          <legend>Your experience</legend>
+
+          <label for="comments">Tell other diners what happened</label>
+          <textarea id="comments" name="comments" rows="6" placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?"></textarea>
+
+          <label for="photo">Add a photo of the menu or your meal</label>
+          <input type="file" id="photo" name="photo" accept="image/*" />
+        </fieldset>
+
+        <button type="submit">Submit review</button>
+        <a href="restaurant.html">Cancel</a>
+      </form>
+
+      <p><em>Submitted reviews are saved to the database and broadcast to everyone viewing this restaurant.</em></p>
+    </main>
+
+    <footer>
+      <p>Blake Gertsch</p>
+      <a href="https://github.com/blakeg9944/Fall2026Startup">GitHub Repository</a>
+    </footer>
+  </body>
+</html>
