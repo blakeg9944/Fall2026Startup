@@ -23,6 +23,24 @@
       <p>Search for a restaurant to see community reviews about cross-contamination and kitchen practices.</p>
 
       <section>
+        <h3>Find a restaurant</h3>
+        <form method="get" action="restaurant.html">
+          <label for="search">Restaurant name or address</label>
+          <input type="search" id="search" name="search" placeholder="Search restaurants near you" />
+          <button type="submit">Search</button>
+        </form>
+
+        <!-- Placeholder: results come from the Google Places API as the user types -->
+        <h4>Search results</h4>
+        <ul>
+          <li><a href="restaurant.html">Rockwell Ice Cream Co. &mdash; 165 N University Ave, Provo UT</a></li>
+          <li><a href="restaurant.html">Black Sheep Cafe &mdash; 19 N University Ave, Provo UT</a></li>
+          <li><a href="restaurant.html">Communal Restaurant &mdash; 102 N University Ave, Provo UT</a></li>
+        </ul>
+        <p><em>Restaurant names and addresses are supplied by the Google Places API.</em></p>
+      </section>
+
+      <section>
         <h3>Login</h3>
         <form method="get" action="browse.html">
           <label for="email">Email</label>
