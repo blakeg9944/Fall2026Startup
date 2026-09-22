@@ -64,16 +64,16 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). Simon is deployed to [simon.glutenguard.click](https://simon.glutenguard.click), every page footer links to this GitHub repository, and the work is spread across multiple commits.
+- [X] **HTML pages** - Five pages: `index.html` (home, search, and login), `browse.html` (map and reviewed restaurants), `restaurant.html` (a restaurant's gluten-free safety profile and reviews), `review.html` (review form), and `my-reviews.html` (the logged-in user's review history).
+- [X] **Proper HTML element usage** - Every page uses `header`, `nav`, `main`, `section`, and `footer`. Forms use `label`, `fieldset`, `legend`, `select`, radio buttons, a checkbox, `textarea`, and a file input. Tabular data is in `table` elements with `thead` and `tbody`.
+- [X] **Links** - Every page has nav links to Home, Browse Reviews, and My Reviews. Restaurant names link to the restaurant page, the restaurant page links to the review form, and My Reviews has Edit and Delete links.
+- [X] **Text** - Each page explains its purpose. The restaurant page summarizes kitchen practices (separate fryer, separate grill, GF menu, staff training) and shows written reviews.
+- [X] **3rd party API placeholder** - The home page search results, the browse page map, and the restaurant name, address, and hours are marked as coming from the Google Places and Google Maps APIs.
+- [X] **Images** - The browse page has a placeholder map image, and My Reviews shows two meal photos with the Backdoor Burger review.
+- [X] **Login placeholder** - The home page has an email and password form with Login and Create Account buttons. Each page header shows the current username, and My Reviews shows the signed-in user with a Logout link.
+- [X] **DB data placeholder** - The reviewed restaurants table, the restaurant reviews and aggregated ratings, and the My Reviews history are all marked as data stored in and loaded from the database.
+- [X] **WebSocket placeholder** - The restaurant page's Live activity section (viewer count and new reviews), the browse page's Recent activity feed, and the My Reviews notifications are marked as real-time WebSocket updates.
 
 ## 🚀 CSS deliverable
 
