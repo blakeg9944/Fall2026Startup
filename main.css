@@ -1,0 +1,53 @@
+/* GlutenGuard styles. Loaded after Bootstrap so these rules win. */
+
+:root {
+  --gg-green: #2f7d4f;
+  --gg-green-dark: #1d4d33;
+  --gg-green-light: #e3f1e7;
+  --gg-cream: #faf7f0;
+  --gg-text: #23302a;
+  --gg-muted: #5f6b64;
+  --gg-safe: #2e8b57;
+  --gg-caution: #d99a1e;
+  --gg-risk: #c8423b;
+  --gg-radius: 0.75rem;
+  --gg-shadow: 0 2px 10px rgba(29, 77, 51, 0.08);
+}
+
+/* ---------- Element selectors ---------- */
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--gg-cream);
+  color: var(--gg-text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: var(--gg-green-dark);
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+a {
+  color: var(--gg-green);
+}
+
+a:hover {
+  color: var(--gg-green-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
