@@ -51,3 +51,99 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* ---------- Page layout ---------- */
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+/* ---------- Header and navigation ---------- */
+
+header {
+  background-color: var(--gg-green-dark);
+  box-shadow: var(--gg-shadow);
+}
+
+header .navbar-brand h1 {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0;
+}
+
+header .navbar-brand h1::before {
+  content: '🛡️ ';
+}
+
+header .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.8rem !important;
+}
+
+header .nav-link:hover,
+header .nav-link:focus-visible {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+header .nav-link.active {
+  color: #fff;
+  background-color: var(--gg-green);
+}
+
+header .welcome {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0.5rem 0;
+}
+
+#username {
+  display: inline-block;
+  background-color: var(--gg-green-light);
+  color: var(--gg-green-dark);
+  font-weight: 600;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+}
+
+@media (min-width: 768px) {
+  header .welcome {
+    margin: 0;
+  }
+}
+
+/* ---------- Footer ---------- */
+
+footer {
+  background-color: var(--gg-green-dark);
+  color: rgba(255, 255, 255, 0.85);
+  padding: 1.25rem 0;
+}
+
+footer .footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer a {
+  color: #fff;
+}
+
+footer a:hover {
+  color: var(--gg-green-light);
+}
