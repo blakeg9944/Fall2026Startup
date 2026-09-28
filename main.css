@@ -659,3 +659,95 @@ footer a:hover {
   gap: 0.5rem 1.25rem;
   margin-bottom: 1.5rem;
 }
+
+/* ---------- Review form colors and details ---------- */
+
+.review-form legend {
+  float: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--gg-green-dark);
+  margin-bottom: 1rem;
+}
+
+/* A different accent stripe on each section of the form */
+.review-form fieldset:nth-of-type(1) {
+  border-top: 4px solid var(--gg-green);
+}
+
+.review-form fieldset:nth-of-type(2) {
+  border-top: 4px solid var(--gg-caution);
+}
+
+.review-form fieldset:nth-of-type(3) {
+  border-top: 4px solid var(--gg-green-dark);
+}
+
+.question {
+  font-weight: 500;
+}
+
+/* Radio buttons shown as clickable chips. The real input stays in the page
+   (just visually hidden) so keyboard and screen reader users can still use it. */
+.choice-row .form-check {
+  padding-left: 0;
+  margin: 0;
+}
+
+.choice-row .form-check-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice-row .form-check-label {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(29, 77, 51, 0.25);
+  border-radius: 999px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.choice-row .form-check-label:hover {
+  border-color: var(--gg-green);
+  background-color: var(--gg-green-light);
+}
+
+.choice-row .form-check-input:checked + .form-check-label {
+  background-color: var(--gg-green);
+  border-color: var(--gg-green);
+  color: #fff;
+}
+
+.choice-row .form-check-input:focus-visible + .form-check-label {
+  outline: 3px solid rgba(47, 125, 79, 0.4);
+  outline-offset: 2px;
+}
+
+.form-check-input:checked {
+  background-color: var(--gg-green);
+  border-color: var(--gg-green);
+}
+
+.form-check-input:focus {
+  border-color: var(--gg-green);
+  box-shadow: 0 0 0 0.2rem rgba(47, 125, 79, 0.2);
+}
+
+.form-switch .form-check-input:focus {
+  --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%232f7d4f'/%3e%3c/svg%3e");
+}
+
+.review-form textarea::placeholder {
+  color: #9aa59f;
+  font-style: italic;
+}
+
+.review-form input[type='file']::file-selector-button {
+  background-color: var(--gg-green-light);
+  color: var(--gg-green-dark);
+  font-weight: 600;
+}
