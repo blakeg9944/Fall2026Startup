@@ -362,3 +362,86 @@ footer a:hover {
 .live-feed li:last-child {
   border-bottom: none;
 }
+
+/* ---------- Rating badges ---------- */
+
+.rating-badge {
+  display: inline-block;
+  min-width: 4.5rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-align: center;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.rating-badge.safe {
+  background-color: var(--gg-safe);
+}
+
+.rating-badge.caution {
+  background-color: var(--gg-caution);
+  color: #3b2a05;
+}
+
+.rating-badge.risk {
+  background-color: var(--gg-risk);
+}
+
+.answer-yes {
+  color: var(--gg-safe);
+  font-weight: 600;
+}
+
+.answer-no {
+  color: var(--gg-risk);
+  font-weight: 600;
+}
+
+.answer-na,
+.answer-unsure {
+  color: var(--gg-muted);
+}
+
+/* ---------- Live feed dot ---------- */
+
+.live-feed li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.live-feed li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  margin-top: 0.45rem;
+  background-color: var(--gg-safe);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Only the newest item pulses; older items get a quiet gray dot */
+.live-feed li:not(:first-child)::before {
+  background-color: #b9c4bd;
+  animation: none;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(46, 139, 87, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 0.4rem rgba(46, 139, 87, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-feed li::before {
+    animation: none;
+  }
+}
