@@ -31,71 +31,106 @@
     </header>
 
     <main class="container">
-      <h2>My reviews</h2>
-      <!-- Placeholder: the logged in user's name comes from the authenticated session -->
-      <p>Signed in as <strong>celiac_sarah</strong>. <a href="index.html">Logout</a></p>
-      <p>You have written 4 reviews. Thanks for helping other people eat safely.</p>
+      <div class="page-intro">
+        <h2>My reviews</h2>
+      </div>
 
-      <section>
-        <h3>Review history</h3>
-        <!-- Placeholder: these reviews are read from the database and filtered to this user -->
-        <table>
-          <thead>
-            <tr>
-              <th>Restaurant</th>
-              <th>Rating</th>
-              <th>Review</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><a href="restaurant.html">Backdoor Burger</a></td>
-              <td>4 / 5</td>
-              <td>
-                <p>Burger came on a gluten-free bun and the waffle fries and sweet potato fries were both safe. Staff confirmed the fries go in a dedicated fryer.</p>
-                <img src="images/backdoor-burger-fries.jpg" alt="Basket of waffle fries with two cups of cheese sauce" width="150" />
-                <img src="images/backdoor-burger-burger.jpg" alt="Burger on a gluten-free bun with sweet potato waffle fries and dipping sauce" width="150" />
-              </td>
-              <td>2026-09-20</td>
-              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
-            </tr>
-            <tr>
-              <td><a href="restaurant.html">Black Sheep Cafe</a></td>
-              <td>5 / 5</td>
-              <td>Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</td>
-              <td>2026-09-14</td>
-              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
-            </tr>
-            <tr>
-              <td><a href="restaurant.html">Communal Restaurant</a></td>
-              <td>5 / 5</td>
-              <td>They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</td>
-              <td>2026-08-30</td>
-              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
-            </tr>
-            <tr>
-              <td><a href="restaurant.html">Guru's Cafe</a></td>
-              <td>2 / 5</td>
-              <td>Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</td>
-              <td>2026-08-12</td>
-              <td><a href="review.html">Edit</a> <a href="my-reviews.html">Delete</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <p><em>Your reviews are stored in the database and can be edited or deleted at any time.</em></p>
-      </section>
+      <div class="my-reviews-grid">
+        <section class="gg-card" id="user-summary">
+          <!-- Placeholder: the logged in user's name comes from the authenticated session -->
+          <div class="avatar" aria-hidden="true">C</div>
+          <div class="summary-text">
+            <p class="signed-in">Signed in as <strong>celiac_sarah</strong></p>
+            <p class="review-count"><strong>4</strong> reviews written. Thanks for helping other people eat safely.</p>
+          </div>
+          <a class="btn btn-outline-secondary" href="index.html">Logout</a>
+        </section>
 
-      <section>
-        <h3>Replies to your reviews</h3>
-        <!-- Placeholder: pushed over a WebSocket when someone interacts with this user's reviews -->
-        <ul>
-          <li>2 people marked your Black Sheep Cafe review helpful &mdash; a moment ago</li>
-          <li>Black Sheep Cafe average rating changed to 4.2 / 5 &mdash; 6 minutes ago</li>
-        </ul>
-        <p><em>These notifications arrive in real time over a WebSocket.</em></p>
-      </section>
+        <section class="gg-card" id="replies">
+          <h3>Replies to your reviews</h3>
+          <!-- Placeholder: pushed over a WebSocket when someone interacts with this user's reviews -->
+          <ul class="live-feed">
+            <li>2 people marked your Black Sheep Cafe review helpful &mdash; a moment ago</li>
+            <li>Black Sheep Cafe average rating changed to 4.2 / 5 &mdash; 6 minutes ago</li>
+          </ul>
+          <p class="placeholder-note">These notifications arrive in real time over a WebSocket.</p>
+        </section>
+
+        <section class="gg-card" id="review-history">
+          <h3>Review history</h3>
+          <!-- Placeholder: these reviews are read from the database and filtered to this user -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>Restaurant</th>
+                  <th>Rating</th>
+                  <th>Review</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a class="restaurant-link" href="restaurant.html">Backdoor Burger</a></td>
+                  <td><span class="rating-badge safe">4 / 5</span></td>
+                  <td class="review-text">
+                    <p>Burger came on a gluten-free bun and the waffle fries and sweet potato fries were both safe. Staff confirmed the fries go in a dedicated fryer.</p>
+                    <div class="photo-row">
+                      <img src="images/backdoor-burger-fries.jpg" alt="Basket of waffle fries with two cups of cheese sauce" />
+                      <img src="images/backdoor-burger-burger.jpg" alt="Burger on a gluten-free bun with sweet potato waffle fries and dipping sauce" />
+                    </div>
+                  </td>
+                  <td>2026-09-20</td>
+                  <td>
+                    <div class="action-buttons">
+                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="restaurant-link" href="restaurant.html">Black Sheep Cafe</a></td>
+                  <td><span class="rating-badge safe">5 / 5</span></td>
+                  <td class="review-text">Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</td>
+                  <td>2026-09-14</td>
+                  <td>
+                    <div class="action-buttons">
+                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="restaurant-link" href="restaurant.html">Communal Restaurant</a></td>
+                  <td><span class="rating-badge safe">5 / 5</span></td>
+                  <td class="review-text">They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</td>
+                  <td>2026-08-30</td>
+                  <td>
+                    <div class="action-buttons">
+                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a class="restaurant-link" href="restaurant.html">Guru's Cafe</a></td>
+                  <td><span class="rating-badge risk">2 / 5</span></td>
+                  <td class="review-text">Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</td>
+                  <td>2026-08-12</td>
+                  <td>
+                    <div class="action-buttons">
+                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="placeholder-note">Your reviews are stored in the database and can be edited or deleted at any time.</p>
+        </section>
+      </div>
     </main>
 
     <footer>
