@@ -211,3 +211,75 @@ footer a:hover {
 .list-group-item .address {
   font-size: 0.875rem;
 }
+
+/* ---------- Colors and details ---------- */
+
+/* Match Bootstrap's green buttons to the GlutenGuard palette */
+.btn-success {
+  --bs-btn-bg: var(--gg-green);
+  --bs-btn-border-color: var(--gg-green);
+  --bs-btn-hover-bg: var(--gg-green-dark);
+  --bs-btn-hover-border-color: var(--gg-green-dark);
+  --bs-btn-active-bg: var(--gg-green-dark);
+}
+
+.btn-outline-success {
+  --bs-btn-color: var(--gg-green);
+  --bs-btn-border-color: var(--gg-green);
+  --bs-btn-hover-bg: var(--gg-green);
+  --bs-btn-hover-border-color: var(--gg-green);
+  --bs-btn-active-bg: var(--gg-green-dark);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--gg-green);
+  box-shadow: 0 0 0 0.2rem rgba(47, 125, 79, 0.2);
+}
+
+.gg-card {
+  border: 1px solid rgba(29, 77, 51, 0.1);
+  box-shadow: var(--gg-shadow);
+}
+
+.hero {
+  background: linear-gradient(135deg, var(--gg-green-dark), var(--gg-green));
+  color: #fff;
+  border-radius: var(--gg-radius);
+  box-shadow: var(--gg-shadow);
+}
+
+.hero h2 {
+  color: #fff;
+  font-size: 2rem;
+}
+
+.hero p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+}
+
+.hero .btn-light {
+  color: var(--gg-green-dark);
+  font-weight: 600;
+}
+
+#search-card {
+  border-top: 4px solid var(--gg-green);
+}
+
+#login-card {
+  border-top: 4px solid var(--gg-caution);
+}
+
+.list-group-item-action:hover {
+  background-color: var(--gg-green-light);
+}
+
+.list-group-item strong {
+  color: var(--gg-green-dark);
+}
+
+.list-group-item .address {
+  color: var(--gg-muted);
+}
