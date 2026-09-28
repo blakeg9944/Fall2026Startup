@@ -79,9 +79,11 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Visually appealing colors and layout. No overflowing elements.** - I did not complete this part of the deliverable.
-- [ ] **Use of a CSS framework** - I did not complete this part of the deliverable.
+For this deliverable I styled the application with Bootstrap and my own `main.css`, which every page loads after Bootstrap so my rules take priority.
+
+- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). Simon CSS is deployed to [simon.glutenguard.click](https://simon.glutenguard.click), every page footer links to this GitHub repository, and the styling is spread across multiple commits (base styles, header/footer, home layout, home colors, browse layout, rating badges).
+- [x] **Visually appealing colors and layout. No overflowing elements.** - A green and cream palette is defined once as CSS variables in `:root` and used everywhere. The home page has a gradient hero banner and white cards with a shadow and a colored top border. Cross-contamination ratings are color-coded pill badges: green for safe, amber for caution, and red for risk. Yes/No answers are colored the same way. To prevent overflow, images are capped at `max-width: 100%`, the browse table is wrapped in `.table-responsive` so it scrolls inside its card on phones, and list items and the footer wrap with `flex-wrap`.
+- [x] **Use of a CSS framework** - Bootstrap 5.3.3 is loaded from a CDN on every page. I used its navbar with a collapsing hamburger menu for small screens, plus its `container`, `list-group`, `table`, `input-group`, `form-control`, and button classes. I restyled Bootstrap's `.btn-success` and `.btn-outline-success` by overriding its `--bs-btn-*` variables so the buttons match my palette.
 - [ ] **All visual elements styled using CSS** - I did not complete this part of the deliverable.
 - [ ] **Responsive to window resizing using flexbox and/or grid display** - I did not complete this part of the deliverable.
 - [ ] **Use of a imported font** - I did not complete this part of the deliverable.
