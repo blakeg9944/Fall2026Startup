@@ -283,3 +283,82 @@ footer a:hover {
 .list-group-item .address {
   color: var(--gg-muted);
 }
+
+/* ---------- Browse page ---------- */
+
+.page-intro {
+  margin-bottom: 1.5rem;
+}
+
+.page-intro p {
+  color: var(--gg-muted);
+  max-width: 45rem;
+}
+
+/* Phones stack everything; wide screens put the map and feed side by side
+   with the restaurant table across the full width underneath. */
+.browse-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'map'
+    'feed'
+    'list';
+  gap: 1.5rem;
+}
+
+#map {
+  grid-area: map;
+}
+
+#recent-activity {
+  grid-area: feed;
+}
+
+#restaurant-list {
+  grid-area: list;
+}
+
+@media (min-width: 992px) {
+  .browse-grid {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+      'map feed'
+      'list list';
+  }
+}
+
+.map-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
+  background-color: var(--gg-green-light);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.live-feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.live-feed li {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(29, 77, 51, 0.1);
+}
+
+.live-feed li:last-child {
+  border-bottom: none;
+}
