@@ -221,14 +221,18 @@ footer a:hover {
   --bs-btn-hover-bg: var(--gg-green-dark);
   --bs-btn-hover-border-color: var(--gg-green-dark);
   --bs-btn-active-bg: var(--gg-green-dark);
+  --bs-btn-active-border-color: var(--gg-green-dark);
 }
 
 .btn-outline-success {
   --bs-btn-color: var(--gg-green);
   --bs-btn-border-color: var(--gg-green);
+  --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: var(--gg-green);
   --bs-btn-hover-border-color: var(--gg-green);
+  --bs-btn-active-color: #fff;
   --bs-btn-active-bg: var(--gg-green-dark);
+  --bs-btn-active-border-color: var(--gg-green-dark);
 }
 
 .form-control:focus,
