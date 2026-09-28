@@ -147,3 +147,67 @@ footer a {
 footer a:hover {
   color: var(--gg-green-light);
 }
+
+/* ---------- Shared components ---------- */
+
+.gg-card {
+  background-color: #fff;
+  border-radius: var(--gg-radius);
+  padding: 1.5rem;
+}
+
+.placeholder-note {
+  color: var(--gg-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+  margin: 0.75rem 0 0;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* ---------- Home page ---------- */
+
+.hero {
+  padding: 2rem 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.hero p {
+  max-width: 40rem;
+  margin: 0.75rem auto 1.25rem;
+}
+
+/* One column on phones, search and login side by side on wider screens */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .home-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+#search-card h4 {
+  font-size: 1rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.list-group-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.list-group-item .address {
+  font-size: 0.875rem;
+}

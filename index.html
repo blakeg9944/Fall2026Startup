@@ -31,41 +31,61 @@
     </header>
 
     <main class="container">
-      <h2>Find gluten-free restaurants you can trust</h2>
-      <p>Search for a restaurant to see community reviews about cross-contamination and kitchen practices.</p>
+      <div class="hero">
+        <h2>Find gluten-free restaurants you can trust</h2>
+        <p>Search for a restaurant to see community reviews about cross-contamination and kitchen practices.</p>
+        <a class="btn btn-outline-success" href="https://github.com/blakeg9944/Fall2026Startup">View the GitHub repository</a>
+      </div>
 
-      <section>
-        <h3>Find a restaurant</h3>
-        <form method="get" action="restaurant.html">
-          <label for="search">Restaurant name or address</label>
-          <input type="search" id="search" name="search" placeholder="Search restaurants near you" />
-          <button type="submit">Search</button>
-        </form>
+      <div class="home-grid">
+        <section class="gg-card" id="search-card">
+          <h3>Find a restaurant</h3>
+          <form method="get" action="restaurant.html">
+            <label for="search" class="form-label">Restaurant name or address</label>
+            <div class="input-group">
+              <input type="search" class="form-control" id="search" name="search" placeholder="Search restaurants near you" />
+              <button type="submit" class="btn btn-success">Search</button>
+            </div>
+          </form>
 
-        <!-- Placeholder: results come from the Google Places API as the user types -->
-        <h4>Search results</h4>
-        <ul>
-          <li><a href="restaurant.html">Rockwell Ice Cream Co. &mdash; 165 N University Ave, Provo UT</a></li>
-          <li><a href="restaurant.html">Black Sheep Cafe &mdash; 19 N University Ave, Provo UT</a></li>
-          <li><a href="restaurant.html">Communal Restaurant &mdash; 102 N University Ave, Provo UT</a></li>
-        </ul>
-        <p><em>Restaurant names and addresses are supplied by the Google Places API.</em></p>
-      </section>
+          <!-- Placeholder: results come from the Google Places API as the user types -->
+          <h4>Search results</h4>
+          <div class="list-group">
+            <a class="list-group-item list-group-item-action" href="restaurant.html">
+              <strong>Rockwell Ice Cream Co.</strong>
+              <span class="address">165 N University Ave, Provo UT</span>
+            </a>
+            <a class="list-group-item list-group-item-action" href="restaurant.html">
+              <strong>Black Sheep Cafe</strong>
+              <span class="address">19 N University Ave, Provo UT</span>
+            </a>
+            <a class="list-group-item list-group-item-action" href="restaurant.html">
+              <strong>Communal Restaurant</strong>
+              <span class="address">102 N University Ave, Provo UT</span>
+            </a>
+          </div>
+          <p class="placeholder-note">Restaurant names and addresses are supplied by the Google Places API.</p>
+        </section>
 
-      <section>
-        <h3>Login</h3>
-        <form method="get" action="browse.html">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" required />
-
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="password" required />
-
-          <button type="submit">Login</button>
-          <button type="submit">Create Account</button>
-        </form>
-        <p>You can also <a href="browse.html">browse reviews</a> without an account. Login is only required to submit a review.</p>
-      </section>
+        <section class="gg-card" id="login-card">
+          <h3>Login</h3>
+          <form method="get" action="browse.html">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="password" required />
+            </div>
+            <div class="button-row">
+              <button type="submit" class="btn btn-success">Login</button>
+              <button type="submit" class="btn btn-outline-success">Create Account</button>
+            </div>
+          </form>
+          <p class="placeholder-note">You can also <a href="browse.html">browse reviews</a> without an account. Login is only required to submit a review.</p>
+        </section>
+      </div>
     </main>
 
     <footer>
