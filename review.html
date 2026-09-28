@@ -31,80 +31,128 @@
     </header>
 
     <main class="container">
-      <h2>Write a review</h2>
       <!-- Placeholder: the restaurant being reviewed comes from the Google Places API -->
-      <p>Reviewing <strong>Black Sheep Cafe</strong> &mdash; 19 N University Ave, Provo UT</p>
-      <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
+      <div class="page-intro">
+        <h2>Write a review</h2>
+        <p>Reviewing <strong>Black Sheep Cafe</strong> &mdash; 19 N University Ave, Provo UT</p>
+        <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
+      </div>
 
-      <form method="get" action="restaurant.html">
-        <fieldset>
+      <form method="get" action="restaurant.html" class="review-form">
+        <fieldset class="gg-card">
           <legend>Kitchen practices</legend>
-
-          <label for="fryer">Does the kitchen use a separate fryer?</label>
-          <select id="fryer" name="fryer">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="unsure">Unsure</option>
-          </select>
-
-          <label for="grill">Does the kitchen use a separate grill or prep surface?</label>
-          <select id="grill" name="grill">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="unsure">Unsure</option>
-          </select>
-
-          <label for="prep">Is there a dedicated gluten-free prep area?</label>
-          <select id="prep" name="prep">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="unsure">Unsure</option>
-          </select>
-
-          <label for="menu">Is there a dedicated gluten-free menu?</label>
-          <select id="menu" name="menu">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="unsure">Unsure</option>
-          </select>
+          <div class="question-grid">
+            <div>
+              <label for="fryer" class="form-label">Does the kitchen use a separate fryer?</label>
+              <select class="form-select" id="fryer" name="fryer">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="unsure">Unsure</option>
+              </select>
+            </div>
+            <div>
+              <label for="grill" class="form-label">Does the kitchen use a separate grill or prep surface?</label>
+              <select class="form-select" id="grill" name="grill">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="unsure">Unsure</option>
+              </select>
+            </div>
+            <div>
+              <label for="prep" class="form-label">Is there a dedicated gluten-free prep area?</label>
+              <select class="form-select" id="prep" name="prep">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="unsure">Unsure</option>
+              </select>
+            </div>
+            <div>
+              <label for="menu" class="form-label">Is there a dedicated gluten-free menu?</label>
+              <select class="form-select" id="menu" name="menu">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="unsure">Unsure</option>
+              </select>
+            </div>
+          </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="gg-card">
           <legend>Confidence</legend>
 
-          <p>How confident would someone with celiac disease feel eating here?</p>
-          <label><input type="radio" name="celiac" value="5" /> Very confident</label>
-          <label><input type="radio" name="celiac" value="4" /> Mostly confident</label>
-          <label><input type="radio" name="celiac" value="3" /> Neutral</label>
-          <label><input type="radio" name="celiac" value="2" /> Uneasy</label>
-          <label><input type="radio" name="celiac" value="1" /> Would not risk it</label>
+          <p class="question">How confident would someone with celiac disease feel eating here?</p>
+          <div class="choice-row">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="celiac" id="celiac-5" value="5" />
+                <label class="form-check-label" for="celiac-5">Very confident</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="celiac" id="celiac-4" value="4" />
+                <label class="form-check-label" for="celiac-4">Mostly confident</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="celiac" id="celiac-3" value="3" />
+                <label class="form-check-label" for="celiac-3">Neutral</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="celiac" id="celiac-2" value="2" />
+                <label class="form-check-label" for="celiac-2">Uneasy</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="celiac" id="celiac-1" value="1" />
+                <label class="form-check-label" for="celiac-1">Would not risk it</label>
+              </div>
+          </div>
 
-          <p>How confident would someone who is gluten-sensitive feel eating here?</p>
-          <label><input type="radio" name="sensitive" value="5" /> Very confident</label>
-          <label><input type="radio" name="sensitive" value="4" /> Mostly confident</label>
-          <label><input type="radio" name="sensitive" value="3" /> Neutral</label>
-          <label><input type="radio" name="sensitive" value="2" /> Uneasy</label>
-          <label><input type="radio" name="sensitive" value="1" /> Would not risk it</label>
+          <p class="question">How confident would someone who is gluten-sensitive feel eating here?</p>
+          <div class="choice-row">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sensitive" id="sensitive-5" value="5" />
+                <label class="form-check-label" for="sensitive-5">Very confident</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sensitive" id="sensitive-4" value="4" />
+                <label class="form-check-label" for="sensitive-4">Mostly confident</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sensitive" id="sensitive-3" value="3" />
+                <label class="form-check-label" for="sensitive-3">Neutral</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sensitive" id="sensitive-2" value="2" />
+                <label class="form-check-label" for="sensitive-2">Uneasy</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="sensitive" id="sensitive-1" value="1" />
+                <label class="form-check-label" for="sensitive-1">Would not risk it</label>
+              </div>
+          </div>
 
-          <label for="staff">Did the staff understand celiac safety?</label>
-          <input type="checkbox" id="staff" name="staff" />
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="staff" name="staff" />
+            <label class="form-check-label" for="staff">Did the staff understand celiac safety?</label>
+          </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="gg-card">
           <legend>Your experience</legend>
 
-          <label for="comments">Tell other diners what happened</label>
-          <textarea id="comments" name="comments" rows="6" placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?"></textarea>
+          <div class="mb-3">
+            <label for="comments" class="form-label">Tell other diners what happened</label>
+            <textarea class="form-control" id="comments" name="comments" rows="6" placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?"></textarea>
+          </div>
 
-          <label for="photo">Add a photo of the menu or your meal</label>
-          <input type="file" id="photo" name="photo" accept="image/*" />
+          <label for="photo" class="form-label">Add a photo of the menu or your meal</label>
+          <input class="form-control" type="file" id="photo" name="photo" accept="image/*" />
         </fieldset>
 
-        <button type="submit">Submit review</button>
-        <a href="restaurant.html">Cancel</a>
+        <div class="button-row">
+          <button type="submit" class="btn btn-success">Submit review</button>
+          <a class="btn btn-outline-secondary" href="restaurant.html">Cancel</a>
+        </div>
       </form>
 
-      <p><em>Submitted reviews are saved to the database and broadcast to everyone viewing this restaurant.</em></p>
+      <p class="placeholder-note">Submitted reviews are saved to the database and broadcast to everyone viewing this restaurant.</p>
     </main>
 
     <footer>

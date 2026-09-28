@@ -616,3 +616,46 @@ footer a:hover {
 .review-text {
   color: var(--gg-muted);
 }
+
+/* ---------- Review form ---------- */
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 56rem;
+}
+
+/* Bootstrap resets fieldsets; give them room to act as cards */
+.review-form fieldset {
+  min-width: 0;
+}
+
+/* The four yes/no/unsure questions: one column on phones, two on wider screens */
+.question-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .question-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Keep the dropdowns lined up when one question wraps to two lines */
+  .question-grid .form-label {
+    min-height: 3rem;
+  }
+}
+
+.question {
+  margin: 0 0 0.5rem;
+}
+
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
