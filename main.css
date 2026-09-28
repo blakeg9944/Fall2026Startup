@@ -864,3 +864,70 @@ footer a:hover {
   display: flex;
   gap: 0.4rem;
 }
+
+/* ---------- Polish ---------- */
+
+/* Grid items default to min-width: auto, so a wide table inside one would
+   stretch the whole column past the screen. min-width: 0 lets the column
+   shrink and the table scroll inside .table-responsive instead. */
+.home-grid > *,
+.browse-grid > *,
+.restaurant-grid > *,
+.my-reviews-grid > * {
+  min-width: 0;
+}
+
+/* Zebra stripes on every data table */
+.table > tbody > tr:nth-child(even) > * {
+  --bs-table-bg: #f6faf7;
+}
+
+.table > thead th {
+  color: var(--gg-green-dark);
+  border-bottom: 2px solid var(--gg-green);
+}
+
+/* Clear keyboard focus outlines everywhere */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid rgba(47, 125, 79, 0.45);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+::selection {
+  background-color: var(--gg-green-light);
+  color: var(--gg-green-dark);
+}
+
+.gg-card {
+  transition: box-shadow 0.2s;
+}
+
+.gg-card:hover {
+  box-shadow: 0 4px 18px rgba(29, 77, 51, 0.12);
+}
+
+/* Tighter spacing on small phones */
+@media (max-width: 575.98px) {
+  main {
+    padding-top: 1.25rem;
+  }
+
+  .gg-card {
+    padding: 1.1rem;
+  }
+
+  .hero {
+    padding: 1.5rem 1rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
