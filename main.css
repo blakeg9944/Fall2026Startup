@@ -528,3 +528,91 @@ footer a:hover {
 .table td:last-child {
   white-space: nowrap;
 }
+
+/* ---------- Restaurant page colors and details ---------- */
+
+#safety-profile {
+  border-top: 4px solid var(--gg-safe);
+}
+
+#safety-profile .rating-summary .rating-badge {
+  font-size: 1.5rem;
+  padding: 0.4rem 1rem;
+}
+
+.practice-list li span:first-child::before {
+  display: inline-block;
+  width: 1.5rem;
+  font-weight: 700;
+}
+
+.practice-yes span:first-child::before {
+  content: '✓';
+  color: var(--gg-safe);
+}
+
+.practice-partial span:first-child::before {
+  content: '~';
+  color: var(--gg-caution);
+}
+
+.practice-no span:first-child::before {
+  content: '✗';
+  color: var(--gg-risk);
+}
+
+.answer-partial {
+  color: #a8740f;
+  font-weight: 600;
+}
+
+.practice-list li:hover {
+  background-color: var(--gg-cream);
+}
+
+.confidence {
+  background-color: var(--gg-cream);
+  border-left: 4px solid var(--gg-muted);
+}
+
+.confidence-label {
+  color: var(--gg-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.confidence strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+}
+
+.confidence.high {
+  background-color: var(--gg-green-light);
+  border-left-color: var(--gg-safe);
+}
+
+.confidence.high strong {
+  color: var(--gg-safe);
+}
+
+#live-activity {
+  border-top: 4px solid var(--gg-caution);
+}
+
+.viewer-count {
+  display: inline-block;
+  background-color: var(--gg-green-light);
+  color: var(--gg-green-dark);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+}
+
+.reviewer {
+  font-weight: 600;
+  color: var(--gg-green-dark);
+}
+
+.review-text {
+  color: var(--gg-muted);
+}
