@@ -10,8 +10,28 @@
   --gg-safe: #2e8b57;
   --gg-caution: #d99a1e;
   --gg-risk: #c8423b;
+  --gg-caution-dark: #a8740f;
+  --gg-caution-ink: #3b2a05;
+
+  /* Tints and shades mixed from the base colors above, so changing a base
+     color updates every border, focus ring, and shadow built from it */
+  --gg-border: color-mix(in srgb, var(--gg-green-dark) 10%, transparent);
+  --gg-border-strong: color-mix(in srgb, var(--gg-green-dark) 25%, transparent);
+  --gg-border-light: color-mix(in srgb, var(--gg-green) 15%, #fff);
+  --gg-stripe: color-mix(in srgb, var(--gg-green) 4%, #fff);
+  --gg-focus-ring: color-mix(in srgb, var(--gg-green) 20%, transparent);
+  --gg-focus-outline: color-mix(in srgb, var(--gg-green) 45%, transparent);
+  --gg-pulse: color-mix(in srgb, var(--gg-safe) 50%, transparent);
+  --gg-dot-idle: color-mix(in srgb, var(--gg-muted) 45%, #fff);
+  --gg-placeholder: color-mix(in srgb, var(--gg-muted) 65%, #fff);
+
+  /* Text and overlays on the dark green header, footer, and hero */
+  --gg-on-dark: rgba(255, 255, 255, 0.85);
+  --gg-on-dark-hover: rgba(255, 255, 255, 0.12);
+
   --gg-radius: 0.75rem;
-  --gg-shadow: 0 2px 10px rgba(29, 77, 51, 0.08);
+  --gg-shadow: 0 2px 10px color-mix(in srgb, var(--gg-green-dark) 8%, transparent);
+  --gg-shadow-hover: 0 4px 18px color-mix(in srgb, var(--gg-green-dark) 12%, transparent);
 }
 
 /* ---------- Element selectors ---------- */
@@ -84,7 +104,7 @@ header .navbar-brand h1::before {
 }
 
 header .nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--gg-on-dark);
   border-radius: 0.5rem;
   padding: 0.4rem 0.8rem !important;
 }
@@ -92,7 +112,7 @@ header .nav-link {
 header .nav-link:hover,
 header .nav-link:focus-visible {
   color: #fff;
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--gg-on-dark-hover);
 }
 
 header .nav-link.active {
@@ -101,7 +121,7 @@ header .nav-link.active {
 }
 
 header .welcome {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--gg-on-dark);
   margin: 0.5rem 0;
 }
 
@@ -124,7 +144,7 @@ header .welcome {
 
 footer {
   background-color: var(--gg-green-dark);
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--gg-on-dark);
   padding: 1.25rem 0;
 }
 
@@ -238,11 +258,11 @@ footer a:hover {
 .form-control:focus,
 .form-select:focus {
   border-color: var(--gg-green);
-  box-shadow: 0 0 0 0.2rem rgba(47, 125, 79, 0.2);
+  box-shadow: 0 0 0 0.2rem var(--gg-focus-ring);
 }
 
 .gg-card {
-  border: 1px solid rgba(29, 77, 51, 0.1);
+  border: 1px solid var(--gg-border);
   box-shadow: var(--gg-shadow);
 }
 
@@ -259,7 +279,7 @@ footer a:hover {
 }
 
 .hero p {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--gg-on-dark);
   font-size: 1.1rem;
 }
 
@@ -360,7 +380,7 @@ footer a:hover {
 
 .live-feed li {
   padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(29, 77, 51, 0.1);
+  border-bottom: 1px solid var(--gg-border);
 }
 
 .live-feed li:last-child {
@@ -387,7 +407,7 @@ footer a:hover {
 
 .rating-badge.caution {
   background-color: var(--gg-caution);
-  color: #3b2a05;
+  color: var(--gg-caution-ink);
 }
 
 .rating-badge.risk {
@@ -430,17 +450,17 @@ footer a:hover {
 
 /* Only the newest item pulses; older items get a quiet gray dot */
 .live-feed li:not(:first-child)::before {
-  background-color: #b9c4bd;
+  background-color: var(--gg-dot-idle);
   animation: none;
 }
 
 @keyframes pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(46, 139, 87, 0.5);
+    box-shadow: 0 0 0 0 var(--gg-pulse);
   }
   50% {
-    box-shadow: 0 0 0 0.4rem rgba(46, 139, 87, 0);
+    box-shadow: 0 0 0 0.4rem transparent;
   }
 }
 
@@ -507,7 +527,7 @@ footer a:hover {
   justify-content: space-between;
   gap: 0.25rem 1rem;
   padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(29, 77, 51, 0.1);
+  border-bottom: 1px solid var(--gg-border);
 }
 
 .confidence-row {
@@ -566,7 +586,7 @@ footer a:hover {
 }
 
 .answer-partial {
-  color: #a8740f;
+  color: var(--gg-caution-dark);
   font-weight: 600;
 }
 
@@ -708,7 +728,7 @@ footer a:hover {
 .choice-row .form-check-label {
   display: inline-block;
   padding: 0.4rem 0.9rem;
-  border: 1px solid rgba(29, 77, 51, 0.25);
+  border: 1px solid var(--gg-border-strong);
   border-radius: 999px;
   background-color: #fff;
   cursor: pointer;
@@ -727,7 +747,7 @@ footer a:hover {
 }
 
 .choice-row .form-check-input:focus-visible + .form-check-label {
-  outline: 3px solid rgba(47, 125, 79, 0.4);
+  outline: 3px solid var(--gg-focus-outline);
   outline-offset: 2px;
 }
 
@@ -738,7 +758,7 @@ footer a:hover {
 
 .form-check-input:focus {
   border-color: var(--gg-green);
-  box-shadow: 0 0 0 0.2rem rgba(47, 125, 79, 0.2);
+  box-shadow: 0 0 0 0.2rem var(--gg-focus-ring);
 }
 
 .form-switch .form-check-input:focus {
@@ -746,7 +766,7 @@ footer a:hover {
 }
 
 .review-form textarea::placeholder {
-  color: #9aa59f;
+  color: var(--gg-placeholder);
   font-style: italic;
 }
 
@@ -857,7 +877,7 @@ footer a:hover {
   flex-direction: column;
   gap: 0.6rem;
   padding: 1rem 1.1rem;
-  border: 1px solid #dbe7df;
+  border: 1px solid var(--gg-border-light);
   border-radius: 0.5rem;
   transition: border-color 0.2s;
 }
@@ -942,7 +962,7 @@ footer a:hover {
 
 /* Zebra stripes on every data table */
 .table > tbody > tr:nth-child(even) > * {
-  --bs-table-bg: #f6faf7;
+  --bs-table-bg: var(--gg-stripe);
 }
 
 .table > thead th {
@@ -954,7 +974,7 @@ footer a:hover {
 a:focus-visible,
 button:focus-visible,
 .btn:focus-visible {
-  outline: 3px solid rgba(47, 125, 79, 0.45);
+  outline: 3px solid var(--gg-focus-outline);
   outline-offset: 2px;
   box-shadow: none;
 }
@@ -969,7 +989,7 @@ button:focus-visible,
 }
 
 .gg-card:hover {
-  box-shadow: 0 4px 18px rgba(29, 77, 51, 0.12);
+  box-shadow: var(--gg-shadow-hover);
 }
 
 /* Tighter spacing on small phones */
