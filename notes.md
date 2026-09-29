@@ -52,6 +52,7 @@ Interesting things I have learned about CSS
 - Load Bootstrap from the CDN first and my own `main.css` after it. When two rules are equally specific, the one that loads later wins, so my styles override Bootstrap's.
 - Put colors in CSS variables on `:root` (`--gg-green: #2f7d4f;`) and use them with `var(--gg-green)`. Changing the palette then means editing one line.
 - Build tints and shades from the base variables with `color-mix(in srgb, var(--gg-green) 20%, transparent)` instead of hardcoding `rgba(47, 125, 79, 0.2)`. Otherwise changing the base color leaves stale borders and focus rings behind.
+- `clamp(min, preferred, max)` scales a font size smoothly with the screen instead of jumping at media query breakpoints. Put a `rem` in the preferred value (`1.1rem + 2vw`) so browser zoom still works.
 - Bootstrap 5 components are built on their own CSS variables. To recolor a button I set `--bs-btn-bg`, `--bs-btn-hover-bg`, and so on inside `.btn-success` instead of fighting its rules. Remember the active and border variables too, or the button flashes blue or gray when clicked.
 - The collapsing navbar needs the Bootstrap JS bundle (`bootstrap.bundle.min.js`) at the bottom of the page, or the hamburger button does nothing.
 - Google Fonts: add the `<link>` tags to the `<head>`, then use the font in `font-family` with a fallback, e.g. `'Inter', system-ui, sans-serif`.

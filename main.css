@@ -51,8 +51,10 @@ h4 {
   color: var(--gg-green-dark);
 }
 
+/* Scales smoothly from 1.5rem on small phones up to 1.75rem. The rem part
+   of the middle value keeps it responsive to browser zoom. */
 h2 {
-  font-size: 1.75rem;
+  font-size: clamp(1.5rem, 1.1rem + 1.8vw, 1.75rem);
 }
 
 h3 {
@@ -275,7 +277,7 @@ footer a:hover {
 
 .hero h2 {
   color: #fff;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 1.1rem + 2vw, 2rem);
 }
 
 .hero p {
@@ -992,7 +994,7 @@ button:focus-visible,
   box-shadow: var(--gg-shadow-hover);
 }
 
-/* Tighter spacing on small phones */
+/* Tighter spacing on small phones (heading sizes scale on their own with clamp) */
 @media (max-width: 575.98px) {
   main {
     padding-top: 1.25rem;
@@ -1004,13 +1006,5 @@ button:focus-visible,
 
   .hero {
     padding: 1.5rem 1rem;
-  }
-
-  .hero h2 {
-    font-size: 1.5rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
   }
 }
