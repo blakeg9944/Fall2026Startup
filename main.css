@@ -99,10 +99,25 @@ header .navbar-brand h1 {
   font-size: 1.5rem;
   color: #fff;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-header .navbar-brand h1::before {
-  content: '🛡️ ';
+/* Inline SVG logo, hidden from screen readers since the name follows it */
+.brand-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  fill: var(--gg-green-light);
+}
+
+.brand-icon .brand-check {
+  fill: none;
+  stroke: var(--gg-green-dark);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 header .nav-link {
