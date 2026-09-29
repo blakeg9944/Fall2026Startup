@@ -87,14 +87,14 @@ For this deliverable I styled the application with Bootstrap and my own `main.cs
   - **Forms:** every input, select, radio, checkbox, textarea, file input, and button uses Bootstrap form classes plus my own colors and green focus glows.
   - **Tables:** themed headers with a green underline, zebra striping, hover rows, rating badges, and colored Yes/No/Unsure answers.
   - **Live feeds:** the recent activity, live activity, and replies feeds have a pulsing green dot on the newest item (a `@keyframes` animation) and gray dots on older items.
-  - **My Reviews:** a summary card with a round gradient avatar, small outline Edit/Delete buttons, and the review photos as rounded, cropped thumbnails in a flex row that zoom slightly on hover.
+  - **My Reviews:** a summary card with a round gradient avatar, and the review history as a list of bordered cards (not a table, since each review is a paragraph with photos). Each card shows the restaurant name and date on the left with the rating badge on the right, then the review text, the photos as rounded, cropped thumbnails in a flex row that zoom slightly on hover, and small outline Edit/Delete buttons. The card border turns green on hover.
   - **Small details:** the placeholder notes about future API, database, and WebSocket data are small, gray, and italic. Text selection is highlighted green. Cards lift slightly on hover.
 - [x] **Responsive to window resizing using flexbox and/or grid display** - The `body` is a flex column so the footer stays at the bottom, and the header and footer use flexbox. The navbar collapses into a toggle menu below 768px. Every page with a layout stacks into one column on phones and spreads out on wider screens:
   - **Home:** a CSS grid puts search and login side by side (`3fr 2fr`) at 768px.
   - **Browse:** `grid-template-areas` puts the map and recent activity side by side at 992px, with the restaurant table spanning the full width below.
   - **Restaurant:** `grid-template-areas` puts the safety profile and live activity side by side at 992px, with the reviews table below.
   - **Review form:** the form is a flex column, and the four kitchen questions are a grid that becomes two columns at 768px. The confidence chips and the kitchen practice rows wrap with `flex-wrap`.
-  - **My Reviews:** `grid-template-areas` puts the user summary and replies side by side at 992px, with the review history table below. The summary card is a flex row that wraps the Logout button underneath on phones.
+  - **My Reviews:** `grid-template-areas` puts the user summary and replies side by side at 992px, with the review history below. The review cards are flex columns, so the text, photos, and buttons stack at every width with no sideways scrolling, and the photo row wraps with `flex-wrap`. The summary card is a flex row that wraps the Logout button underneath on phones.
   - **Small phones:** below 576px, card padding and heading sizes shrink.
 - [x] **Use of a imported font** - I import two Google Fonts with a `<link>` in every page's `<head>`. **Inter** is the body font, set on `body`. **Poppins** is used for headings, the GlutenGuard logo, table headers, form section titles, and the confidence levels.
 - [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - All in `main.css`:

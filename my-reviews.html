@@ -59,75 +59,68 @@
         <section class="gg-card" id="review-history">
           <h3>Review history</h3>
           <!-- Placeholder: these reviews are read from the database and filtered to this user -->
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>Restaurant</th>
-                  <th>Rating</th>
-                  <th>Review</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><a class="restaurant-link" href="restaurant.html">Backdoor Burger</a></td>
-                  <td><span class="rating-badge safe">4 / 5</span></td>
-                  <td class="review-text">
-                    <p>Burger came on a gluten-free bun and the waffle fries and sweet potato fries were both safe. Staff confirmed the fries go in a dedicated fryer.</p>
-                    <div class="photo-row">
-                      <img src="images/backdoor-burger-fries.jpg" alt="Basket of waffle fries with two cups of cheese sauce" />
-                      <img src="images/backdoor-burger-burger.jpg" alt="Burger on a gluten-free bun with sweet potato waffle fries and dipping sauce" />
-                    </div>
-                  </td>
-                  <td>2026-09-20</td>
-                  <td>
-                    <div class="action-buttons">
-                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
-                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a class="restaurant-link" href="restaurant.html">Black Sheep Cafe</a></td>
-                  <td><span class="rating-badge safe">5 / 5</span></td>
-                  <td class="review-text">Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</td>
-                  <td>2026-09-14</td>
-                  <td>
-                    <div class="action-buttons">
-                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
-                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a class="restaurant-link" href="restaurant.html">Communal Restaurant</a></td>
-                  <td><span class="rating-badge safe">5 / 5</span></td>
-                  <td class="review-text">They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</td>
-                  <td>2026-08-30</td>
-                  <td>
-                    <div class="action-buttons">
-                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
-                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a class="restaurant-link" href="restaurant.html">Guru's Cafe</a></td>
-                  <td><span class="rating-badge risk">2 / 5</span></td>
-                  <td class="review-text">Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</td>
-                  <td>2026-08-12</td>
-                  <td>
-                    <div class="action-buttons">
-                      <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
-                      <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <ul class="review-list">
+            <li class="review-item">
+              <div class="review-head">
+                <div class="review-title">
+                  <a class="restaurant-link" href="restaurant.html">Backdoor Burger</a>
+                  <time class="review-date" datetime="2026-09-20">2026-09-20</time>
+                </div>
+                <span class="rating-badge safe">4 / 5</span>
+              </div>
+              <p class="review-text">Burger came on a gluten-free bun and the waffle fries and sweet potato fries were both safe. Staff confirmed the fries go in a dedicated fryer.</p>
+              <div class="photo-row">
+                <img src="images/backdoor-burger-fries.jpg" alt="Basket of waffle fries with two cups of cheese sauce" />
+                <img src="images/backdoor-burger-burger.jpg" alt="Burger on a gluten-free bun with sweet potato waffle fries and dipping sauce" />
+              </div>
+              <div class="action-buttons">
+                <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+              </div>
+            </li>
+            <li class="review-item">
+              <div class="review-head">
+                <div class="review-title">
+                  <a class="restaurant-link" href="restaurant.html">Black Sheep Cafe</a>
+                  <time class="review-date" datetime="2026-09-14">2026-09-14</time>
+                </div>
+                <span class="rating-badge safe">5 / 5</span>
+              </div>
+              <p class="review-text">Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</p>
+              <div class="action-buttons">
+                <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+              </div>
+            </li>
+            <li class="review-item">
+              <div class="review-head">
+                <div class="review-title">
+                  <a class="restaurant-link" href="restaurant.html">Communal Restaurant</a>
+                  <time class="review-date" datetime="2026-08-30">2026-08-30</time>
+                </div>
+                <span class="rating-badge safe">5 / 5</span>
+              </div>
+              <p class="review-text">They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</p>
+              <div class="action-buttons">
+                <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+              </div>
+            </li>
+            <li class="review-item">
+              <div class="review-head">
+                <div class="review-title">
+                  <a class="restaurant-link" href="restaurant.html">Guru's Cafe</a>
+                  <time class="review-date" datetime="2026-08-12">2026-08-12</time>
+                </div>
+                <span class="rating-badge risk">2 / 5</span>
+              </div>
+              <p class="review-text">Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</p>
+              <div class="action-buttons">
+                <a class="btn btn-sm btn-outline-success" href="review.html">Edit</a>
+                <a class="btn btn-sm btn-outline-danger" href="my-reviews.html">Delete</a>
+              </div>
+            </li>
+          </ul>
           <p class="placeholder-note">Your reviews are stored in the database and can be edited or deleted at any time.</p>
         </section>
       </div>

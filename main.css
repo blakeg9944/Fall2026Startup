@@ -841,8 +841,67 @@ footer a:hover {
   text-decoration: underline;
 }
 
-.review-text p {
-  margin-bottom: 0.5rem;
+/* Review history is a list of cards: name, rating, and date across the
+   top, then the text, photos, and buttons stacked underneath */
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid #dbe7df;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.review-item:hover {
+  border-color: var(--gg-green);
+}
+
+.review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.review-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.review-head .restaurant-link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  white-space: normal;
+}
+
+.review-head .rating-badge {
+  flex-shrink: 0;
+}
+
+.review-date {
+  color: var(--gg-muted);
+  font-size: 0.85rem;
+}
+
+.review-item .review-text {
+  min-width: 0;
+  margin: 0;
+  color: var(--gg-text);
+}
+
+.review-item .action-buttons {
+  justify-content: flex-end;
 }
 
 .photo-row {
