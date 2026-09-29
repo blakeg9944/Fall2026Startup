@@ -45,20 +45,20 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] I completed the prerequisites for this deliverable (Git commit requirement)
-- [x] Proper use of Markdown
-- [x] A concise and compelling elevator pitch
-- [x] Description of key features
-- [x] Description of how you will use each technology including your 3rd party API and use of WebSocket
-- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [X] I completed the prerequisites for this deliverable (Git commit requirement)
+- [X] Proper use of Markdown
+- [X] A concise and compelling elevator pitch
+- [X] Description of key features
+- [X] Description of how you will use each technology including your 3rd party API and use of WebSocket
+- [X] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ## 🚀 AWS deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Rented EC2 server** - I did not complete this part of the deliverable.
-- [x] **Leased domain name** - I did not complete this part of the deliverable.
-- [x] **Server accessible** from my domain: [https://glutenguard.click/](https://glutenguard.click/) - I did complete this part of the deliverable.
+- [X] **Rented EC2 server** - I did not complete this part of the deliverable.
+- [X] **Leased domain name** - I did not complete this part of the deliverable.
+- [X] **Server accessible** from my domain: [https://glutenguard.click/](https://glutenguard.click/) - I did complete this part of the deliverable.
 
 ## 🚀 HTML deliverable
 
@@ -79,25 +79,25 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I styled the application with Bootstrap and my own `main.css`, which every page loads after Bootstrap so my rules take priority.
 
-- [x] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). Simon CSS is deployed to [simon.glutenguard.click](https://simon.glutenguard.click), every page footer links to this GitHub repository, and the styling is spread across multiple commits (base styles, header/footer, home layout, home colors, browse layout, rating badges, restaurant layout, restaurant colors, review form layout, review form colors, My Reviews, and a final polish and overflow fix).
-- [x] **Visually appealing colors and layout. No overflowing elements.** - A green and cream palette is defined once as CSS variables in `:root` and used everywhere. The home page has a gradient hero banner and white cards with a shadow and a colored top border. Cross-contamination ratings are color-coded pill badges: green for safe, amber for caution, and red for risk. Yes/No answers are colored the same way. On the restaurant page, each kitchen practice in the safety profile gets a colored ✓ (yes), ~ (usually), or ✗ (no) mark. The celiac and gluten-sensitive confidence levels are shown as tiles with a colored left border. The live viewer count is a green pill. On the review form, each section is a card with its own colored top stripe. The confidence radio buttons are shown as rounded chips that turn green when selected. The file upload button is styled to match the palette. To prevent overflow, images are capped at `max-width: 100%`, the browse and restaurant tables are wrapped in `.table-responsive` so they scroll inside their card on phones, and list items, the footer, and the confidence tiles wrap with `flex-wrap`. I found that wide tables were still stretching the page on phones because grid items default to `min-width: auto`, so I set `min-width: 0` on every grid child. I checked every page at 360px, 768px, and 1280px wide with no horizontal scrolling.
-- [x] **Use of a CSS framework** - Bootstrap 5.3.3 is loaded from a CDN on every page. I used its navbar with a collapsing hamburger menu for small screens, plus its `container`, `list-group`, `table`, `input-group`, `form-control`, `form-select`, `form-check`, and button classes. It also provides the `form-switch` toggle on the review form. I restyled Bootstrap's `.btn-success` and `.btn-outline-success` by overriding its `--bs-btn-*` variables so the buttons match my palette.
-- [x] **All visual elements styled using CSS** - Nothing on any page is left with default browser styling:
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). Simon CSS is deployed to [simon.glutenguard.click](https://simon.glutenguard.click), every page footer links to this GitHub repository, and the styling is spread across multiple commits (base styles, header/footer, home layout, home colors, browse layout, rating badges, restaurant layout, restaurant colors, review form layout, review form colors, My Reviews, and a final polish and overflow fix).
+- [X] **Visually appealing colors and layout. No overflowing elements.** - A green and cream palette is defined once as CSS variables in `:root` and used everywhere. The home page has a gradient hero banner and white cards with a shadow and a colored top border. Cross-contamination ratings are color-coded pill badges: green for safe, amber for caution, and red for risk. Yes/No answers are colored the same way. On the restaurant page, each kitchen practice in the safety profile gets a colored ✓ (yes), ~ (usually), or ✗ (no) mark. The celiac and gluten-sensitive confidence levels are shown as tiles with a colored left border. The live viewer count is a green pill. On the review form, each section is a card with its own colored top stripe. The confidence radio buttons are shown as rounded chips that turn green when selected. The file upload button is styled to match the palette. To prevent overflow, images are capped at `max-width: 100%`, the browse and restaurant tables are wrapped in `.table-responsive` so they scroll inside their card on phones, and list items, the footer, and the confidence tiles wrap with `flex-wrap`. I found that wide tables were still stretching the page on phones because grid items default to `min-width: auto`, so I set `min-width: 0` on every grid child. I checked every page at 360px, 768px, and 1280px wide with no horizontal scrolling.
+- [X] **Use of a CSS framework** - Bootstrap 5.3.3 is loaded from a CDN on every page. I used its navbar with a collapsing hamburger menu for small screens, plus its `container`, `list-group`, `table`, `input-group`, `form-control`, `form-select`, `form-check`, and button classes. It also provides the `form-switch` toggle on the review form. I restyled Bootstrap's `.btn-success` and `.btn-outline-success` by overriding its `--bs-btn-*` variables so the buttons match my palette.
+- [X] **All visual elements styled using CSS** - Nothing on any page is left with default browser styling:
   - **Header and footer:** a dark green navbar with hover and active link states, the current user shown as a pill (`#username`), and a matching green footer.
   - **Forms:** every input, select, radio, checkbox, textarea, file input, and button uses Bootstrap form classes plus my own colors and green focus glows.
   - **Tables:** themed headers with a green underline, zebra striping, hover rows, rating badges, and colored Yes/No/Unsure answers.
   - **Live feeds:** the recent activity, live activity, and replies feeds have a pulsing green dot on the newest item (a `@keyframes` animation) and gray dots on older items.
   - **My Reviews:** a summary card with a round gradient avatar, and the review history as a list of bordered cards (not a table, since each review is a paragraph with photos). Each card shows the restaurant name and date on the left with the rating badge on the right, then the review text, the photos as rounded, cropped thumbnails in a flex row that zoom slightly on hover, and small outline Edit/Delete buttons. The card border turns green on hover.
   - **Small details:** the placeholder notes about future API, database, and WebSocket data are small, gray, and italic. Text selection is highlighted green. Cards lift slightly on hover.
-- [x] **Responsive to window resizing using flexbox and/or grid display** - The `body` is a flex column so the footer stays at the bottom, and the header and footer use flexbox. The navbar collapses into a toggle menu below 768px. Every page with a layout stacks into one column on phones and spreads out on wider screens:
+- [X] **Responsive to window resizing using flexbox and/or grid display** - The `body` is a flex column so the footer stays at the bottom, and the header and footer use flexbox. The navbar collapses into a toggle menu below 768px. Every page with a layout stacks into one column on phones and spreads out on wider screens:
   - **Home:** a CSS grid puts search and login side by side (`3fr 2fr`) at 768px.
   - **Browse:** `grid-template-areas` puts the map and recent activity side by side at 992px, with the restaurant table spanning the full width below.
   - **Restaurant:** `grid-template-areas` puts the safety profile and live activity side by side at 992px, with the reviews table below.
   - **Review form:** the form is a flex column, and the four kitchen questions are a grid that becomes two columns at 768px. The confidence chips and the kitchen practice rows wrap with `flex-wrap`.
   - **My Reviews:** `grid-template-areas` puts the user summary and replies side by side at 992px, with the review history below. The review cards are flex columns, so the text, photos, and buttons stack at every width with no sideways scrolling, and the photo row wraps with `flex-wrap`. The summary card is a flex row that wraps the Logout button underneath on phones.
   - **Small phones:** below 576px, card padding and heading sizes shrink.
-- [x] **Use of a imported font** - I import two Google Fonts with a `<link>` in every page's `<head>`. **Inter** is the body font, set on `body`. **Poppins** is used for headings, the GlutenGuard logo, table headers, form section titles, and the confidence levels.
-- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - All in `main.css`:
+- [X] **Use of a imported font** - I import two Google Fonts with a `<link>` in every page's `<head>`. **Inter** is the body font, set on `body`. **Poppins** is used for headings, the GlutenGuard logo, table headers, form section titles, and the confidence levels.
+- [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** - All in `main.css`:
   - **Element:** `body`, `main`, `h1`–`h4`, `a`, `img`, `header`, `footer`.
   - **Class:** `.gg-card`, `.hero`, `.rating-badge`, `.safe`, `.caution`, `.risk`, `.live-feed`, `.practice-list`, `.confidence`, `.placeholder-note`, `.photo-row`.
   - **ID:** `#username`, `#map`, `#search-card`, `#login-card`, `#safety-profile`, `#live-activity`, `#user-summary`, and the other section ids that place each card in its grid area.
