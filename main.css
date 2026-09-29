@@ -581,23 +581,25 @@ footer a:hover {
   padding: 0.4rem 1rem;
 }
 
-.practice-list li span:first-child::before {
+/* Decorative status mark. The span is aria-hidden because the Yes / Usually /
+   No answer on the same row already says this in words. */
+.practice-icon {
   display: inline-block;
   width: 1.5rem;
   font-weight: 700;
 }
 
-.practice-yes span:first-child::before {
+.practice-yes .practice-icon::before {
   content: '✓';
   color: var(--gg-safe);
 }
 
-.practice-partial span:first-child::before {
+.practice-partial .practice-icon::before {
   content: '~';
   color: var(--gg-caution);
 }
 
-.practice-no span:first-child::before {
+.practice-no .practice-icon::before {
   content: '✗';
   color: var(--gg-risk);
 }

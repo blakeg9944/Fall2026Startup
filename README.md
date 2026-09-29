@@ -102,7 +102,7 @@ For this deliverable I styled the application with Bootstrap and my own `main.cs
   - **Class:** `.gg-card`, `.hero`, `.rating-badge`, `.safe`, `.caution`, `.risk`, `.live-feed`, `.practice-list`, `.confidence`, `.placeholder-note`, `.photo-row`.
   - **ID:** `#username`, `#map`, `#search-card`, `#login-card`, `#safety-profile`, `#live-activity`, `#user-summary`, and the other section ids that place each card in its grid area.
   - **Pseudo-classes:** `:hover`, `:focus-visible`, `:checked` (with `+` to style the label next to a selected radio), `:nth-child(even)` for table stripes, `:nth-of-type()` for the review form stripes, `:first-child`, `:last-child`, and `:not()`.
-  - **Pseudo-elements:** `::before` for the 🛡️ logo icon, the ✓/~/✗ marks, and the live dot; `::placeholder`, `::file-selector-button`, and `::selection`.
+  - **Pseudo-elements:** `::before` for the ✓/~/✗ practice marks (on an `aria-hidden` `.practice-icon` span, since the row's Yes/Usually/No text already says it) and the live dot; `::placeholder`, `::file-selector-button`, and `::selection`.
   - **Combined selectors:** descendant (`header .nav-link`), child (`.home-grid > *`), and attribute (`input[type='file']`).
 
 ## 🚀 React part 1: Routing deliverable
