@@ -45,6 +45,29 @@ Interesting things I have learned about HTML
 - The `<span id="username">` in each header is there so JavaScript can swap in the logged-in user's name later.
 - Deploying: `./deployFiles.sh -k <pem key file> -h glutenguard.click -s startup` copies the files to the server (use `-s simon` for Simon). Check the live site afterward — if it still shows the default "Web Programming 260" page, the deploy didn't happen.
 
+## CSS
+
+Interesting things I have learned about CSS
+
+- Load Bootstrap from the CDN first and my own `main.css` after it. When two rules are equally specific, the one that loads later wins, so my styles override Bootstrap's.
+- Put colors in CSS variables on `:root` (`--gg-green: #2f7d4f;`) and use them with `var(--gg-green)`. Changing the palette then means editing one line.
+- Bootstrap 5 components are built on their own CSS variables. To recolor a button I set `--bs-btn-bg`, `--bs-btn-hover-bg`, and so on inside `.btn-success` instead of fighting its rules. Remember the active and border variables too, or the button flashes blue or gray when clicked.
+- The collapsing navbar needs the Bootstrap JS bundle (`bootstrap.bundle.min.js`) at the bottom of the page, or the hamburger button does nothing.
+- Google Fonts: add the `<link>` tags to the `<head>`, then use the font in `font-family` with a fallback, e.g. `'Inter', system-ui, sans-serif`.
+- Grid vs. flex:
+  - **Grid** is for two-dimensional page layout (rows *and* columns). `grid-template-areas` is really readable: name each area (`'map feed' 'list list'`) and then change just that property inside a `@media` query to rearrange everything on mobile.
+  - **Flex** is for one row or column of things: the navbar, footer, buttons, a list of chips. `flex-wrap: wrap` plus `gap` handles most responsive wrapping without media queries.
+- Write styles mobile first: the default is one column, and `@media (min-width: 768px)` adds more columns on bigger screens.
+- **Grid blowout bug:** a wide table inside a `1fr` grid column stretched the whole page on phones, even inside `.table-responsive`. Grid items default to `min-width: auto`, so they refuse to shrink below their content. Setting `min-width: 0` on the grid children fixed it.
+- `img { max-width: 100%; height: auto; }` keeps images from overflowing. `object-fit: cover` crops photos to the same size without stretching them.
+- Remove fixed `width` attributes from HTML images once CSS handles sizing. A `width="600"` image is wider than a phone.
+- Pseudo selectors I used:
+  - **Pseudo-classes:** `:hover`, `:focus-visible` (outlines only for keyboard users), `:checked + label` (style the label next to a selected radio), `:nth-child(even)` (zebra stripes), `:nth-of-type()`, `:not(:first-child)`.
+  - **Pseudo-elements:** `::before` with `content` (icons and dots), `::placeholder`, `::file-selector-button`, `::selection`.
+- To make radio buttons look like chips, hide the input visually (`opacity: 0; position: absolute`) instead of `display: none`, so keyboard and screen reader users can still select them.
+- `@keyframes` plus `animation` makes the pulsing live dot. Wrap it in `@media (prefers-reduced-motion: reduce)` to turn the animation off for people who ask for less motion.
+- Test responsiveness with the device toolbar in Chrome DevTools at phone (~360px), tablet (768px), and desktop widths, and check that the page never scrolls sideways.
+
 ## React
 
 Interesting things I have learned about React
