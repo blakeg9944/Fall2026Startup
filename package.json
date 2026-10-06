@@ -1,0 +1,35 @@
+{
+  "name": "fall2026startup",
+  "version": "1.0.0",
+  "description": "[My Notes](notes.md)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blakeg9944/Fall2026Startup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/blakeg9944/Fall2026Startup/issues"
+  },
+  "homepage": "https://github.com/blakeg9944/Fall2026Startup#readme",
+  "devDependencies": {
+    "vite": "^8.3.2"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  }
+}
