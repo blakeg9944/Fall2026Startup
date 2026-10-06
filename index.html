@@ -4,97 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GlutenGuard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" />
-    <link rel="stylesheet" href="main.css" />
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-expand-md navbar-dark">
-        <div class="container">
-          <a class="navbar-brand" href="index.html"><h1><svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3Z"/><path class="brand-check" d="m8.5 12 2.5 2.5 4.5-5"/></svg>GlutenGuard</h1></a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="browse.html">Browse Reviews</a></li>
-              <li class="nav-item"><a class="nav-link" href="my-reviews.html">My Reviews</a></li>
-            </ul>
-            <p class="welcome">Welcome, <span id="username">guest</span></p>
-          </div>
-        </div>
-      </nav>
-    </header>
-
-    <main class="container">
-      <div class="hero">
-        <h2>Find gluten-free restaurants you can trust</h2>
-        <p>Search for a restaurant to see community reviews about cross-contamination and kitchen practices.</p>
-        <a class="btn btn-light" href="https://github.com/blakeg9944/Fall2026Startup">View the GitHub repository</a>
-      </div>
-
-      <div class="home-grid">
-        <section class="gg-card" id="search-card">
-          <h3>Find a restaurant</h3>
-          <form method="get" action="restaurant.html">
-            <label for="search" class="form-label">Restaurant name or address</label>
-            <div class="input-group">
-              <input type="search" class="form-control" id="search" name="search" placeholder="Search restaurants near you" />
-              <button type="submit" class="btn btn-success">Search</button>
-            </div>
-          </form>
-
-          <!-- Placeholder: results come from the Google Places API as the user types -->
-          <h4>Search results</h4>
-          <div class="list-group">
-            <a class="list-group-item list-group-item-action" href="restaurant.html">
-              <strong>Rockwell Ice Cream Co.</strong>
-              <span class="address">165 N University Ave, Provo UT</span>
-            </a>
-            <a class="list-group-item list-group-item-action" href="restaurant.html">
-              <strong>Black Sheep Cafe</strong>
-              <span class="address">19 N University Ave, Provo UT</span>
-            </a>
-            <a class="list-group-item list-group-item-action" href="restaurant.html">
-              <strong>Communal Restaurant</strong>
-              <span class="address">102 N University Ave, Provo UT</span>
-            </a>
-          </div>
-          <p class="placeholder-note">Restaurant names and addresses are supplied by the Google Places API.</p>
-        </section>
-
-        <section class="gg-card" id="login-card">
-          <h3>Login</h3>
-          <form method="get" action="browse.html">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required />
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password" placeholder="password" required />
-            </div>
-            <div class="button-row">
-              <button type="submit" class="btn btn-success">Login</button>
-              <button type="submit" class="btn btn-outline-success">Create Account</button>
-            </div>
-          </form>
-          <p class="placeholder-note">You can also <a href="browse.html">browse reviews</a> without an account. Login is only required to submit a review.</p>
-        </section>
-      </div>
-    </main>
-
-    <footer>
-      <div class="container footer-inner">
-        <p>Blake Gertsch</p>
-        <a href="https://github.com/blakeg9944/Fall2026Startup">GitHub Repository</a>
-      </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/index.jsx"></script>
   </body>
 </html>
