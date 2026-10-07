@@ -75,4 +75,31 @@ Interesting things I have learned about CSS
 
 Interesting things I have learned about React
 
-I love web programming
+- Setup: `npm init -y`, then `npm install vite@latest -D` (dev only, it builds and serves) and `npm install react react-dom react-router-dom bootstrap`. Scripts: `dev` runs the hot-reloading server at `localhost:5173`, `build` bundles everything into `dist/`, and `preview` serves that bundle so I can test the real build before deploying.
+- How Vite expects the project to look:
+  - `index.html` at the root is just a shell: the head (title, Google Fonts) and one `<div id="root">` plus `<script type="module" src="/index.jsx">`.
+  - `index.jsx` finds that div and mounts the app: `ReactDOM.createRoot(document.getElementById('root')).render(<App />)`.
+  - `src/` holds the components and CSS. Vite bundles all of it.
+  - `public/` holds static files like images. They get copied as-is, so `public/images/x.jpg` is served at `/images/x.jpg`.
+- Bootstrap comes from npm now instead of the CDN: `import 'bootstrap/dist/css/bootstrap.min.css'` before `import './app.css'` (order still matters so my styles win), and `import 'bootstrap/dist/js/bootstrap.bundle.min.js'` so the hamburger menu still works.
+- `export default function App` is imported without braces (`import App from './src/app'`). Named exports like `export function Home` need braces (`import { Home } from './home/home'`).
+- Routing:
+  - `<BrowserRouter>` wraps the whole app. The header and footer sit outside `<Routes>`, so they stay on screen and only the middle swaps when the URL changes. No page reload.
+  - `<Route path="/browse" element={<Browse />} />` maps a URL to a component. `path="*"` goes last and catches anything else for a 404 page.
+  - `<NavLink>` adds the `active` class and `aria-current` by itself based on the URL, so I deleted the hardcoded `active` from the Home link. Use `<Link>` when I don't want highlighting (the logo, links inside a page).
+  - `NavLink` and `Link` crash if they're outside `<BrowserRouter>`.
+  - Links to outside sites (GitHub) stay plain `<a href>`.
+- Converting HTML to JSX:
+  - `class` becomes `className` and `for` becomes `htmlFor`, because both are reserved words in JavaScript.
+  - Comments are `{/* ... */}`. HTML comments don't work in JSX.
+  - Every tag has to close, so an empty `<textarea></textarea>` becomes `<textarea />`.
+  - Numbers can go in braces (`rows={6}`) instead of quotes.
+  - `data-bs-*` and `aria-*` attributes stay hyphenated, and entities like `&mdash;` still work.
+  - A component returns one outer element. Wrap multi-line JSX in `return ( ... );`.
+  - JSX drops the whitespace at a line break. Two `<span>`s on separate lines end up touching. Keep them on one line or add `{' '}`.
+  - Later (P2), form values will need `defaultValue` / `defaultChecked` instead of `selected` / `checked`.
+- Image paths need a leading slash (`/placeholder.png`). Without it the path is relative to the current URL and breaks on nested routes.
+- My sticky-footer layout was on `body { display: flex }`, but React puts everything inside `<div id="root">`, so `main` and `footer` weren't body's children anymore. Moved the rule onto a `.app` wrapper div inside `App` (Simon does the same with `.body`).
+- CSS per component: each page has its own CSS file next to its JSX (`home/home.css`) and imports it. Vite still bundles all CSS into one file, so the rules aren't actually scoped to that page. It's just organization. Rules more than one page uses (`.page-intro`, `.table`, `.live-feed`, rating badges) stay in `app.css`.
+- `npm run build` prints `"use client"` warnings from React Router. Those are for server rendering frameworks and are safe to ignore.
+- The production server already sends `index.html` for unknown paths, so refreshing on `/browse` still loads the app instead of a 404.
