@@ -240,7 +240,7 @@ footer a:hover {
   box-shadow: var(--gg-shadow);
 }
 
-/* ---------- Browse page ---------- */
+/* ---------- Shared page pieces: intros, tables, and live feeds ---------- */
 
 .page-intro {
   margin-bottom: 1.5rem;
@@ -249,49 +249,6 @@ footer a:hover {
 .page-intro p {
   color: var(--gg-muted);
   max-width: 45rem;
-}
-
-/* Phones stack everything; wide screens put the map and feed side by side
-   with the restaurant table across the full width underneath. */
-.browse-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    'map'
-    'feed'
-    'list';
-  gap: 1.5rem;
-}
-
-#map {
-  grid-area: map;
-}
-
-#recent-activity {
-  grid-area: feed;
-}
-
-#restaurant-list {
-  grid-area: list;
-}
-
-@media (min-width: 992px) {
-  .browse-grid {
-    grid-template-columns: 2fr 1fr;
-    grid-template-areas:
-      'map feed'
-      'list list';
-  }
-}
-
-.map-frame {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 240px;
-  background-color: var(--gg-green-light);
-  border-radius: 0.5rem;
-  overflow: hidden;
 }
 
 .table {
@@ -887,7 +844,6 @@ footer a:hover {
 /* Grid items default to min-width: auto, so a wide table inside one would
    stretch the whole column past the screen. min-width: 0 lets the column
    shrink and the table scroll inside .table-responsive instead. */
-.browse-grid > *,
 .restaurant-grid > *,
 .my-reviews-grid > * {
   min-width: 0;

@@ -1,0 +1,49 @@
+/* ---------- Browse page layout ---------- */
+
+/* Phones stack everything; wide screens put the map and feed side by side
+   with the restaurant table across the full width underneath. */
+.browse-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'map'
+    'feed'
+    'list';
+  gap: 1.5rem;
+}
+
+#map {
+  grid-area: map;
+}
+
+#recent-activity {
+  grid-area: feed;
+}
+
+#restaurant-list {
+  grid-area: list;
+}
+
+@media (min-width: 992px) {
+  .browse-grid {
+    grid-template-columns: 2fr 1fr;
+    grid-template-areas:
+      'map feed'
+      'list list';
+  }
+}
+
+.map-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
+  background-color: var(--gg-green-light);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Let grid columns shrink so the wide table scrolls instead of overflowing */
+.browse-grid > * {
+  min-width: 0;
+}
