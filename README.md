@@ -109,10 +109,27 @@ For this deliverable I styled the application with Bootstrap and my own `main.cs
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). Simon React P1 is deployed to [simon.glutenguard.click](https://simon.glutenguard.click). The startup React version is deployed to [startup.glutenguard.click](https://startup.glutenguard.click) with `deployReact.sh`. The home page has a "View the GitHub repository" button in the hero, and every page's footer has my name and a GitHub Repository link. The port is spread across 18 commits over three days, one for each step: setup, restructure, layout, routes, each page's conversion, each page's CSS, notes, the deploy script, and this README. What I learned is in the React section of [notes.md](notes.md).
+- [X] **Bundled using Vite** - I installed Vite, React, React DOM, React Router, and Bootstrap with npm, and added `dev`, `build`, and `preview` scripts to `package.json`. I reorganized the project the way Vite expects:
+  - **`index.html`** is now a shell with the Google Fonts links and a single `<div id="root">`.
+  - **`index.jsx`** mounts the `App` component into that div.
+  - **`src/`** holds all the components and CSS.
+  - **`public/`** holds the map placeholder and the meal photos.
+  - Bootstrap's CSS and JS are imported from npm instead of the CDN.
+  - `deployReact.sh` runs `npm run build` and uploads only the `dist/` bundle to the server.
+- [X] **Components** - Each of my five HTML pages is now its own React component in its own folder, with its own CSS file:
+  - **`Home`** (`src/home/`): hero banner with the GitHub link, restaurant search with Google Places results, and the login form.
+  - **`Browse`** (`src/browse/`): map placeholder, reviewed restaurants table, and recent activity feed.
+  - **`Restaurant`** (`src/restaurant/`): safety profile with rating badge, ✓/~/✗ kitchen practices, confidence tiles, live activity, and the reviews table.
+  - **`Review`** (`src/review/`): the full review form with selects, radio chips, the staff switch, textarea, and photo upload.
+  - **`MyReviews`** (`src/myReviews/`): user summary, replies feed, and review history cards with photos and Edit/Delete buttons.
+  - **Shared layout:** the header, navbar, and footer live in `App` (`src/app.jsx`), so they are written once instead of copied into every page.
+  - **Converting the HTML:** I turned it into JSX (`className`, `htmlFor`, `dateTime`, `{/* */}` comments, self-closing tags). All the placeholders for the Google APIs, database, login, and WebSocket data are still there.
+  - **CSS:** I split the old `main.css`. Rules used on more than one page (colors, header, footer, cards, buttons, form theming, tables, rating badges, live feeds) stay in `src/app.css`. Each page's own layout and details moved into its component's CSS file, which the component imports.
+  - **Visual check:** I compared screenshots of every page against the old HTML version at desktop and phone widths, and they look the same.
+- [X] **Router** - `App` wraps everything in a `BrowserRouter`. A `Routes` block maps each URL to a component:
+  - **Routes:** `/` → `Home`, `/browse` → `Browse`, `/restaurant` → `Restaurant`, `/review` → `Review`, and `/my-reviews` → `MyReviews`. A catch-all `*` route shows a `NotFound` 404 card with a link back home.
+  - **Navigation:** the navbar uses `NavLink`, so the current page's link is highlighted automatically. The logo and the links inside pages use `Link`: restaurant names, "Write a review", Cancel, Edit, Delete, and Logout. Moving between pages swaps the component without reloading the page. The header and footer stay in place.
 
 ## 🚀 React part 2: Reactivity deliverable
 
