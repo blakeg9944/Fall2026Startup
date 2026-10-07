@@ -2,7 +2,12 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './app.css';
-import { BrowserRouter, NavLink, Link } from 'react-router-dom';
+import { BrowserRouter, NavLink, Link, Route, Routes } from 'react-router-dom';
+import { Home } from './home/home';
+import { Browse } from './browse/browse';
+import { Restaurant } from './restaurant/restaurant';
+import { Review } from './review/review';
+import { MyReviews } from './myReviews/myReviews';
 
 export default function App() {
   return (
@@ -49,7 +54,13 @@ export default function App() {
           </nav>
         </header>
 
-        <main className="container">Pages will go here</main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/restaurant" element={<Restaurant />} />
+          <Route path="/review" element={<Review />} />
+          <Route path="/my-reviews" element={<MyReviews />} />
+        </Routes>
 
         <footer>
           <div className="container footer-inner">
