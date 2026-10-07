@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './myReviews.css';
 
 export function MyReviews() {
   return (
