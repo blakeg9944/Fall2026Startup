@@ -103,3 +103,4 @@ Interesting things I have learned about React
 - CSS per component: each page has its own CSS file next to its JSX (`home/home.css`) and imports it. Vite still bundles all CSS into one file, so the rules aren't actually scoped to that page. It's just organization. Rules more than one page uses (`.page-intro`, `.table`, `.live-feed`, rating badges) stay in `app.css`.
 - `npm run build` prints `"use client"` warnings from React Router. Those are for server rendering frameworks and are safe to ignore.
 - The production server already sends `index.html` for unknown paths, so refreshing on `/browse` still loads the app instead of a 404.
+- Deploying: `./deployReact.sh -k keys/default.pem -h glutenguard.click -s startup` replaces the old `deployFiles.sh`. It runs `npm install` and `npm run build`, then copies only the `dist/` bundle to the server, so source files, notes, and keys never get uploaded.
