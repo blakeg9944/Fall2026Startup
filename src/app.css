@@ -261,6 +261,10 @@ footer a:hover {
   white-space: nowrap;
 }
 
+.table td:last-child {
+  white-space: nowrap;
+}
+
 .live-feed {
   list-style: none;
   padding: 0;
@@ -357,179 +361,6 @@ footer a:hover {
   .live-feed li::before {
     animation: none;
   }
-}
-
-/* ---------- Restaurant page ---------- */
-
-.restaurant-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    'profile'
-    'live'
-    'reviews';
-  gap: 1.5rem;
-}
-
-#safety-profile {
-  grid-area: profile;
-}
-
-#live-activity {
-  grid-area: live;
-}
-
-#reviews {
-  grid-area: reviews;
-}
-
-@media (min-width: 992px) {
-  .restaurant-grid {
-    grid-template-columns: 3fr 2fr;
-    grid-template-areas:
-      'profile live'
-      'reviews reviews';
-  }
-}
-
-.rating-summary {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.rating-summary p {
-  margin: 0;
-}
-
-.practice-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.25rem;
-}
-
-.practice-list li {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.25rem 1rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--gg-border);
-}
-
-.confidence-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.confidence {
-  flex: 1 1 10rem;
-  display: flex;
-  flex-direction: column;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-}
-
-.review-text {
-  min-width: 16rem;
-}
-
-.table td:last-child {
-  white-space: nowrap;
-}
-
-/* ---------- Restaurant page colors and details ---------- */
-
-#safety-profile {
-  border-top: 4px solid var(--gg-safe);
-}
-
-#safety-profile .rating-summary .rating-badge {
-  font-size: 1.5rem;
-  padding: 0.4rem 1rem;
-}
-
-/* Decorative status mark. The span is aria-hidden because the Yes / Usually /
-   No answer on the same row already says this in words. */
-.practice-icon {
-  display: inline-block;
-  width: 1.5rem;
-  font-weight: 700;
-}
-
-.practice-yes .practice-icon::before {
-  content: '✓';
-  color: var(--gg-safe);
-}
-
-.practice-partial .practice-icon::before {
-  content: '~';
-  color: var(--gg-caution);
-}
-
-.practice-no .practice-icon::before {
-  content: '✗';
-  color: var(--gg-risk);
-}
-
-.answer-partial {
-  color: var(--gg-caution-dark);
-  font-weight: 600;
-}
-
-.practice-list li:hover {
-  background-color: var(--gg-cream);
-}
-
-.confidence {
-  background-color: var(--gg-cream);
-  border-left: 4px solid var(--gg-muted);
-}
-
-.confidence-label {
-  color: var(--gg-muted);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.confidence strong {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.25rem;
-}
-
-.confidence.high {
-  background-color: var(--gg-green-light);
-  border-left-color: var(--gg-safe);
-}
-
-.confidence.high strong {
-  color: var(--gg-safe);
-}
-
-#live-activity {
-  border-top: 4px solid var(--gg-caution);
-}
-
-.viewer-count {
-  display: inline-block;
-  background-color: var(--gg-green-light);
-  color: var(--gg-green-dark);
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-}
-
-.reviewer {
-  font-weight: 600;
-  color: var(--gg-green-dark);
-}
-
-.review-text {
-  color: var(--gg-muted);
 }
 
 /* ---------- Review form ---------- */
@@ -844,7 +675,6 @@ footer a:hover {
 /* Grid items default to min-width: auto, so a wide table inside one would
    stretch the whole column past the screen. min-width: 0 lets the column
    shrink and the table scroll inside .table-responsive instead. */
-.restaurant-grid > *,
 .my-reviews-grid > * {
   min-width: 0;
 }
