@@ -60,6 +60,7 @@ export default function App() {
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/review" element={<Review />} />
           <Route path="/my-reviews" element={<MyReviews />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <footer>
@@ -70,5 +71,19 @@ export default function App() {
         </footer>
       </div>
     </BrowserRouter>
+  );
+}
+
+function NotFound() {
+  return (
+    <main className="container">
+      <section className="gg-card text-center">
+        <h2>404: Page not found</h2>
+        <p>We couldn't find that page.</p>
+        <Link className="btn btn-success" to="/">
+          Back to Home
+        </Link>
+      </section>
+    </main>
   );
 }
