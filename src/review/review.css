@@ -44,7 +44,6 @@
 /* ---------- Review form colors and details ---------- */
 
 .review-form legend {
-  float: none;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 1.2rem;
