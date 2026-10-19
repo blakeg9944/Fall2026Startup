@@ -65,14 +65,6 @@
   font-weight: 600;
 }
 
-#search-card {
-  border-top: 4px solid var(--gg-green);
-}
-
-#login-card {
-  border-top: 4px solid var(--gg-caution);
-}
-
 .list-group-item-action:hover {
   background-color: var(--gg-green-light);
 }

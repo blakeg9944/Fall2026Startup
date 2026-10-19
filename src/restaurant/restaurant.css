@@ -79,10 +79,6 @@
 
 /* ---------- Restaurant page colors and details ---------- */
 
-#safety-profile {
-  border-top: 4px solid var(--gg-safe);
-}
-
 #safety-profile .rating-summary .rating-badge {
   font-size: 1.5rem;
   padding: 0.4rem 1rem;
@@ -122,7 +118,6 @@
 
 .confidence {
   background-color: var(--gg-cream);
-  border-left: 4px solid var(--gg-muted);
 }
 
 .confidence-label {
@@ -139,15 +134,10 @@
 
 .confidence.high {
   background-color: var(--gg-green-light);
-  border-left-color: var(--gg-safe);
 }
 
 .confidence.high strong {
   color: var(--gg-safe);
-}
-
-#live-activity {
-  border-top: 4px solid var(--gg-caution);
 }
 
 .viewer-count {

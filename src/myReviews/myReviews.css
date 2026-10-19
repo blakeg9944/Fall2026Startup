@@ -16,12 +16,10 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
-  border-top: 4px solid var(--gg-green);
 }
 
 #replies {
   grid-area: replies;
-  border-top: 4px solid var(--gg-caution);
 }
 
 #review-history {
