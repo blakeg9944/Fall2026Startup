@@ -37,7 +37,7 @@ export function Restaurant() {
               <strong>High</strong>
             </div>
           </div>
-          <Link className="btn btn-success" to="/review">
+          <Link className="btn btn-success" to="/review/black-sheep-cafe">
             Write a review for this restaurant
           </Link>
         </section>

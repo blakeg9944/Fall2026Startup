@@ -55,7 +55,7 @@ export function MyReviews() {
             <li className="review-item">
               <div className="review-head">
                 <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant">
+                  <Link className="restaurant-link" to="/restaurant/backdoor-burger">
                     Backdoor Burger
                   </Link>
                   <time className="review-date" dateTime="2026-09-20">
@@ -70,7 +70,7 @@ export function MyReviews() {
                 <img src="/images/backdoor-burger-burger.jpg" alt="Burger on a gluten-free bun with sweet potato waffle fries and dipping sauce" />
               </div>
               <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review">
+                <Link className="btn btn-sm btn-outline-success" to="/review/backdoor-burger">
                   Edit
                 </Link>
                 <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
@@ -81,7 +81,7 @@ export function MyReviews() {
             <li className="review-item">
               <div className="review-head">
                 <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant">
+                  <Link className="restaurant-link" to="/restaurant/black-sheep-cafe">
                     Black Sheep Cafe
                   </Link>
                   <time className="review-date" dateTime="2026-09-14">
@@ -92,7 +92,7 @@ export function MyReviews() {
               </div>
               <p className="review-text">Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</p>
               <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review">
+                <Link className="btn btn-sm btn-outline-success" to="/review/black-sheep-cafe">
                   Edit
                 </Link>
                 <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
@@ -103,7 +103,7 @@ export function MyReviews() {
             <li className="review-item">
               <div className="review-head">
                 <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant">
+                  <Link className="restaurant-link" to="/restaurant/communal-restaurant">
                     Communal Restaurant
                   </Link>
                   <time className="review-date" dateTime="2026-08-30">
@@ -114,7 +114,7 @@ export function MyReviews() {
               </div>
               <p className="review-text">They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</p>
               <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review">
+                <Link className="btn btn-sm btn-outline-success" to="/review/communal-restaurant">
                   Edit
                 </Link>
                 <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
@@ -125,7 +125,7 @@ export function MyReviews() {
             <li className="review-item">
               <div className="review-head">
                 <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant">
+                  <Link className="restaurant-link" to="/restaurant/gurus-cafe">
                     Guru's Cafe
                   </Link>
                   <time className="review-date" dateTime="2026-08-12">
@@ -136,7 +136,7 @@ export function MyReviews() {
               </div>
               <p className="review-text">Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</p>
               <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review">
+                <Link className="btn btn-sm btn-outline-success" to="/review/gurus-cafe">
                   Edit
                 </Link>
                 <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">

@@ -37,7 +37,7 @@ export function Browse() {
               <tbody>
                 <tr>
                   <td>
-                    <Link to="/restaurant">Black Sheep Cafe</Link>
+                    <Link to="/restaurant/black-sheep-cafe">Black Sheep Cafe</Link>
                   </td>
                   <td>19 N University Ave, Provo UT</td>
                   <td>
@@ -48,7 +48,7 @@ export function Browse() {
                 </tr>
                 <tr>
                   <td>
-                    <Link to="/restaurant">Communal Restaurant</Link>
+                    <Link to="/restaurant/communal-restaurant">Communal Restaurant</Link>
                   </td>
                   <td>102 N University Ave, Provo UT</td>
                   <td>
@@ -59,7 +59,7 @@ export function Browse() {
                 </tr>
                 <tr>
                   <td>
-                    <Link to="/restaurant">Rockwell Ice Cream Co.</Link>
+                    <Link to="/restaurant/rockwell-ice-cream">Rockwell Ice Cream Co.</Link>
                   </td>
                   <td>165 N University Ave, Provo UT</td>
                   <td>
@@ -70,7 +70,7 @@ export function Browse() {
                 </tr>
                 <tr>
                   <td>
-                    <Link to="/restaurant">Guru's Cafe</Link>
+                    <Link to="/restaurant/gurus-cafe">Guru's Cafe</Link>
                   </td>
                   <td>45 E Center St, Provo UT</td>
                   <td>

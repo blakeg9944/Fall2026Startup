@@ -58,7 +58,7 @@ export function Home({ userName, onLogin, onLogout }) {
           {results.length > 0 && (
             <div className="list-group">
               {results.map((place) => (
-                <Link key={place.id} className="list-group-item list-group-item-action" to="/restaurant">
+                <Link key={place.id} className="list-group-item list-group-item-action" to={`/restaurant/${place.id}`}>
                   <strong>{place.name}</strong>
                   <span className="address">{place.address}</span>
                 </Link>

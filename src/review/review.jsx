@@ -160,7 +160,7 @@ export function Review() {
           <button type="submit" className="btn btn-success">
             Submit review
           </button>
-          <Link className="btn btn-outline-secondary" to="/restaurant">
+          <Link className="btn btn-outline-secondary" to="/restaurant/black-sheep-cafe">
             Cancel
           </Link>
         </div>
