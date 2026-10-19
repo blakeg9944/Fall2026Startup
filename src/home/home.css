@@ -1,21 +1,21 @@
 /* ---------- Home page layout ---------- */
 
 .hero {
-  padding: 2rem 1.5rem;
-  margin-bottom: 2rem;
+  padding: var(--space-6) var(--space-5);
+  margin-bottom: var(--space-6);
   text-align: center;
 }
 
 .hero p {
   max-width: 40rem;
-  margin: 0.75rem auto 1.25rem;
+  margin: var(--space-3) auto var(--space-5);
 }
 
 /* One column on phones, search and login side by side on wider screens */
 .home-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: var(--space-5);
   align-items: start;
 }
 
@@ -27,14 +27,14 @@
 
 #search-card h4 {
   font-size: 1rem;
-  margin: 1.5rem 0 0.75rem;
+  margin: var(--space-5) 0 var(--space-3);
 }
 
 .list-group-item {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0.25rem 1rem;
+  gap: var(--space-1) var(--space-4);
 }
 
 .list-group-item .address {
@@ -85,6 +85,6 @@
 /* Tighter hero on small phones */
 @media (max-width: 575.98px) {
   .hero {
-    padding: 1.5rem 1rem;
+    padding: var(--space-5) var(--space-4);
   }
 }

@@ -29,6 +29,16 @@
   --gg-on-dark: rgba(255, 255, 255, 0.85);
   --gg-on-dark-hover: rgba(255, 255, 255, 0.12);
 
+  /* Spacing scale. Every gap, margin, and padding uses one of these steps
+     so spacing stays consistent from page to page. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
   --gg-radius: 0.75rem;
   --gg-shadow: 0 2px 10px color-mix(in srgb, var(--gg-green-dark) 8%, transparent);
   --gg-shadow-hover: 0 4px 18px color-mix(in srgb, var(--gg-green-dark) 12%, transparent);
@@ -84,8 +94,8 @@ img {
 
 main {
   flex: 1;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-7);
 }
 
 /* ---------- Header and navigation ---------- */
@@ -101,7 +111,7 @@ header .navbar-brand h1 {
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 /* Inline SVG logo, hidden from screen readers since the name follows it */
@@ -123,7 +133,7 @@ header .navbar-brand h1 {
 header .nav-link {
   color: var(--gg-on-dark);
   border-radius: 0.5rem;
-  padding: 0.4rem 0.8rem !important;
+  padding: var(--space-2) var(--space-3) !important;
 }
 
 header .nav-link:hover,
@@ -139,7 +149,7 @@ header .nav-link.active {
 
 header .welcome {
   color: var(--gg-on-dark);
-  margin: 0.5rem 0;
+  margin: var(--space-2) 0;
 }
 
 #username {
@@ -147,13 +157,13 @@ header .welcome {
   background-color: var(--gg-green-light);
   color: var(--gg-green-dark);
   font-weight: 600;
-  padding: 0.1rem 0.6rem;
+  padding: var(--space-1) var(--space-3);
   border-radius: 999px;
 }
 
 header .logout-link {
   color: var(--gg-on-dark);
-  margin-left: 0.75rem;
+  margin-left: var(--space-3);
   font-size: 0.9rem;
 }
 
@@ -173,7 +183,7 @@ header .logout-link:focus-visible {
 footer {
   background-color: var(--gg-green-dark);
   color: var(--gg-on-dark);
-  padding: 1.25rem 0;
+  padding: var(--space-5) 0;
 }
 
 footer .footer-inner {
@@ -181,7 +191,7 @@ footer .footer-inner {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 footer p {
@@ -201,20 +211,20 @@ footer a:hover {
 .gg-card {
   background-color: #fff;
   border-radius: var(--gg-radius);
-  padding: 1.5rem;
+  padding: var(--space-5);
 }
 
 .placeholder-note {
   color: var(--gg-muted);
   font-size: 0.875rem;
   font-style: italic;
-  margin: 0.75rem 0 0;
+  margin: var(--space-3) 0 0;
 }
 
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 /* ---------- Colors and details ---------- */
@@ -268,7 +278,7 @@ footer a:hover {
 /* ---------- Shared page pieces: intros, tables, and live feeds ---------- */
 
 .page-intro {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-5);
 }
 
 .page-intro p {
@@ -297,7 +307,7 @@ footer a:hover {
 }
 
 .live-feed li {
-  padding: 0.6rem 0;
+  padding: var(--space-3) 0;
   border-bottom: 1px solid var(--gg-border);
 }
 
@@ -310,7 +320,7 @@ footer a:hover {
 .rating-badge {
   display: inline-block;
   min-width: 4.5rem;
-  padding: 0.25rem 0.65rem;
+  padding: var(--space-1) var(--space-3);
   border-radius: 999px;
   font-weight: 600;
   font-size: 0.875rem;
@@ -352,7 +362,7 @@ footer a:hover {
 .live-feed li {
   display: flex;
   align-items: flex-start;
-  gap: 0.6rem;
+  gap: var(--space-2);
 }
 
 /* When something happened, shown on its own line under the event */
@@ -368,7 +378,8 @@ footer a:hover {
   width: 0.6rem;
   height: 0.6rem;
   border-radius: 50%;
-  margin-top: 0.45rem;
+  /* Centers the dot on the first line of text */
+  margin-top: calc((1lh - 0.6rem) / 2);
   background-color: var(--gg-safe);
   animation: pulse 2s ease-in-out infinite;
 }
@@ -432,10 +443,10 @@ button:focus-visible,
 /* Tighter spacing on small phones (heading sizes scale on their own with clamp) */
 @media (max-width: 575.98px) {
   main {
-    padding-top: 1.25rem;
+    padding-top: var(--space-5);
   }
 
   .gg-card {
-    padding: 1.1rem;
+    padding: var(--space-4);
   }
 }
