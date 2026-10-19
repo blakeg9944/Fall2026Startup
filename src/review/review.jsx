@@ -9,7 +9,7 @@ export function Review() {
       <div className="page-intro">
         <h2>Write a review</h2>
         <p>
-          Reviewing <strong>Black Sheep Cafe</strong> &mdash; 19 N University Ave, Provo UT
+          Reviewing <strong>Black Sheep Cafe</strong> at 19 N University Ave, Provo UT
         </p>
         <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
       </div>

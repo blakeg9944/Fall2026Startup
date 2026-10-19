@@ -9,7 +9,7 @@
     'map'
     'feed'
     'list';
-  gap: 1.5rem;
+  gap: var(--space-5);
 }
 
 #map {
