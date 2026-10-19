@@ -88,3 +88,8 @@
     padding: var(--space-5) var(--space-4);
   }
 }
+
+.search-hint {
+  color: var(--gg-muted);
+  font-size: 0.9rem;
+}

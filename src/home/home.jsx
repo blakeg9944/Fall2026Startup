@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { login, createAccount } from '../data/userStore';
+import { searchPlaces } from '../data/places';
 import './home.css';
 
 export function Home({ userName, onLogin, onLogout }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
+  const [query, setQuery] = React.useState('');
+
+  // The results are worked out from query on every render, so they never get out of step with the input.
+  // That needs no useEffect while the search is a synchronous mock. The real Google Places call will be async.
+  const results = searchPlaces(query);
 
   // Login and Create Account share the same steps. Only the store function they call is different.
   function submitAccount(action) {
@@ -33,34 +39,32 @@ export function Home({ userName, onLogin, onLogout }) {
       <div className="home-grid">
         <section className="gg-card" id="search-card">
           <h3>Find a restaurant</h3>
-          <form method="get" action="/restaurant">
+          {/* Results update on every keystroke, so submitting only needs to stop the page from reloading */}
+          <form onSubmit={(e) => e.preventDefault()}>
             <label htmlFor="search" className="form-label">
               Restaurant name or address
             </label>
             <div className="input-group">
-              <input type="search" className="form-control" id="search" name="search" placeholder="Search restaurants near you" />
+              <input type="search" className="form-control" id="search" name="search" placeholder="Search restaurants near you" value={query} onChange={(e) => setQuery(e.target.value)} />
               <button type="submit" className="btn btn-success">
                 Search
               </button>
             </div>
           </form>
 
-          {/* Placeholder: results come from the Google Places API as the user types */}
           <h4>Search results</h4>
-          <div className="list-group">
-            <Link className="list-group-item list-group-item-action" to="/restaurant">
-              <strong>Rockwell Ice Cream Co.</strong>
-              <span className="address">165 N University Ave, Provo UT</span>
-            </Link>
-            <Link className="list-group-item list-group-item-action" to="/restaurant">
-              <strong>Black Sheep Cafe</strong>
-              <span className="address">19 N University Ave, Provo UT</span>
-            </Link>
-            <Link className="list-group-item list-group-item-action" to="/restaurant">
-              <strong>Communal Restaurant</strong>
-              <span className="address">102 N University Ave, Provo UT</span>
-            </Link>
-          </div>
+          {!query.trim() && <p className="search-hint">Start typing a restaurant name or address.</p>}
+          {query.trim() && results.length === 0 && <p className="search-hint">No restaurants match "{query.trim()}".</p>}
+          {results.length > 0 && (
+            <div className="list-group">
+              {results.map((place) => (
+                <Link key={place.id} className="list-group-item list-group-item-action" to="/restaurant">
+                  <strong>{place.name}</strong>
+                  <span className="address">{place.address}</span>
+                </Link>
+              ))}
+            </div>
+          )}
           <p className="placeholder-note">Restaurant names and addresses are supplied by the Google Places API.</p>
         </section>
 
