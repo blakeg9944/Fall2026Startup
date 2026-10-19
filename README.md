@@ -135,9 +135,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). *In progress.* Simon React P2 is deployed to [simon.glutenguard.click](https://simon.glutenguard.click), and the GitHub link is in the home page hero and every page's footer. I am committing one feature at a time across several days. What I learned so far is in the React P2 sections of [notes.md](notes.md).
+- [ ] **All functionality implemented or mocked out** - *In progress.* Done so far is the foundation the pages will use. Nothing that needs a backend calls one. Everything is mocked in the browser:
+  - **Seed data** (`src/data/mockData.js`): the restaurants and about ten reviews that used to be hardcoded in the pages.
+  - **Review storage** (`src/data/reviewStore.js`): the reviews are kept in `localStorage`, with `getReviews`, `addReview`, `updateReview`, and `deleteReview`. The seed reviews are loaded the first time. This stands in for the review database.
+  - **Mock Google Places** (`src/data/places.js`): `searchPlaces(query)` and `getPlaceDetails(id)` return hardcoded objects shaped like the real Places response. This stands in for the Google Places API.
+  - **Rating and safety summary** (`src/data/stats.js`): `summarize(reviews)` computes the average rating, whether most reviewers agree on each kitchen practice, and the confidence levels. `badgeClass(rating)` picks the safe, caution, or risk color.
+  - **Login state**: `App` keeps the logged in user and shows `Welcome, <name>` (or `guest`) with a Logout link in the header. The login is stored in `localStorage` until the service handles authentication.
+  - **Still to do:** working login and create account, search as you type, restaurant ids in the routes, the restaurant page built from the reviews, the review form, My Reviews with edit and delete, and the Browse table. The live activity feeds will be mocked with `setInterval`.
+- [ ] **Hooks** - *In progress.* So far `useState` holds the logged in user in `App`. It is initialized from `localStorage`, so a refresh keeps the login. The `useEffect` hooks for loading data and the mock live feeds are next.
 
 ## 🚀 Service deliverable
 
