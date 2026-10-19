@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { login, createAccount } from '../data/userStore';
 import './home.css';
 
-export function Home({ onLogin }) {
+export function Home({ userName, onLogin, onLogout }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
@@ -65,42 +65,59 @@ export function Home({ onLogin }) {
         </section>
 
         <section className="gg-card" id="login-card">
-          <h3>Login</h3>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              submitAccount(login);
-            }}
-          >
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input type="email" className="form-control" id="email" name="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input type="password" className="form-control" id="password" name="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-            {error && (
-              <p className="text-danger" role="alert">
-                {error}
+          {userName ? (
+            <>
+              <h3>Welcome back, {userName}</h3>
+              <p>You are logged in. You can write reviews and manage them from My Reviews.</p>
+              <div className="button-row">
+                <Link className="btn btn-success" to="/my-reviews">
+                  My Reviews
+                </Link>
+                <button type="button" className="btn btn-outline-success" onClick={onLogout}>
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3>Login</h3>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  submitAccount(login);
+                }}
+              >
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
+                  <input type="email" className="form-control" id="email" name="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <input type="password" className="form-control" id="password" name="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                {error && (
+                  <p className="text-danger" role="alert">
+                    {error}
+                  </p>
+                )}
+                <div className="button-row">
+                  <button type="submit" className="btn btn-success" disabled={!email || !password}>
+                    Login
+                  </button>
+                  <button type="button" className="btn btn-outline-success" disabled={!email || !password} onClick={() => submitAccount(createAccount)}>
+                    Create Account
+                  </button>
+                </div>
+              </form>
+              <p className="placeholder-note">
+                You can also <Link to="/browse">browse reviews</Link> without an account. Login is only required to submit a review.
               </p>
-            )}
-            <div className="button-row">
-              <button type="submit" className="btn btn-success" disabled={!email || !password}>
-                Login
-              </button>
-              <button type="button" className="btn btn-outline-success" disabled={!email || !password} onClick={() => submitAccount(createAccount)}>
-                Create Account
-              </button>
-            </div>
-          </form>
-          <p className="placeholder-note">
-            You can also <Link to="/browse">browse reviews</Link> without an account. Login is only required to submit a review.
-          </p>
+            </>
+          )}
         </section>
       </div>
     </main>

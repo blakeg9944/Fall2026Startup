@@ -73,7 +73,7 @@ export default function App() {
         </header>
 
         <Routes>
-          <Route path="/" element={<Home userName={userName} onLogin={login} />} />
+          <Route path="/" element={<Home userName={userName} onLogin={login} onLogout={logout} />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/review" element={<Review />} />
