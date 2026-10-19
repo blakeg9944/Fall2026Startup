@@ -37,7 +37,7 @@
 /* ---------- Element selectors ---------- */
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif;
   background-color: var(--gg-cream);
   color: var(--gg-text);
 }

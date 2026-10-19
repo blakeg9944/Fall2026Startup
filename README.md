@@ -96,7 +96,7 @@ For this deliverable I styled the application with Bootstrap and my own `main.cs
   - **Review form:** the form is a flex column, and the four kitchen questions are a grid that becomes two columns at 768px. The confidence chips and the kitchen practice rows wrap with `flex-wrap`.
   - **My Reviews:** `grid-template-areas` puts the user summary and replies side by side at 992px, with the review history below. The review cards are flex columns, so the text, photos, and buttons stack at every width with no sideways scrolling, and the photo row wraps with `flex-wrap`. The summary card is a flex row that wraps the Logout button underneath on phones.
   - **Small phones:** below 576px, card padding and heading sizes shrink.
-- [X] **Use of a imported font** - I import two Google Fonts with a `<link>` in every page's `<head>`. **Inter** is the body font, set on `body`. **Poppins** is used for headings, the GlutenGuard logo, table headers, form section titles, and the confidence levels.
+- [X] **Use of a imported font** - I import two Google Fonts with a `<link>` in every page's `<head>`. **Atkinson Hyperlegible Next** is the body font, set on `body`. It was designed by the Braille Institute to stay readable for low-vision readers, which fits an app about safety information. **Poppins** is used for headings, the GlutenGuard logo, table headers, form section titles, and the confidence levels.
 - [X] **Use of different types of selectors including element, class, ID, and pseudo selectors** - All in `main.css`:
   - **Element:** `body`, `main`, `h1`–`h4`, `a`, `img`, `header`, `footer`.
   - **Class:** `.gg-card`, `.hero`, `.rating-badge`, `.safe`, `.caution`, `.risk`, `.live-feed`, `.practice-list`, `.confidence`, `.placeholder-note`, `.photo-row`.
