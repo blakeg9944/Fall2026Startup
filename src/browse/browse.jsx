@@ -89,9 +89,24 @@ export function Browse() {
           <h3>Recent activity</h3>
           {/* Placeholder: pushed over a WebSocket as users post reviews anywhere in the app */}
           <ul className="live-feed">
-            <li>celiac_sarah reviewed Black Sheep Cafe &mdash; a moment ago</li>
-            <li>provo_foodie reviewed Guru's Cafe &mdash; 4 minutes ago</li>
-            <li>mtn_biker_dave reviewed Communal Restaurant &mdash; 11 minutes ago</li>
+            <li>
+              <span>
+                celiac_sarah reviewed Black Sheep Cafe
+                <time className="feed-time">a moment ago</time>
+              </span>
+            </li>
+            <li>
+              <span>
+                provo_foodie reviewed Guru's Cafe
+                <time className="feed-time">4 minutes ago</time>
+              </span>
+            </li>
+            <li>
+              <span>
+                mtn_biker_dave reviewed Communal Restaurant
+                <time className="feed-time">11 minutes ago</time>
+              </span>
+            </li>
           </ul>
           <p className="placeholder-note">New reviews appear here in real time over a WebSocket.</p>
         </section>

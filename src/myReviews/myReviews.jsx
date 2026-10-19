@@ -32,8 +32,18 @@ export function MyReviews() {
           <h3>Replies to your reviews</h3>
           {/* Placeholder: pushed over a WebSocket when someone interacts with this user's reviews */}
           <ul className="live-feed">
-            <li>2 people marked your Black Sheep Cafe review helpful &mdash; a moment ago</li>
-            <li>Black Sheep Cafe average rating changed to 4.2 / 5 &mdash; 6 minutes ago</li>
+            <li>
+              <span>
+                2 people marked your Black Sheep Cafe review helpful
+                <time className="feed-time">a moment ago</time>
+              </span>
+            </li>
+            <li>
+              <span>
+                Black Sheep Cafe average rating changed to 4.2 / 5
+                <time className="feed-time">6 minutes ago</time>
+              </span>
+            </li>
           </ul>
           <p className="placeholder-note">These notifications arrive in real time over a WebSocket.</p>
         </section>

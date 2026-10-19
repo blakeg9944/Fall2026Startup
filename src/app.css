@@ -355,6 +355,13 @@ footer a:hover {
   gap: 0.6rem;
 }
 
+/* When something happened, shown on its own line under the event */
+.feed-time {
+  display: block;
+  color: var(--gg-muted);
+  font-size: 0.85rem;
+}
+
 .live-feed li::before {
   content: '';
   flex-shrink: 0;

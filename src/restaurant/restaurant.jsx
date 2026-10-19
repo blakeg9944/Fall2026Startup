@@ -8,7 +8,7 @@ export function Restaurant() {
       {/* Placeholder: name, address, and hours come from the Google Places API */}
       <div className="page-intro">
         <h2>Black Sheep Cafe</h2>
-        <p>19 N University Ave, Provo UT &mdash; Open until 9:00 PM</p>
+        <p>19 N University Ave, Provo UT. Open until 9:00 PM.</p>
       </div>
 
       <div className="restaurant-grid">
@@ -49,9 +49,24 @@ export function Restaurant() {
             <strong>7 people</strong> are viewing this restaurant right now.
           </p>
           <ul className="live-feed">
-            <li>celiac_sarah just posted a 5 / 5 review &mdash; a moment ago</li>
-            <li>Average rating updated to 4.2 / 5 &mdash; a moment ago</li>
-            <li>provo_foodie is writing a review &mdash; 2 minutes ago</li>
+            <li>
+              <span>
+                celiac_sarah posted a 5 / 5 review
+                <time className="feed-time">a moment ago</time>
+              </span>
+            </li>
+            <li>
+              <span>
+                Average rating updated to 4.2 / 5
+                <time className="feed-time">a moment ago</time>
+              </span>
+            </li>
+            <li>
+              <span>
+                provo_foodie started writing a review
+                <time className="feed-time">2 minutes ago</time>
+              </span>
+            </li>
           </ul>
           <p className="placeholder-note">This feed updates in real time over a WebSocket as other users view and review this restaurant.</p>
         </section>
