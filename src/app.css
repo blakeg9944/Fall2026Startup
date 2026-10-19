@@ -151,6 +151,17 @@ header .welcome {
   border-radius: 999px;
 }
 
+header .logout-link {
+  color: var(--gg-on-dark);
+  margin-left: 0.75rem;
+  font-size: 0.9rem;
+}
+
+header .logout-link:hover,
+header .logout-link:focus-visible {
+  color: #fff;
+}
+
 @media (min-width: 768px) {
   header .welcome {
     margin: 0;

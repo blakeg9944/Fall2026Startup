@@ -10,6 +10,14 @@ import { Review } from './review/review';
 import { MyReviews } from './myReviews/myReviews';
 
 export default function App() {
+  // The logged in user is kept in localStorage until the service handles authentication
+  const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+
+  function logout() {
+    localStorage.removeItem('userName');
+    setUserName('');
+  }
+
   return (
     <BrowserRouter>
       <div className="app">
@@ -47,7 +55,12 @@ export default function App() {
                   </li>
                 </ul>
                 <p className="welcome">
-                  Welcome, <span id="username">guest</span>
+                  Welcome, <span id="username">{userName || 'guest'}</span>
+                  {userName && (
+                    <Link className="logout-link" to="/" onClick={logout}>
+                      Logout
+                    </Link>
+                  )}
                 </p>
               </div>
             </div>
