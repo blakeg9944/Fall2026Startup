@@ -104,3 +104,30 @@ Interesting things I have learned about React
 - `npm run build` prints `"use client"` warnings from React Router. Those are for server rendering frameworks and are safe to ignore.
 - The production server already sends `index.html` for unknown paths, so refreshing on `/browse` still loads the app instead of a 404.
 - Deploying: `./deployReact.sh -k keys/default.pem -h glutenguard.click -s startup` replaces the old `deployFiles.sh`. It runs `npm install` and `npm run build`, then copies only the `dist/` bundle to the server, so source files, notes, and keys never get uploaded.
+
+### Simon React P2: Reactivity
+
+- `useState` holds values that change over time. Calling the setter (`setQuote(...)`) re-renders the component. Changing a normal variable does nothing visible.
+- `useEffect(fn, [])` runs once, after the first render. That's where loading data goes (About will `fetch` the image and quote later; Scores reads `localStorage`). A dependency list like `[sequence]` re-runs the effect whenever that value changes. With no list at all it runs after every render.
+- State updates aren't immediate. In `SimonGame`, `setSequence(newSequence)` doesn't change `sequence` until the next render, so the code that plays the sequence lives in a `useEffect` that depends on `[sequence]`.
+- Lifting state up: `App` owns `userName` and `authState` because the nav menu needs them too. `Login` and its children can't change them directly. They call `onAuthChange(...)`, a function `App` passed down as a prop. On refresh, `App` starts with `localStorage.getItem('userName')`, so the login sticks.
+- Conditional rendering is just `{authState === AuthState.Authenticated && <Authenticated />}`. The nav links for Play and Scores show up the same way.
+- Refs let a parent call into a child. `SimonButton` uses `forwardRef` and `useImperativeHandle` to expose a `press()` method, and `SimonGame` calls it to play the sequence back on its own.
+- Lists are built by looping and returning JSX (`<tr key={i}>`). Every item in a list needs a unique `key`.
+- Controlled inputs: `<input value={userName} onChange={(e) => setUserName(e.target.value)} />`. React state is the source of truth, and the Login button uses `disabled={!userName || !password}`.
+- An effect that subscribes to something must return a cleanup function, or the subscription stays after the component is gone. `Players` adds a handler to `GameNotifier` and removes it on unmount.
+- Bugs I found and fixed in the example code:
+  - `removeHandler` called `this.handlers.filter(...)` and threw the result away, because `filter` returns a new array. So handlers piled up each time I left and came back to Play, and every message showed twice, then three times.
+  - `slice(1, 10)` on a list with the newest item first dropped the newest message. It should be `slice(0, 10)`.
+- With `[]` as the dependency list, an effect keeps the state values from the first render. So `Players` updates with `setEvent((prev) => [event, ...prev])`. Reading `events` directly there would always see an empty list.
+- The mocks (`setInterval` fake scores in `GameNotifier`, `localStorage` for scores and login) are shaped like the real calls, so swapping in `fetch` and WebSocket later only changes the inside of the functions.
+- Live at https://simon.glutenguard.click, deployed with `./deployReact.sh -k keys/default.pem -h glutenguard.click -s simon`.
+
+### GlutenGuard React P2 (in progress)
+
+- One data layer in `src/data/` so the components never touch seed data or `localStorage` directly: `mockData.js` (seed restaurants and reviews), `reviewStore.js` (`getReviews`, `addReview`, `updateReview`, `deleteReview`), `places.js` (mock Google Places `searchPlaces` and `getPlaceDetails`), and `stats.js` (`summarize`, `badgeClass`). Each function is shaped like the real service call, so later only the inside changes.
+- `localStorage` only stores strings, so the review list goes in with `JSON.stringify` and comes out with `JSON.parse`. The first `getReviews()` call finds nothing, saves the seed reviews, and returns them. If the stored JSON is corrupted, the `try/catch` falls back to reseeding instead of crashing the app.
+- New review ids come from `crypto.randomUUID()`. The date uses `toLocaleDateString('en-CA')` because that formats as `YYYY-MM-DD` in the user's own time zone. `toISOString()` is UTC and can be a day ahead in the evening.
+- A review's rating is the average of the celiac and sensitive confidence answers, so the form doesn't need a separate star field.
+- `summarize()` ignores "unsure" answers for kitchen practices, since they say nothing about the kitchen. It labels a practice "Yes" at 75% or more agreement, "Usually" at 50% or more, and "No" below that.
+- `App` owns `userName` with `useState(localStorage.getItem('userName') || '')`. The initial value is read once on the first render, so a refresh keeps the login. The header shows `userName || 'guest'`, and Logout clears both `localStorage` and the state. Pages will get `userName` and the login/logout handlers as props.
