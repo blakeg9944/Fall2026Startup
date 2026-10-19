@@ -1,8 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { login, createAccount } from '../data/userStore';
 import './home.css';
 
-export function Home() {
+export function Home({ onLogin }) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+
+  // Login and Create Account share the same steps. Only the store function they call is different.
+  function submitAccount(action) {
+    const result = action(email, password);
+    if (result.error) {
+      setError(result.error);
+    } else {
+      setError('');
+      setPassword('');
+      onLogin(result.userName);
+    }
+  }
+
   return (
     <main className="container">
       <div className="hero">
@@ -49,24 +66,34 @@ export function Home() {
 
         <section className="gg-card" id="login-card">
           <h3>Login</h3>
-          <form method="get" action="/browse">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submitAccount(login);
+            }}
+          >
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
                 Email
               </label>
-              <input type="email" className="form-control" id="email" name="email" placeholder="you@example.com" required />
+              <input type="email" className="form-control" id="email" name="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
                 Password
               </label>
-              <input type="password" className="form-control" id="password" name="password" placeholder="password" required />
+              <input type="password" className="form-control" id="password" name="password" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
+            {error && (
+              <p className="text-danger" role="alert">
+                {error}
+              </p>
+            )}
             <div className="button-row">
-              <button type="submit" className="btn btn-success">
+              <button type="submit" className="btn btn-success" disabled={!email || !password}>
                 Login
               </button>
-              <button type="submit" className="btn btn-outline-success">
+              <button type="button" className="btn btn-outline-success" disabled={!email || !password} onClick={() => submitAccount(createAccount)}>
                 Create Account
               </button>
             </div>

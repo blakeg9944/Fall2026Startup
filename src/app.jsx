@@ -13,6 +13,11 @@ export default function App() {
   // The logged in user is kept in localStorage until the service handles authentication
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
 
+  function login(name) {
+    localStorage.setItem('userName', name);
+    setUserName(name);
+  }
+
   function logout() {
     localStorage.removeItem('userName');
     setUserName('');
@@ -68,7 +73,7 @@ export default function App() {
         </header>
 
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home userName={userName} onLogin={login} />} />
           <Route path="/browse" element={<Browse />} />
           <Route path="/restaurant" element={<Restaurant />} />
           <Route path="/review" element={<Review />} />
