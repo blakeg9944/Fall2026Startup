@@ -2,10 +2,19 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
 import { getReviewsForRestaurant } from '../data/reviewStore';
-import { badgeClass, formatRating, reviewRating } from '../data/stats';
+import { badgeClass, formatRating, reviewRating, summarize } from '../data/stats';
 import './restaurant.css';
 
 const answerLabels = { yes: 'Yes', no: 'No', unsure: 'Unsure' };
+
+// Which summary field goes with each row of the safety profile
+const practiceRows = [
+  { key: 'fryer', label: 'Separate fryer' },
+  { key: 'grill', label: 'Separate grill' },
+  { key: 'prep', label: 'Separate prep surface' },
+  { key: 'menu', label: 'Dedicated gluten-free menu' },
+  { key: 'staff', label: 'Staff trained on celiac safety' },
+];
 
 export function Restaurant() {
   const { id } = useParams();
@@ -18,6 +27,9 @@ export function Restaurant() {
     setPlace(getPlaceDetails(id));
     setReviews(getReviewsForRestaurant(id));
   }, [id]);
+
+  // Worked out from the reviews on every render, so it is always in step with the table
+  const summary = summarize(reviews);
 
   if (place === undefined) {
     return <main className="container" />;
@@ -49,27 +61,46 @@ export function Restaurant() {
       <div className="restaurant-grid">
         <section className="gg-card" id="safety-profile">
           <h3>Gluten-free safety profile</h3>
-          {/* Placeholder: these numbers are aggregated from all reviews in the database */}
           <div className="rating-summary">
-            <span className="rating-badge safe">4.2 / 5</span>
-            <p>
-              Cross-contamination rating from <strong>38 reviews</strong>
-            </p>
+            {summary.rating === null ? (
+              <p>No reviews yet, so there is no rating.</p>
+            ) : (
+              <>
+                <span className={`rating-badge ${badgeClass(summary.rating)}`}>{formatRating(summary.rating)}</span>
+                <p>
+                  Cross-contamination rating from{' '}
+                  <strong>
+                    {summary.count} {summary.count === 1 ? 'review' : 'reviews'}
+                  </strong>
+                </p>
+              </>
+            )}
           </div>
           <ul className="practice-list">
-            <li className="practice-yes"><span><span className="practice-icon" aria-hidden="true"></span>Separate fryer</span> <span><strong className="answer-yes">Yes</strong> (34 of 38 agree)</span></li>
-            <li className="practice-yes"><span><span className="practice-icon" aria-hidden="true"></span>Separate grill or prep surface</span> <span><strong className="answer-yes">Yes</strong> (30 of 38 agree)</span></li>
-            <li className="practice-yes"><span><span className="practice-icon" aria-hidden="true"></span>Dedicated gluten-free menu</span> <span><strong className="answer-yes">Yes</strong></span></li>
-            <li className="practice-partial"><span><span className="practice-icon" aria-hidden="true"></span>Staff trained on celiac safety</span> <span><strong className="answer-partial">Usually</strong></span></li>
+            {practiceRows.map(({ key, label }) => {
+              const practice = summary[key];
+              return (
+                <li key={key} className={`practice-${practice.level}`}>
+                  <span>
+                    <span className="practice-icon" aria-hidden="true"></span>
+                    {label}
+                  </span>{' '}
+                  <span>
+                    <strong className={`answer-${practice.level === 'unknown' ? 'unsure' : practice.level}`}>{practice.label}</strong>
+                    {practice.total > 0 && ` (${practice.agree} of ${practice.total} agree)`}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
           <div className="confidence-row">
-            <div className="confidence high">
+            <div className={`confidence ${summary.celiac.level}`}>
               <span className="confidence-label">Celiac confidence</span>
-              <strong>High</strong>
+              <strong>{summary.celiac.label}</strong>
             </div>
-            <div className="confidence high">
+            <div className={`confidence ${summary.sensitive.level}`}>
               <span className="confidence-label">Gluten-sensitive confidence</span>
-              <strong>High</strong>
+              <strong>{summary.sensitive.label}</strong>
             </div>
           </div>
           <Link className="btn btn-success" to={`/review/${place.id}`}>

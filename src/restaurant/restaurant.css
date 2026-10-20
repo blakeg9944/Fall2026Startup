@@ -107,6 +107,11 @@
   color: var(--gg-risk);
 }
 
+.practice-unknown .practice-icon::before {
+  content: '?';
+  color: var(--gg-muted);
+}
+
 .answer-partial {
   color: var(--gg-caution-dark);
   font-weight: 600;
@@ -138,6 +143,18 @@
 
 .confidence.high strong {
   color: var(--gg-safe);
+}
+
+.confidence.medium strong {
+  color: var(--gg-caution-dark);
+}
+
+.confidence.low strong {
+  color: var(--gg-risk);
+}
+
+.confidence.unknown strong {
+  color: var(--gg-muted);
 }
 
 .viewer-count {
