@@ -1,14 +1,49 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getPlaceDetails } from '../data/places';
+import { getReviewsForRestaurant } from '../data/reviewStore';
+import { badgeClass, formatRating, reviewRating } from '../data/stats';
 import './restaurant.css';
 
+const answerLabels = { yes: 'Yes', no: 'No', unsure: 'Unsure' };
+
 export function Restaurant() {
+  const { id } = useParams();
+  // undefined means still loading, null means the id doesn't match any restaurant
+  const [place, setPlace] = React.useState(undefined);
+  const [reviews, setReviews] = React.useState([]);
+
+  // Runs after the first render and again whenever the id in the URL changes
+  React.useEffect(() => {
+    setPlace(getPlaceDetails(id));
+    setReviews(getReviewsForRestaurant(id));
+  }, [id]);
+
+  if (place === undefined) {
+    return <main className="container" />;
+  }
+
+  if (place === null) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Restaurant not found</h2>
+          <p>We couldn't find a restaurant with that id.</p>
+          <Link className="btn btn-success" to="/">
+            Search for a restaurant
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
-      {/* Placeholder: name, address, and hours come from the Google Places API */}
       <div className="page-intro">
-        <h2>Black Sheep Cafe</h2>
-        <p>19 N University Ave, Provo UT. Open until 9:00 PM.</p>
+        <h2>{place.name}</h2>
+        <p>
+          {place.address}. {place.hours}.
+        </p>
       </div>
 
       <div className="restaurant-grid">
@@ -37,7 +72,7 @@ export function Restaurant() {
               <strong>High</strong>
             </div>
           </div>
-          <Link className="btn btn-success" to="/review/black-sheep-cafe">
+          <Link className="btn btn-success" to={`/review/${place.id}`}>
             Write a review for this restaurant
           </Link>
         </section>
@@ -73,49 +108,36 @@ export function Restaurant() {
 
         <section className="gg-card" id="reviews">
           <h3>Reviews</h3>
-          {/* Placeholder: every review below is stored in and loaded from the database */}
-          <div className="table-responsive">
-            <table className="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Rating</th>
-                  <th>Separate fryer</th>
-                  <th>Review</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="reviewer">celiac_sarah</td>
-                  <td>
-                    <span className="rating-badge safe">5 / 5</span>
-                  </td>
-                  <td className="answer-yes">Yes</td>
-                  <td className="review-text">Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</td>
-                  <td>2026-09-14</td>
-                </tr>
-                <tr>
-                  <td className="reviewer">mtn_biker_dave</td>
-                  <td>
-                    <span className="rating-badge safe">4 / 5</span>
-                  </td>
-                  <td className="answer-yes">Yes</td>
-                  <td className="review-text">Dedicated GF fryer for the fries. Buns are stored on a separate shelf, but prep counter is shared.</td>
-                  <td>2026-09-09</td>
-                </tr>
-                <tr>
-                  <td className="reviewer">glutenfree_mom3</td>
-                  <td>
-                    <span className="rating-badge caution">3 / 5</span>
-                  </td>
-                  <td className="answer-unsure">Unsure</td>
-                  <td className="review-text">Food was good and I felt fine, but nobody could answer my question about the grill.</td>
-                  <td>2026-08-28</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {reviews.length === 0 ? (
+            <p>No reviews yet. Be the first to write one.</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Rating</th>
+                    <th>Separate fryer</th>
+                    <th>Review</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reviews.map((review) => (
+                    <tr key={review.id}>
+                      <td className="reviewer">{review.userName}</td>
+                      <td>
+                        <span className={`rating-badge ${badgeClass(reviewRating(review))}`}>{formatRating(reviewRating(review))}</span>
+                      </td>
+                      <td className={`answer-${review.fryer}`}>{answerLabels[review.fryer]}</td>
+                      <td className="review-text">{review.comments}</td>
+                      <td>{review.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
           <p className="placeholder-note">Reviews are stored in the database and loaded when this page opens.</p>
         </section>
       </div>
