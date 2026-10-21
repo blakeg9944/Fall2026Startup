@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
+import { addReview } from '../data/reviewStore';
 import './review.css';
 
 const practiceQuestions = [
@@ -37,8 +38,9 @@ function ConfidenceQuestion({ field, question, value, onChange }) {
   );
 }
 
-export function Review() {
+export function Review({ userName }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   // Looked up during render, since the mock lookup is synchronous
   const place = getPlaceDetails(id);
 
@@ -58,6 +60,13 @@ export function Review() {
   // Copies the old form and replaces one field. React needs a new object to notice the change.
   function update(field, value) {
     setForm((previous) => ({ ...previous, [field]: value }));
+  }
+
+  function submit(e) {
+    e.preventDefault();
+    // The store adds the review's id and date. Photos are not saved yet.
+    addReview({ restaurantId: place.id, userName, ...form, photos: [] });
+    navigate(`/restaurant/${place.id}`);
   }
 
   if (!place) {
@@ -84,8 +93,7 @@ export function Review() {
         <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
       </div>
 
-      {/* Saving the review comes in the next step. For now submitting only stops the page from reloading. */}
-      <form onSubmit={(e) => e.preventDefault()} className="review-form">
+      <form onSubmit={submit} className="review-form">
         <fieldset className="gg-card">
           <legend>Kitchen practices</legend>
           <div className="question-grid">
