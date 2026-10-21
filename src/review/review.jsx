@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
-import { addReview } from '../data/reviewStore';
+import { addReview, getReview, updateReview } from '../data/reviewStore';
 import './review.css';
 
 const practiceQuestions = [
@@ -41,6 +41,9 @@ function ConfidenceQuestion({ field, question, value, onChange }) {
 export function Review({ userName }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  // /review/:id?edit=<reviewId> edits an existing review instead of writing a new one
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get('edit');
   // Looked up during render, since the mock lookup is synchronous
   const place = getPlaceDetails(id);
 
@@ -62,11 +65,30 @@ export function Review({ userName }) {
     setForm((previous) => ({ ...previous, [field]: value }));
   }
 
+  // Fill the form with the saved review once, and again if the review being edited changes
+  React.useEffect(() => {
+    const saved = editId ? getReview(editId) : null;
+    if (saved) {
+      const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = saved;
+      setForm({ fryer, grill, prep, menu, celiac, sensitive, staff, comments });
+    }
+  }, [editId]);
+
+  // Only the author can edit a review, and only from its own restaurant's URL
+  const existing = editId ? getReview(editId) : null;
+  const canEdit = existing && place && existing.userName === userName && existing.restaurantId === place.id;
+
   function submit(e) {
     e.preventDefault();
-    // The store adds the review's id and date. Photos are not saved yet.
-    addReview({ restaurantId: place.id, userName, ...form, photos: [] });
-    navigate(`/restaurant/${place.id}`);
+    if (editId) {
+      // The id, date, and photos stay as they were
+      updateReview(editId, form);
+      navigate('/my-reviews');
+    } else {
+      // The store adds the review's id and date. Photos are not saved yet.
+      addReview({ restaurantId: place.id, userName, ...form, photos: [] });
+      navigate(`/restaurant/${place.id}`);
+    }
   }
 
   if (!place) {
@@ -102,12 +124,26 @@ export function Review({ userName }) {
     );
   }
 
+  if (editId && !canEdit) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Review not found</h2>
+          <p>That review doesn't exist, or it belongs to someone else.</p>
+          <Link className="btn btn-success" to="/my-reviews">
+            Back to My Reviews
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
       <div className="page-intro">
-        <h2>Write a review</h2>
+        <h2>{editId ? 'Edit your review' : 'Write a review'}</h2>
         <p>
-          Reviewing <strong>{place.name}</strong> at {place.address}
+          {editId ? 'Editing your review of' : 'Reviewing'} <strong>{place.name}</strong> at {place.address}
         </p>
         <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
       </div>
@@ -163,9 +199,9 @@ export function Review({ userName }) {
 
         <div className="button-row">
           <button type="submit" className="btn btn-success" disabled={!form.celiac || !form.sensitive}>
-            Submit review
+            {editId ? 'Save changes' : 'Submit review'}
           </button>
-          <Link className="btn btn-outline-secondary" to={`/restaurant/${place.id}`}>
+          <Link className="btn btn-outline-secondary" to={editId ? '/my-reviews' : `/restaurant/${place.id}`}>
             Cancel
           </Link>
         </div>
