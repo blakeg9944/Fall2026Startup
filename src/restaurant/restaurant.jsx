@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
 import { getReviewsForRestaurant } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating, summarize } from '../data/stats';
+import { timeAgo } from '../timeAgo';
 import './restaurant.css';
 
 const answerLabels = { yes: 'Yes', no: 'No', unsure: 'Unsure' };
@@ -24,13 +25,6 @@ function fakeEvent() {
   const rating = 1 + Math.floor(Math.random() * 5);
   const text = Math.random() < 0.5 ? `${user} started writing a review` : `${user} posted a ${rating} / 5 review`;
   return { id: crypto.randomUUID(), text, time: Date.now() };
-}
-
-function timeAgo(time) {
-  const seconds = Math.round((Date.now() - time) / 1000);
-  if (seconds < 10) return 'a moment ago';
-  if (seconds < 60) return `${seconds} seconds ago`;
-  return `${Math.floor(seconds / 60)} minutes ago`;
 }
 
 export function Restaurant({ userName }) {

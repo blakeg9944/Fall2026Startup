@@ -3,15 +3,40 @@ import { Link } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
 import { deleteReview, getReviewsByUser } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating } from '../data/stats';
+import { timeAgo } from '../timeAgo';
 import './myReviews.css';
+
+// Stands in for a notification arriving over the WebSocket, about one of the user's own reviews
+function fakeNotification(review) {
+  const place = getPlaceDetails(review.restaurantId);
+  const name = place ? place.name : 'a restaurant';
+  const people = 1 + Math.floor(Math.random() * 4);
+  const text = Math.random() < 0.5 ? `${people} ${people === 1 ? 'person' : 'people'} marked your ${name} review helpful` : `Someone replied to your ${name} review`;
+  return { id: crypto.randomUUID(), text, time: Date.now() };
+}
 
 export function MyReviews({ userName, onLogout }) {
   const [reviews, setReviews] = React.useState([]);
+  const [notifications, setNotifications] = React.useState([]);
 
   // Load this user's reviews on mount, and again if someone else logs in
   React.useEffect(() => {
     setReviews(userName ? getReviewsByUser(userName) : []);
   }, [userName]);
+
+  // Mock WebSocket: every few seconds a notification arrives about one of the user's reviews.
+  // It restarts when the list changes, so deleted reviews stop getting notifications.
+  // The cleanup stops the timer when the user leaves the page.
+  React.useEffect(() => {
+    if (reviews.length === 0) {
+      return;
+    }
+    const timer = setInterval(() => {
+      const review = reviews[Math.floor(Math.random() * reviews.length)];
+      setNotifications((previous) => [fakeNotification(review), ...previous].slice(0, 5));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [reviews]);
 
   function remove(review, placeName) {
     if (!window.confirm(`Delete your review of ${placeName}? This can't be undone.`)) {
@@ -62,21 +87,21 @@ export function MyReviews({ userName, onLogout }) {
 
         <section className="gg-card" id="replies">
           <h3>Replies to your reviews</h3>
-          {/* Placeholder: pushed over a WebSocket when someone interacts with this user's reviews */}
-          <ul className="live-feed">
-            <li>
-              <span>
-                2 people marked your Black Sheep Cafe review helpful
-                <time className="feed-time">a moment ago</time>
-              </span>
-            </li>
-            <li>
-              <span>
-                Black Sheep Cafe average rating changed to 4.2 / 5
-                <time className="feed-time">6 minutes ago</time>
-              </span>
-            </li>
-          </ul>
+          {/* Mocked with setInterval until the WebSocket service exists */}
+          {notifications.length === 0 ? (
+            <p className="feed-empty">No notifications yet.</p>
+          ) : (
+            <ul className="live-feed">
+              {notifications.map((notification) => (
+                <li key={notification.id}>
+                  <span>
+                    {notification.text}
+                    <time className="feed-time">{timeAgo(notification.time)}</time>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
           <p className="placeholder-note">These notifications arrive in real time over a WebSocket.</p>
         </section>
 

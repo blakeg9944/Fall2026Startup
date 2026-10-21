@@ -178,8 +178,3 @@
 .restaurant-grid > * {
   min-width: 0;
 }
-
-.feed-empty {
-  color: var(--gg-muted);
-  font-size: 0.9rem;
-}
