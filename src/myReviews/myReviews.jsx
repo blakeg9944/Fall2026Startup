@@ -1,8 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getPlaceDetails } from '../data/places';
+import { getReviewsByUser } from '../data/reviewStore';
+import { badgeClass, formatRating, reviewRating } from '../data/stats';
 import './myReviews.css';
 
-export function MyReviews() {
+export function MyReviews({ userName, onLogout }) {
+  const [reviews, setReviews] = React.useState([]);
+
+  // Load this user's reviews on mount, and again if someone else logs in
+  React.useEffect(() => {
+    setReviews(userName ? getReviewsByUser(userName) : []);
+  }, [userName]);
+
+  if (!userName) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Log in to see your reviews</h2>
+          <p>Your reviews are tied to your account.</p>
+          <Link className="btn btn-success" to="/">
+            Log in
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
       <div className="page-intro">
@@ -11,19 +35,18 @@ export function MyReviews() {
 
       <div className="my-reviews-grid">
         <section className="gg-card" id="user-summary">
-          {/* Placeholder: the logged in user's name comes from the authenticated session */}
           <div className="avatar" aria-hidden="true">
-            C
+            {userName[0].toUpperCase()}
           </div>
           <div className="summary-text">
             <p className="signed-in">
-              Signed in as <strong>celiac_sarah</strong>
+              Signed in as <strong>{userName}</strong>
             </p>
             <p className="review-count">
-              <strong>4</strong> reviews written. Thanks for helping other people eat safely.
+              <strong>{reviews.length}</strong> {reviews.length === 1 ? 'review' : 'reviews'} written. Thanks for helping other people eat safely.
             </p>
           </div>
-          <Link className="btn btn-outline-secondary" to="/">
+          <Link className="btn btn-outline-secondary" to="/" onClick={onLogout}>
             Logout
           </Link>
         </section>
@@ -50,101 +73,46 @@ export function MyReviews() {
 
         <section className="gg-card" id="review-history">
           <h3>Review history</h3>
-          {/* Placeholder: these reviews are read from the database and filtered to this user */}
-          <ul className="review-list">
-            <li className="review-item">
-              <div className="review-head">
-                <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant/backdoor-burger">
-                    Backdoor Burger
-                  </Link>
-                  <time className="review-date" dateTime="2026-09-20">
-                    2026-09-20
-                  </time>
-                </div>
-                <span className="rating-badge safe">4 / 5</span>
-              </div>
-              <p className="review-text">Burger came on a gluten-free bun and the waffle fries and sweet potato fries were both safe. Staff confirmed the fries go in a dedicated fryer.</p>
-              <div className="photo-row">
-                <img src="/images/backdoor-burger-fries.jpg" alt="Basket of waffle fries with two cups of cheese sauce" />
-                <img src="/images/backdoor-burger-burger.jpg" alt="Burger on a gluten-free bun with sweet potato waffle fries and dipping sauce" />
-              </div>
-              <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review/backdoor-burger">
-                  Edit
-                </Link>
-                <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
-                  Delete
-                </Link>
-              </div>
-            </li>
-            <li className="review-item">
-              <div className="review-head">
-                <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant/black-sheep-cafe">
-                    Black Sheep Cafe
-                  </Link>
-                  <time className="review-date" dateTime="2026-09-14">
-                    2026-09-14
-                  </time>
-                </div>
-                <span className="rating-badge safe">5 / 5</span>
-              </div>
-              <p className="review-text">Server knew exactly what celiac means and flagged the order to the kitchen. No reaction at all.</p>
-              <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review/black-sheep-cafe">
-                  Edit
-                </Link>
-                <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
-                  Delete
-                </Link>
-              </div>
-            </li>
-            <li className="review-item">
-              <div className="review-head">
-                <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant/communal-restaurant">
-                    Communal Restaurant
-                  </Link>
-                  <time className="review-date" dateTime="2026-08-30">
-                    2026-08-30
-                  </time>
-                </div>
-                <span className="rating-badge safe">5 / 5</span>
-              </div>
-              <p className="review-text">They keep a dedicated GF prep station and the chef came out to talk through the menu with me.</p>
-              <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review/communal-restaurant">
-                  Edit
-                </Link>
-                <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
-                  Delete
-                </Link>
-              </div>
-            </li>
-            <li className="review-item">
-              <div className="review-head">
-                <div className="review-title">
-                  <Link className="restaurant-link" to="/restaurant/gurus-cafe">
-                    Guru's Cafe
-                  </Link>
-                  <time className="review-date" dateTime="2026-08-12">
-                    2026-08-12
-                  </time>
-                </div>
-                <span className="rating-badge risk">2 / 5</span>
-              </div>
-              <p className="review-text">Shared fryer for everything. Staff were kind but could not answer basic cross-contamination questions.</p>
-              <div className="action-buttons">
-                <Link className="btn btn-sm btn-outline-success" to="/review/gurus-cafe">
-                  Edit
-                </Link>
-                <Link className="btn btn-sm btn-outline-danger" to="/my-reviews">
-                  Delete
-                </Link>
-              </div>
-            </li>
-          </ul>
+          {reviews.length === 0 ? (
+            <p>
+              You haven't written any reviews yet. <Link to="/">Search for a restaurant</Link> to write your first one.
+            </p>
+          ) : (
+            <ul className="review-list">
+              {reviews.map((review) => {
+                const place = getPlaceDetails(review.restaurantId);
+                const rating = reviewRating(review);
+                return (
+                  <li className="review-item" key={review.id}>
+                    <div className="review-head">
+                      <div className="review-title">
+                        <Link className="restaurant-link" to={`/restaurant/${review.restaurantId}`}>
+                          {place ? place.name : review.restaurantId}
+                        </Link>
+                        <time className="review-date" dateTime={review.date}>
+                          {review.date}
+                        </time>
+                      </div>
+                      <span className={`rating-badge ${badgeClass(rating)}`}>{formatRating(rating)}</span>
+                    </div>
+                    <p className="review-text">{review.comments}</p>
+                    {review.photos.length > 0 && (
+                      <div className="photo-row">
+                        {review.photos.map((photo, i) => (
+                          <img key={i} src={photo} alt={`Photo ${i + 1} from your review of ${place ? place.name : 'this restaurant'}`} />
+                        ))}
+                      </div>
+                    )}
+                    <div className="action-buttons">
+                      <Link className="btn btn-sm btn-outline-success" to={`/review/${review.restaurantId}?edit=${review.id}`}>
+                        Edit
+                      </Link>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
           <p className="placeholder-note">Your reviews are stored in the database and can be edited or deleted at any time.</p>
         </section>
       </div>
