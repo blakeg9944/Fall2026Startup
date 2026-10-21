@@ -75,7 +75,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home userName={userName} onLogin={login} onLogout={logout} />} />
           <Route path="/browse" element={<Browse />} />
-          <Route path="/restaurant/:id" element={<Restaurant />} />
+          <Route path="/restaurant/:id" element={<Restaurant userName={userName} />} />
           <Route path="/review/:id" element={<Review userName={userName} />} />
           <Route path="/my-reviews" element={<MyReviews />} />
           <Route path="*" element={<NotFound />} />

@@ -33,7 +33,7 @@ function timeAgo(time) {
   return `${Math.floor(seconds / 60)} minutes ago`;
 }
 
-export function Restaurant() {
+export function Restaurant({ userName }) {
   const { id } = useParams();
   // undefined means still loading, null means the id doesn't match any restaurant
   const [place, setPlace] = React.useState(undefined);
@@ -135,9 +135,15 @@ export function Restaurant() {
               <strong>{summary.sensitive.label}</strong>
             </div>
           </div>
-          <Link className="btn btn-success" to={`/review/${place.id}`}>
-            Write a review for this restaurant
-          </Link>
+          {userName ? (
+            <Link className="btn btn-success" to={`/review/${place.id}`}>
+              Write a review for this restaurant
+            </Link>
+          ) : (
+            <Link className="btn btn-outline-success" to="/">
+              Log in to write a review
+            </Link>
+          )}
         </section>
 
         <section className="gg-card" id="live-activity">

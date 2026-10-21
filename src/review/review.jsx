@@ -83,6 +83,25 @@ export function Review({ userName }) {
     );
   }
 
+  if (!userName) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Log in to write a review</h2>
+          <p>You need an account to review {place.name}. Reading reviews doesn't require one.</p>
+          <div className="button-row">
+            <Link className="btn btn-success" to="/">
+              Log in
+            </Link>
+            <Link className="btn btn-outline-secondary" to={`/restaurant/${place.id}`}>
+              Back to {place.name}
+            </Link>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
       <div className="page-intro">
