@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
-import { getReviewsByUser } from '../data/reviewStore';
+import { deleteReview, getReviewsByUser } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating } from '../data/stats';
 import './myReviews.css';
 
@@ -12,6 +12,15 @@ export function MyReviews({ userName, onLogout }) {
   React.useEffect(() => {
     setReviews(userName ? getReviewsByUser(userName) : []);
   }, [userName]);
+
+  function remove(review, placeName) {
+    if (!window.confirm(`Delete your review of ${placeName}? This can't be undone.`)) {
+      return;
+    }
+    deleteReview(review.id);
+    // Drop it from state too, so the list and the count update without reloading
+    setReviews((previous) => previous.filter((item) => item.id !== review.id));
+  }
 
   if (!userName) {
     return (
@@ -107,6 +116,9 @@ export function MyReviews({ userName, onLogout }) {
                       <Link className="btn btn-sm btn-outline-success" to={`/review/${review.restaurantId}?edit=${review.id}`}>
                         Edit
                       </Link>
+                      <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => remove(review, place ? place.name : 'this restaurant')}>
+                        Delete
+                      </button>
                     </div>
                   </li>
                 );
