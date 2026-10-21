@@ -1,8 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getAllPlaces } from '../data/places';
+import { getReviews } from '../data/reviewStore';
+import { badgeClass, formatRating, summarize } from '../data/stats';
 import './browse.css';
 
 export function Browse() {
+  const [reviews, setReviews] = React.useState([]);
+
+  // Load the reviews once, when the page opens
+  React.useEffect(() => {
+    setReviews(getReviews());
+  }, []);
+
+  // One row per restaurant that has at least one review, best rated first.
+  // Worked out on every render, so a new or deleted review changes the table.
+  const rows = getAllPlaces()
+    .map((place) => ({ place, summary: summarize(reviews.filter((review) => review.restaurantId === place.id)) }))
+    .filter((row) => row.summary.count > 0)
+    .sort((a, b) => b.summary.rating - a.summary.rating);
+
   return (
     <main className="container">
       <div className="page-intro">
@@ -22,66 +39,38 @@ export function Browse() {
 
         <section className="gg-card" id="restaurant-list">
           <h3>Reviewed restaurants</h3>
-          {/* Placeholder: this list is loaded from the database */}
-          <div className="table-responsive">
-            <table className="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>Restaurant</th>
-                  <th>Address</th>
-                  <th>Rating</th>
-                  <th>Reviews</th>
-                  <th>Separate fryer</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <Link to="/restaurant/black-sheep-cafe">Black Sheep Cafe</Link>
-                  </td>
-                  <td>19 N University Ave, Provo UT</td>
-                  <td>
-                    <span className="rating-badge safe">4.2 / 5</span>
-                  </td>
-                  <td>38</td>
-                  <td className="answer-yes">Yes</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link to="/restaurant/communal-restaurant">Communal Restaurant</Link>
-                  </td>
-                  <td>102 N University Ave, Provo UT</td>
-                  <td>
-                    <span className="rating-badge safe">4.8 / 5</span>
-                  </td>
-                  <td>21</td>
-                  <td className="answer-yes">Yes</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link to="/restaurant/rockwell-ice-cream">Rockwell Ice Cream Co.</Link>
-                  </td>
-                  <td>165 N University Ave, Provo UT</td>
-                  <td>
-                    <span className="rating-badge caution">3.6 / 5</span>
-                  </td>
-                  <td>12</td>
-                  <td className="answer-na">N/A</td>
-                </tr>
-                <tr>
-                  <td>
-                    <Link to="/restaurant/gurus-cafe">Guru's Cafe</Link>
-                  </td>
-                  <td>45 E Center St, Provo UT</td>
-                  <td>
-                    <span className="rating-badge risk">2.9 / 5</span>
-                  </td>
-                  <td>17</td>
-                  <td className="answer-no">No</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {rows.length === 0 ? (
+            <p>No restaurants have been reviewed yet.</p>
+          ) : (
+            <div className="table-responsive">
+              <table className="table table-hover align-middle">
+                <thead>
+                  <tr>
+                    <th>Restaurant</th>
+                    <th>Address</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    <th>Separate fryer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map(({ place, summary }) => (
+                    <tr key={place.id}>
+                      <td>
+                        <Link to={`/restaurant/${place.id}`}>{place.name}</Link>
+                      </td>
+                      <td>{place.address}</td>
+                      <td>
+                        <span className={`rating-badge ${badgeClass(summary.rating)}`}>{formatRating(summary.rating)}</span>
+                      </td>
+                      <td>{summary.count}</td>
+                      <td className={`answer-${summary.fryer.level === 'unknown' ? 'na' : summary.fryer.level}`}>{summary.fryer.level === 'unknown' ? 'N/A' : summary.fryer.label}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
           <p className="placeholder-note">Restaurants and their aggregated ratings are stored in the database.</p>
         </section>
 

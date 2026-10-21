@@ -352,6 +352,11 @@ footer a:hover {
   font-weight: 600;
 }
 
+.answer-partial {
+  color: var(--gg-caution-dark);
+  font-weight: 600;
+}
+
 .answer-na,
 .answer-unsure {
   color: var(--gg-muted);

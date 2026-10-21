@@ -112,11 +112,6 @@
   color: var(--gg-muted);
 }
 
-.answer-partial {
-  color: var(--gg-caution-dark);
-  font-weight: 600;
-}
-
 .practice-list li:hover {
   background-color: var(--gg-cream);
 }
