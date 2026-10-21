@@ -1,139 +1,117 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getPlaceDetails } from '../data/places';
 import './review.css';
 
+const practiceQuestions = [
+  { field: 'fryer', label: 'Does the kitchen use a separate fryer?' },
+  { field: 'grill', label: 'Does the kitchen use a separate grill or prep surface?' },
+  { field: 'prep', label: 'Is there a dedicated gluten-free prep area?' },
+  { field: 'menu', label: 'Is there a dedicated gluten-free menu?' },
+];
+
+const confidenceOptions = [
+  { value: 5, label: 'Very confident' },
+  { value: 4, label: 'Mostly confident' },
+  { value: 3, label: 'Neutral' },
+  { value: 2, label: 'Uneasy' },
+  { value: 1, label: 'Would not risk it' },
+];
+
+// A group of radio buttons whose checked state comes from the form instead of the browser
+function ConfidenceQuestion({ field, question, value, onChange }) {
+  return (
+    <>
+      <p className="question">{question}</p>
+      <div className="choice-row">
+        {confidenceOptions.map((option) => (
+          <div className="form-check" key={option.value}>
+            <input className="form-check-input" type="radio" name={field} id={`${field}-${option.value}`} value={option.value} checked={value === option.value} onChange={() => onChange(field, option.value)} />
+            <label className="form-check-label" htmlFor={`${field}-${option.value}`}>
+              {option.label}
+            </label>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 export function Review() {
+  const { id } = useParams();
+  // Looked up during render, since the mock lookup is synchronous
+  const place = getPlaceDetails(id);
+
+  // One object holds every field, so the whole form can be saved as a review later.
+  // Kitchen answers start on "unsure" so a review never claims something the user didn't pick.
+  const [form, setForm] = React.useState({
+    fryer: 'unsure',
+    grill: 'unsure',
+    prep: 'unsure',
+    menu: 'unsure',
+    celiac: null,
+    sensitive: null,
+    staff: false,
+    comments: '',
+  });
+
+  // Copies the old form and replaces one field. React needs a new object to notice the change.
+  function update(field, value) {
+    setForm((previous) => ({ ...previous, [field]: value }));
+  }
+
+  if (!place) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Restaurant not found</h2>
+          <p>We couldn't find a restaurant to review.</p>
+          <Link className="btn btn-success" to="/">
+            Search for a restaurant
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
-      {/* Placeholder: the restaurant being reviewed comes from the Google Places API */}
       <div className="page-intro">
         <h2>Write a review</h2>
         <p>
-          Reviewing <strong>Black Sheep Cafe</strong> at 19 N University Ave, Provo UT
+          Reviewing <strong>{place.name}</strong> at {place.address}
         </p>
         <p>Answer what you can. Even a partial review helps someone decide whether it is safe to eat here.</p>
       </div>
 
-      <form method="get" action="/restaurant" className="review-form">
+      {/* Saving the review comes in the next step. For now submitting only stops the page from reloading. */}
+      <form onSubmit={(e) => e.preventDefault()} className="review-form">
         <fieldset className="gg-card">
           <legend>Kitchen practices</legend>
           <div className="question-grid">
-            <div>
-              <label htmlFor="fryer" className="form-label">
-                Does the kitchen use a separate fryer?
-              </label>
-              <select className="form-select" id="fryer" name="fryer">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure">Unsure</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="grill" className="form-label">
-                Does the kitchen use a separate grill or prep surface?
-              </label>
-              <select className="form-select" id="grill" name="grill">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure">Unsure</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="prep" className="form-label">
-                Is there a dedicated gluten-free prep area?
-              </label>
-              <select className="form-select" id="prep" name="prep">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure">Unsure</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="menu" className="form-label">
-                Is there a dedicated gluten-free menu?
-              </label>
-              <select className="form-select" id="menu" name="menu">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-                <option value="unsure">Unsure</option>
-              </select>
-            </div>
+            {practiceQuestions.map(({ field, label }) => (
+              <div key={field}>
+                <label htmlFor={field} className="form-label">
+                  {label}
+                </label>
+                <select className="form-select" id={field} name={field} value={form[field]} onChange={(e) => update(field, e.target.value)}>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                  <option value="unsure">Unsure</option>
+                </select>
+              </div>
+            ))}
           </div>
         </fieldset>
 
         <fieldset className="gg-card">
           <legend>Confidence</legend>
 
-          <p className="question">How confident would someone with celiac disease feel eating here?</p>
-          <div className="choice-row">
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="celiac" id="celiac-5" value="5" />
-              <label className="form-check-label" htmlFor="celiac-5">
-                Very confident
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="celiac" id="celiac-4" value="4" />
-              <label className="form-check-label" htmlFor="celiac-4">
-                Mostly confident
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="celiac" id="celiac-3" value="3" />
-              <label className="form-check-label" htmlFor="celiac-3">
-                Neutral
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="celiac" id="celiac-2" value="2" />
-              <label className="form-check-label" htmlFor="celiac-2">
-                Uneasy
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="celiac" id="celiac-1" value="1" />
-              <label className="form-check-label" htmlFor="celiac-1">
-                Would not risk it
-              </label>
-            </div>
-          </div>
-
-          <p className="question">How confident would someone who is gluten-sensitive feel eating here?</p>
-          <div className="choice-row">
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="sensitive" id="sensitive-5" value="5" />
-              <label className="form-check-label" htmlFor="sensitive-5">
-                Very confident
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="sensitive" id="sensitive-4" value="4" />
-              <label className="form-check-label" htmlFor="sensitive-4">
-                Mostly confident
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="sensitive" id="sensitive-3" value="3" />
-              <label className="form-check-label" htmlFor="sensitive-3">
-                Neutral
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="sensitive" id="sensitive-2" value="2" />
-              <label className="form-check-label" htmlFor="sensitive-2">
-                Uneasy
-              </label>
-            </div>
-            <div className="form-check">
-              <input className="form-check-input" type="radio" name="sensitive" id="sensitive-1" value="1" />
-              <label className="form-check-label" htmlFor="sensitive-1">
-                Would not risk it
-              </label>
-            </div>
-          </div>
+          <ConfidenceQuestion field="celiac" question="How confident would someone with celiac disease feel eating here?" value={form.celiac} onChange={update} />
+          <ConfidenceQuestion field="sensitive" question="How confident would someone who is gluten-sensitive feel eating here?" value={form.sensitive} onChange={update} />
 
           <div className="form-check form-switch">
-            <input className="form-check-input" type="checkbox" role="switch" id="staff" name="staff" />
+            <input className="form-check-input" type="checkbox" role="switch" id="staff" name="staff" checked={form.staff} onChange={(e) => update('staff', e.target.checked)} />
             <label className="form-check-label" htmlFor="staff">
               Did the staff understand celiac safety?
             </label>
@@ -147,7 +125,7 @@ export function Review() {
             <label htmlFor="comments" className="form-label">
               Tell other diners what happened
             </label>
-            <textarea className="form-control" id="comments" name="comments" rows={6} placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?" />
+            <textarea className="form-control" id="comments" name="comments" rows={6} value={form.comments} onChange={(e) => update('comments', e.target.value)} placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?" />
           </div>
 
           <label htmlFor="photo" className="form-label">
@@ -157,10 +135,10 @@ export function Review() {
         </fieldset>
 
         <div className="button-row">
-          <button type="submit" className="btn btn-success">
+          <button type="submit" className="btn btn-success" disabled={!form.celiac || !form.sensitive}>
             Submit review
           </button>
-          <Link className="btn btn-outline-secondary" to="/restaurant/black-sheep-cafe">
+          <Link className="btn btn-outline-secondary" to={`/restaurant/${place.id}`}>
             Cancel
           </Link>
         </div>
