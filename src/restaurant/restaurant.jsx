@@ -16,16 +16,48 @@ const practiceRows = [
   { key: 'staff', label: 'Staff trained on celiac safety' },
 ];
 
+const fakeUsers = ['provo_foodie', 'celiac_sarah', 'glutenfree_mom3', 'mtn_biker_dave', 'user_42', 'byu_student'];
+
+// Stands in for a message arriving over the WebSocket
+function fakeEvent() {
+  const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+  const rating = 1 + Math.floor(Math.random() * 5);
+  const text = Math.random() < 0.5 ? `${user} started writing a review` : `${user} posted a ${rating} / 5 review`;
+  return { id: crypto.randomUUID(), text, time: Date.now() };
+}
+
+function timeAgo(time) {
+  const seconds = Math.round((Date.now() - time) / 1000);
+  if (seconds < 10) return 'a moment ago';
+  if (seconds < 60) return `${seconds} seconds ago`;
+  return `${Math.floor(seconds / 60)} minutes ago`;
+}
+
 export function Restaurant() {
   const { id } = useParams();
   // undefined means still loading, null means the id doesn't match any restaurant
   const [place, setPlace] = React.useState(undefined);
   const [reviews, setReviews] = React.useState([]);
+  const [viewers, setViewers] = React.useState(7);
+  const [events, setEvents] = React.useState([]);
 
   // Runs after the first render and again whenever the id in the URL changes
   React.useEffect(() => {
     setPlace(getPlaceDetails(id));
     setReviews(getReviewsForRestaurant(id));
+  }, [id]);
+
+  // Mock WebSocket: every few seconds the viewer count drifts and a fake event arrives.
+  // The cleanup function stops the timer when the user leaves or the id changes. Without it,
+  // every visit would leave another interval running and the feed would speed up.
+  React.useEffect(() => {
+    setEvents([]);
+    const timer = setInterval(() => {
+      // The updates take the previous value, because this callback only ever sees the state from the render it was created in
+      setViewers((count) => Math.max(1, count + Math.floor(Math.random() * 3) - 1));
+      setEvents((previous) => [fakeEvent(), ...previous].slice(0, 5));
+    }, 4000);
+    return () => clearInterval(timer);
   }, [id]);
 
   // Worked out from the reviews on every render, so it is always in step with the table
@@ -110,30 +142,24 @@ export function Restaurant() {
 
         <section className="gg-card" id="live-activity">
           <h3>Live activity</h3>
-          {/* Placeholder: everything in this section arrives over a WebSocket connection */}
+          {/* Mocked with setInterval until the WebSocket service exists */}
           <p className="viewer-count">
-            <strong>7 people</strong> are viewing this restaurant right now.
+            <strong>{viewers === 1 ? '1 person is' : `${viewers} people are`}</strong> viewing this restaurant right now.
           </p>
-          <ul className="live-feed">
-            <li>
-              <span>
-                celiac_sarah posted a 5 / 5 review
-                <time className="feed-time">a moment ago</time>
-              </span>
-            </li>
-            <li>
-              <span>
-                Average rating updated to 4.2 / 5
-                <time className="feed-time">a moment ago</time>
-              </span>
-            </li>
-            <li>
-              <span>
-                provo_foodie started writing a review
-                <time className="feed-time">2 minutes ago</time>
-              </span>
-            </li>
-          </ul>
+          {events.length === 0 ? (
+            <p className="feed-empty">Waiting for activity...</p>
+          ) : (
+            <ul className="live-feed">
+              {events.map((event) => (
+                <li key={event.id}>
+                  <span>
+                    {event.text}
+                    <time className="feed-time">{timeAgo(event.time)}</time>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
           <p className="placeholder-note">This feed updates in real time over a WebSocket as other users view and review this restaurant.</p>
         </section>
 
