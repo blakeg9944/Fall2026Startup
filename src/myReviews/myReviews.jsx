@@ -133,7 +133,7 @@ export function MyReviews({ userName, onLogout }) {
                     {review.photos.length > 0 && (
                       <div className="photo-row">
                         {review.photos.map((photo, i) => (
-                          <img key={i} src={photo} alt={`Photo ${i + 1} from your review of ${place ? place.name : 'this restaurant'}`} />
+                          <img key={i} src={photo.src} alt={photo.alt} />
                         ))}
                       </div>
                     )}
