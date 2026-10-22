@@ -169,6 +169,7 @@ export function Restaurant({ userName }) {
             <p>No reviews yet. Be the first to write one.</p>
           ) : (
             <div className="table-responsive">
+              <p className="scroll-hint">Swipe to see more →</p>
               <table className="table table-hover align-middle">
                 <thead>
                   <tr>
