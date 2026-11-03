@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
-const { restaurants } = require('./seedData');
+const { restaurants, seedReviews } = require('./seedData');
 
 const app = express();
 
@@ -10,9 +10,9 @@ const app = express();
 // Each user is { email, userName, password (bcrypt hash), token }
 const users = [];
 
-// Reviews also live in memory until the database exists.
+// Reviews also live in memory until the database exists. They start with the seed reviews.
 // Each review is { id, restaurantId, userName, date, fryer, grill, prep, menu, celiac, sensitive, staff, comments, photos }
-let reviews = [];
+let reviews = [...seedReviews];
 
 const authCookieName = 'token';
 
