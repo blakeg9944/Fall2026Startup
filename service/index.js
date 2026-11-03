@@ -9,6 +9,10 @@ const app = express();
 // Each user is { email, userName, password (bcrypt hash), token }
 const users = [];
 
+// Reviews also live in memory until the database exists.
+// Each review is { id, restaurantId, userName, date, fryer, grill, prep, menu, celiac, sensitive, staff, comments, photos }
+let reviews = [];
+
 const authCookieName = 'token';
 
 // The deployment runs the service on port 4000. A port can be passed on the command line to override it.
@@ -89,6 +93,86 @@ async function verifyAuth(req, res, next) {
 apiRouter.get('/auth/me', verifyAuth, (req, res) => {
   res.send({ userName: req.user.userName });
 });
+
+// Anyone can read reviews. Optional filters: ?restaurantId=... or ?userName=...
+apiRouter.get('/reviews', (req, res) => {
+  const { restaurantId, userName } = req.query;
+  res.send(reviews.filter((review) => (!restaurantId || review.restaurantId === restaurantId) && (!userName || review.userName === userName)));
+});
+
+apiRouter.get('/reviews/:id', (req, res) => {
+  const review = reviews.find((r) => r.id === req.params.id);
+  if (!review) {
+    return res.status(404).send({ msg: 'Review not found' });
+  }
+  res.send(review);
+});
+
+// Writing reviews requires a logged in user. The author comes from the token, never from the request body.
+apiRouter.post('/reviews', verifyAuth, (req, res) => {
+  const fields = pickReviewFields(req.body);
+  if (!fields || !req.body.restaurantId) {
+    return res.status(400).send({ msg: 'Invalid review' });
+  }
+
+  const review = {
+    ...fields,
+    id: uuid.v4(),
+    restaurantId: req.body.restaurantId,
+    userName: req.user.userName,
+    date: today(),
+    photos: [],
+  };
+  reviews.push(review);
+  res.send(review);
+});
+
+// Only the author can edit or delete a review
+apiRouter.put('/reviews/:id', verifyAuth, (req, res) => {
+  const review = reviews.find((r) => r.id === req.params.id);
+  if (!review) {
+    return res.status(404).send({ msg: 'Review not found' });
+  }
+  if (review.userName !== req.user.userName) {
+    return res.status(403).send({ msg: 'You can only edit your own reviews' });
+  }
+  const fields = pickReviewFields(req.body);
+  if (!fields) {
+    return res.status(400).send({ msg: 'Invalid review' });
+  }
+
+  Object.assign(review, fields);
+  res.send(review);
+});
+
+apiRouter.delete('/reviews/:id', verifyAuth, (req, res) => {
+  const review = reviews.find((r) => r.id === req.params.id);
+  if (!review) {
+    return res.status(404).send({ msg: 'Review not found' });
+  }
+  if (review.userName !== req.user.userName) {
+    return res.status(403).send({ msg: 'You can only delete your own reviews' });
+  }
+
+  reviews = reviews.filter((r) => r.id !== review.id);
+  res.status(204).end();
+});
+
+// Copies only the editable fields from a request body, or returns null if any are invalid.
+// This keeps clients from setting things like id, userName, or date themselves.
+function pickReviewFields(body) {
+  const answers = ['yes', 'no', 'unsure'];
+  const scores = [1, 2, 3, 4, 5];
+  const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = body ?? {};
+
+  const valid = [fryer, grill, prep, menu].every((answer) => answers.includes(answer)) && scores.includes(celiac) && scores.includes(sensitive) && typeof staff === 'boolean' && typeof comments === 'string';
+  return valid ? { fryer, grill, prep, menu, celiac, sensitive, staff, comments } : null;
+}
+
+// YYYY-MM-DD in the server's time zone
+function today() {
+  return new Date().toLocaleDateString('en-CA');
+}
 
 async function createUser(email, password) {
   const key = normalize(email);
