@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+const { restaurants } = require('./seedData');
 
 const app = express();
 
@@ -92,6 +93,23 @@ async function verifyAuth(req, res, next) {
 // Tells the frontend who is logged in, so a page refresh can restore the session from the cookie
 apiRouter.get('/auth/me', verifyAuth, (req, res) => {
   res.send({ userName: req.user.userName });
+});
+
+// Mock of the Google Places API. The shape matches what the real API call will return: { id, name, address, hours }.
+// GET /api/places?q=text searches by name or address, and with no q it returns every place.
+apiRouter.get('/places', (req, res) => {
+  const text = (req.query.q ?? '').toString().trim().toLowerCase();
+  // This will be replaced with a Google Places text search
+  res.send(restaurants.filter((place) => !text || place.name.toLowerCase().includes(text) || place.address.toLowerCase().includes(text)));
+});
+
+apiRouter.get('/places/:id', (req, res) => {
+  // This will be replaced with a Google Places details request
+  const place = restaurants.find((p) => p.id === req.params.id);
+  if (!place) {
+    return res.status(404).send({ msg: 'Place not found' });
+  }
+  res.send(place);
 });
 
 // Anyone can read reviews. Optional filters: ?restaurantId=... or ?userName=...
