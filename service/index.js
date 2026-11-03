@@ -74,6 +74,22 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
+// Middleware for endpoints that need a logged in user.
+// It looks up the user that owns the cookie's token and rejects the request if there isn't one.
+async function verifyAuth(req, res, next) {
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (!user) {
+    return res.status(401).send({ msg: 'Unauthorized' });
+  }
+  req.user = user;
+  next();
+}
+
+// Tells the frontend who is logged in, so a page refresh can restore the session from the cookie
+apiRouter.get('/auth/me', verifyAuth, (req, res) => {
+  res.send({ userName: req.user.userName });
+});
+
 async function createUser(email, password) {
   const key = normalize(email);
   const user = {
