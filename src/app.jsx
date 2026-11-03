@@ -8,6 +8,7 @@ import { Browse } from './browse/browse';
 import { Restaurant } from './restaurant/restaurant';
 import { Review } from './review/review';
 import { MyReviews } from './myReviews/myReviews';
+import { logout as logoutRequest } from './data/userStore';
 
 export default function App() {
   // The logged in user is kept in localStorage until the service handles authentication
@@ -19,6 +20,8 @@ export default function App() {
   }
 
   function logout() {
+    // Tell the service to forget the token, then clear the name the frontend is showing
+    logoutRequest();
     localStorage.removeItem('userName');
     setUserName('');
   }

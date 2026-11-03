@@ -15,8 +15,9 @@ export function Home({ userName, onLogin, onLogout }) {
   const results = searchPlaces(query);
 
   // Login and Create Account share the same steps. Only the store function they call is different.
-  function submitAccount(action) {
-    const result = action(email, password);
+  // The store functions call the service, so the result has to be awaited.
+  async function submitAccount(action) {
+    const result = await action(email, password);
     if (result.error) {
       setError(result.error);
     } else {
