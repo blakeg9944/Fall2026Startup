@@ -1,59 +1,64 @@
-import { seedReviews } from './mockData';
+// Reviews are kept by the service. These functions call its review endpoints with fetch.
+// Reading never throws: a failed request gives an empty list (or null), so a page just shows no reviews.
+// Writing throws an Error with the service's message, so the page can show it to the user.
+// The service adds each review's id, author, and date, and checks that only the author edits or deletes it.
 
-// Reviews are kept in localStorage until the database exists.
-// Every function here will be replaced with a call to the review service endpoints.
+export async function getReviews() {
+  return (await readJson('/api/reviews')) ?? [];
+}
 
-const STORAGE_KEY = 'reviews';
+export async function getReviewsForRestaurant(restaurantId) {
+  return newestFirst((await readJson(`/api/reviews?restaurantId=${encodeURIComponent(restaurantId)}`)) ?? []);
+}
 
-export function getReviews() {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch {
-      // Fall through and reseed if the stored value was corrupted
-    }
+export async function getReviewsByUser(userName) {
+  return newestFirst((await readJson(`/api/reviews?userName=${encodeURIComponent(userName)}`)) ?? []);
+}
+
+export async function getReview(id) {
+  return readJson(`/api/reviews/${encodeURIComponent(id)}`);
+}
+
+export async function addReview(review) {
+  return writeJson('/api/reviews', 'POST', review);
+}
+
+export async function updateReview(id, changes) {
+  return writeJson(`/api/reviews/${encodeURIComponent(id)}`, 'PUT', changes);
+}
+
+export async function deleteReview(id) {
+  await writeJson(`/api/reviews/${encodeURIComponent(id)}`, 'DELETE');
+}
+
+async function readJson(url) {
+  try {
+    const response = await fetch(url);
+    return response.ok ? await response.json() : null;
+  } catch {
+    return null;
   }
-  saveReviews(seedReviews);
-  return [...seedReviews];
 }
 
-export function getReviewsForRestaurant(restaurantId) {
-  return newestFirst(getReviews().filter((review) => review.restaurantId === restaurantId));
-}
-
-export function getReviewsByUser(userName) {
-  return newestFirst(getReviews().filter((review) => review.userName === userName));
-}
-
-export function getReview(id) {
-  return getReviews().find((review) => review.id === id);
-}
-
-export function addReview(review) {
-  const newReview = { ...review, id: crypto.randomUUID(), date: today() };
-  saveReviews([...getReviews(), newReview]);
-  return newReview;
-}
-
-export function updateReview(id, changes) {
-  const reviews = getReviews().map((review) => (review.id === id ? { ...review, ...changes, id } : review));
-  saveReviews(reviews);
-}
-
-export function deleteReview(id) {
-  saveReviews(getReviews().filter((review) => review.id !== id));
-}
-
-function saveReviews(reviews) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+async function writeJson(url, method, body) {
+  let response;
+  try {
+    response = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: body && JSON.stringify(body),
+    });
+  } catch {
+    throw new Error('Could not reach the server. Please try again.');
+  }
+  // DELETE answers 204 with no body
+  const result = response.status === 204 ? null : await response.json();
+  if (!response.ok) {
+    throw new Error(result?.msg ?? 'Something went wrong. Please try again.');
+  }
+  return result;
 }
 
 function newestFirst(reviews) {
   return [...reviews].sort((a, b) => b.date.localeCompare(a.date));
-}
-
-// YYYY-MM-DD in the user's own time zone (toISOString would use UTC and can be a day ahead at night)
-function today() {
-  return new Date().toLocaleDateString('en-CA');
 }

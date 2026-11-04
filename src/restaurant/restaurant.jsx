@@ -38,7 +38,14 @@ export function Restaurant({ userName }) {
   // Runs after the first render and again whenever the id in the URL changes
   React.useEffect(() => {
     setPlace(getPlaceDetails(id));
-    setReviews(getReviewsForRestaurant(id));
+    // If the id changes before the answer arrives, the old answer is ignored so it can't overwrite the new restaurant's reviews
+    let ignore = false;
+    getReviewsForRestaurant(id).then((loaded) => {
+      if (!ignore) setReviews(loaded);
+    });
+    return () => {
+      ignore = true;
+    };
   }, [id]);
 
   // Mock WebSocket: every few seconds the viewer count drifts and a fake event arrives.

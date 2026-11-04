@@ -22,7 +22,7 @@ export function Browse() {
 
   // Load the reviews once, when the page opens
   React.useEffect(() => {
-    setReviews(getReviews());
+    getReviews().then(setReviews);
   }, []);
 
   // Mock WebSocket: a fake review event arrives every 5 seconds, and the feed keeps the newest 5.

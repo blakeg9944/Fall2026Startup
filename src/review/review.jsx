@@ -65,29 +65,49 @@ export function Review({ userName }) {
     setForm((previous) => ({ ...previous, [field]: value }));
   }
 
-  // Fill the form with the saved review once, and again if the review being edited changes
+  // The review being edited: undefined while it loads, null if there isn't one
+  const [existing, setExisting] = React.useState(undefined);
+  const [saveError, setSaveError] = React.useState('');
+
+  // Load the saved review and fill the form with it, and again if the review being edited changes
   React.useEffect(() => {
-    const saved = editId ? getReview(editId) : null;
-    if (saved) {
-      const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = saved;
-      setForm({ fryer, grill, prep, menu, celiac, sensitive, staff, comments });
+    let ignore = false;
+    if (!editId) {
+      setExisting(null);
+      return;
     }
+    setExisting(undefined);
+    getReview(editId).then((saved) => {
+      if (ignore) return;
+      setExisting(saved);
+      if (saved) {
+        const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = saved;
+        setForm({ fryer, grill, prep, menu, celiac, sensitive, staff, comments });
+      }
+    });
+    return () => {
+      ignore = true;
+    };
   }, [editId]);
 
   // Only the author can edit a review, and only from its own restaurant's URL
-  const existing = editId ? getReview(editId) : null;
   const canEdit = existing && place && existing.userName === userName && existing.restaurantId === place.id;
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault();
-    if (editId) {
-      // The id, date, and photos stay as they were
-      updateReview(editId, form);
-      navigate('/my-reviews');
-    } else {
-      // The store adds the review's id and date. Photos are not saved yet.
-      addReview({ restaurantId: place.id, userName, ...form, photos: [] });
-      navigate(`/restaurant/${place.id}`);
+    setSaveError('');
+    try {
+      if (editId) {
+        // The service keeps the review's id, author, date, and photos as they were
+        await updateReview(editId, form);
+        navigate('/my-reviews');
+      } else {
+        // The service adds the review's id, author, and date. Photos are not saved yet.
+        await addReview({ restaurantId: place.id, ...form });
+        navigate(`/restaurant/${place.id}`);
+      }
+    } catch (err) {
+      setSaveError(err.message);
     }
   }
 
@@ -122,6 +142,11 @@ export function Review({ userName }) {
         </section>
       </main>
     );
+  }
+
+  // Wait for the saved review before deciding whether it can be edited
+  if (editId && existing === undefined) {
+    return <main className="container" />;
   }
 
   if (editId && !canEdit) {
@@ -197,6 +222,11 @@ export function Review({ userName }) {
           <input className="form-control" type="file" id="photo" name="photo" accept="image/*" />
         </fieldset>
 
+        {saveError && (
+          <p className="text-danger" role="alert">
+            {saveError}
+          </p>
+        )}
         <div className="button-row">
           <button type="submit" className="btn btn-success" disabled={!form.celiac || !form.sensitive}>
             {editId ? 'Save changes' : 'Submit review'}

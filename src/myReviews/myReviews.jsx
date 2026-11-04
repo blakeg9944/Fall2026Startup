@@ -21,7 +21,17 @@ export function MyReviews({ userName, onLogout }) {
 
   // Load this user's reviews on mount, and again if someone else logs in
   React.useEffect(() => {
-    setReviews(userName ? getReviewsByUser(userName) : []);
+    let ignore = false;
+    if (userName) {
+      getReviewsByUser(userName).then((loaded) => {
+        if (!ignore) setReviews(loaded);
+      });
+    } else {
+      setReviews([]);
+    }
+    return () => {
+      ignore = true;
+    };
   }, [userName]);
 
   // Mock WebSocket: every few seconds a notification arrives about one of the user's reviews.
@@ -38,12 +48,17 @@ export function MyReviews({ userName, onLogout }) {
     return () => clearInterval(timer);
   }, [reviews]);
 
-  function remove(review, placeName) {
+  async function remove(review, placeName) {
     if (!window.confirm(`Delete your review of ${placeName}? This can't be undone.`)) {
       return;
     }
-    deleteReview(review.id);
-    // Drop it from state too, so the list and the count update without reloading
+    try {
+      await deleteReview(review.id);
+    } catch (err) {
+      window.alert(err.message);
+      return;
+    }
+    // Drop it from state only after the service confirms, so the list and the count update without reloading
     setReviews((previous) => previous.filter((item) => item.id !== review.id));
   }
 
