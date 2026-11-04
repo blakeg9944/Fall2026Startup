@@ -155,14 +155,18 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits)
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
-- [ ] **Uses BCrypt to hash passwords** - I did not complete this part of the deliverable.
+- [X] I completed the prerequisites for this deliverable (Simon deployed, GitHub link, Git commits). Simon Service is deployed to [simon.glutenguard.click](https://simon.glutenguard.click). The startup service is deployed to [startup.glutenguard.click](https://startup.glutenguard.click) with `deployService.sh`. The GitHub link is in the home page hero and every page's footer. I made 10 commits over two days (Nov 3 and 4), one feature per commit. What I learned is in the GlutenGuard Service section of [notes.md](notes.md).
+- [X] **Node.js/Express HTTP service** - The backend is in `service/` with its own `package.json` (`express`, `cookie-parser`, `bcryptjs`, `uuid`), separate from the frontend's. `service/index.js` creates an Express app, parses JSON bodies with `express.json()` and cookies with `cookie-parser`, and listens on port 4000 (or a port passed on the command line). All endpoints are on an `express.Router()` mounted at `/api`.
+- [X] **Static middleware for frontend** - `app.use(express.static('public'))` serves the built React app. `deployService.sh` builds the frontend into `build/public` and uploads it next to the service. Any path that isn't a file or an `/api` endpoint gets `index.html`, so refreshing on `/browse` still loads the app. During development Vite serves the frontend and `vite.config.js` proxies `/api` to port 4000.
+- [X] **Calls to third party endpoints** - The Restaurant page calls the [Nominatim](https://nominatim.org/) geocoding API from the browser with `fetch` (`src/data/geocode.js`). It sends the restaurant's address and gets back coordinates. It needs no key and allows CORS. Results are cached per address, because Nominatim's policy allows about one request per second. The coordinates are shown on a map drawn with Leaflet and OpenStreetMap tiles (`src/restaurant/locationMap.jsx`).
+- [X] **Backend service endpoints** - The service provides:
+  - **Auth:** `POST /api/auth/create`, `POST /api/auth/login`, `DELETE /api/auth/logout`, `GET /api/auth/me`.
+  - **Reviews:** `GET /api/reviews` (optional `restaurantId` and `userName` filters), `GET /api/reviews/:id`, `POST /api/reviews`, `PUT /api/reviews/:id`, `DELETE /api/reviews/:id`. Only the author can edit or delete a review. The server sets each review's id, author, and date, and validates the fields it accepts.
+  - **Places:** `GET /api/places?q=` and `GET /api/places/:id`. They return mock data shaped like the Google Places API, which gets replaced with the real API in a later deliverable.
+  - Users, reviews, and tokens are kept in memory for now, with seed data in `service/seedData.js`. The DB deliverable moves them into MongoDB.
+- [X] **Frontend calls service endpoints** - Every function in `src/data/` (`userStore.js`, `reviewStore.js`, `places.js`) now uses `fetch` instead of `localStorage` and hardcoded data. Home search, Browse, Restaurant, Review (write and edit), and My Reviews (list and delete) all load from and save to the service. Pages fill their state from a `useEffect`, and ignore stale responses if the user moves on before an answer arrives.
+- [X] **Supports registration, login, logout, and restricted endpoint** - Create Account and Login on the Home page call `/api/auth/create` and `/api/auth/login`. The service sets an `httpOnly`, `secure`, `sameSite: strict` cookie holding a random token, and Logout calls `DELETE /api/auth/logout`, which removes the token and clears the cookie. The `verifyAuth` middleware rejects requests without a valid token with a 401. It protects `GET /api/auth/me` and the review create, edit, and delete endpoints. `App` calls `/api/auth/me` on load so a refresh keeps the user logged in.
+- [X] **Uses BCrypt to hash passwords** - `bcrypt.hash(password, 10)` runs when an account is created, and only the hash is stored. Login checks the password with `bcrypt.compare`.
 
 ## 🚀 DB deliverable
 
