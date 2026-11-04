@@ -252,7 +252,7 @@ export function Review({ userName }) {
         </div>
       </form>
 
-      <p className="placeholder-note">Submitted reviews are saved to the database and broadcast to everyone viewing this restaurant.</p>
+      <p className="placeholder-note">Submitted reviews are saved by the GlutenGuard service. Broadcasting them to everyone viewing this restaurant will come with WebSockets.</p>
     </main>
   );
 }

@@ -97,7 +97,7 @@ export function Browse() {
               </table>
             </div>
           )}
-          <p className="placeholder-note">Restaurants and their aggregated ratings are stored in the database.</p>
+          <p className="placeholder-note">Ratings are calculated from the reviews stored by the GlutenGuard service.</p>
         </section>
 
         <section className="gg-card" id="recent-activity">

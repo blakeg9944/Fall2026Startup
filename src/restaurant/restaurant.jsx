@@ -252,7 +252,7 @@ export function Restaurant({ userName }) {
               </table>
             </div>
           )}
-          <p className="placeholder-note">Reviews are stored in the database and loaded when this page opens.</p>
+          <p className="placeholder-note">Reviews are loaded from the GlutenGuard service when this page opens.</p>
         </section>
       </div>
     </main>

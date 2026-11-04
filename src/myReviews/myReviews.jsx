@@ -174,7 +174,7 @@ export function MyReviews({ userName, onLogout }) {
               })}
             </ul>
           )}
-          <p className="placeholder-note">Your reviews are stored in the database and can be edited or deleted at any time.</p>
+          <p className="placeholder-note">Your reviews are stored by the GlutenGuard service and can be edited or deleted at any time.</p>
         </section>
       </div>
     </main>
