@@ -1,23 +1,29 @@
-import { restaurants } from './mockData';
+// Restaurant names and addresses come from the service's places endpoints.
+// For now the service answers with mock data shaped like the Google Places API: { id, name, address, hours }.
+// A failed request gives an empty list (or null), so a page shows "no results" instead of crashing.
 
-// Mock Google Places API. Each function returns the same shape the service endpoint will
-// return once it calls Google Places for real: { id, name, address, hours }.
-
-export function searchPlaces(query) {
-  // This will be replaced with a Google Places text search
-  const text = query.trim().toLowerCase();
+export async function searchPlaces(query) {
+  const text = query.trim();
   if (!text) {
     return [];
   }
-  return restaurants.filter((place) => place.name.toLowerCase().includes(text) || place.address.toLowerCase().includes(text));
+  return (await readJson(`/api/places?q=${encodeURIComponent(text)}`)) ?? [];
 }
 
-export function getPlaceDetails(id) {
-  // This will be replaced with a Google Places details request
-  return restaurants.find((place) => place.id === id) ?? null;
+// Returns null when the id doesn't match a restaurant
+export async function getPlaceDetails(id) {
+  return readJson(`/api/places/${encodeURIComponent(id)}`);
 }
 
-export function getAllPlaces() {
-  // This will be replaced with the list of reviewed restaurants from the database
-  return restaurants;
+export async function getAllPlaces() {
+  return (await readJson('/api/places')) ?? [];
+}
+
+async function readJson(url) {
+  try {
+    const response = await fetch(url);
+    return response.ok ? await response.json() : null;
+  } catch {
+    return null;
+  }
 }

@@ -10,9 +10,19 @@ export function Home({ userName, onLogin, onLogout }) {
   const [error, setError] = React.useState('');
   const [query, setQuery] = React.useState('');
 
-  // The results are worked out from query on every render, so they never get out of step with the input.
-  // That needs no useEffect while the search is a synchronous mock. The real Google Places call will be async.
-  const results = searchPlaces(query);
+  const [results, setResults] = React.useState([]);
+
+  // Search the service whenever the query changes.
+  // If the user types again before an answer arrives, the cleanup marks the old answer as stale so it can't overwrite the newer results.
+  React.useEffect(() => {
+    let ignore = false;
+    searchPlaces(query).then((found) => {
+      if (!ignore) setResults(found);
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [query]);
 
   // Login and Create Account share the same steps. Only the store function they call is different.
   // The store functions call the service, so the result has to be awaited.

@@ -44,8 +44,19 @@ export function Review({ userName }) {
   // /review/:id?edit=<reviewId> edits an existing review instead of writing a new one
   const [searchParams] = useSearchParams();
   const editId = searchParams.get('edit');
-  // Looked up during render, since the mock lookup is synchronous
-  const place = getPlaceDetails(id);
+  // undefined means still loading, null means the id doesn't match any restaurant
+  const [place, setPlace] = React.useState(undefined);
+
+  React.useEffect(() => {
+    let ignore = false;
+    setPlace(undefined);
+    getPlaceDetails(id).then((found) => {
+      if (!ignore) setPlace(found);
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [id]);
 
   // One object holds every field, so the whole form can be saved as a review later.
   // Kitchen answers start on "unsure" so a review never claims something the user didn't pick.
@@ -109,6 +120,10 @@ export function Review({ userName }) {
     } catch (err) {
       setSaveError(err.message);
     }
+  }
+
+  if (place === undefined) {
+    return <main className="container" />;
   }
 
   if (!place) {

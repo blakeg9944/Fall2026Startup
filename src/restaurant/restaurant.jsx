@@ -37,9 +37,12 @@ export function Restaurant({ userName }) {
 
   // Runs after the first render and again whenever the id in the URL changes
   React.useEffect(() => {
-    setPlace(getPlaceDetails(id));
-    // If the id changes before the answer arrives, the old answer is ignored so it can't overwrite the new restaurant's reviews
+    // If the id changes before the answers arrive, the old answers are ignored so they can't overwrite the new restaurant's data
     let ignore = false;
+    setPlace(undefined);
+    getPlaceDetails(id).then((found) => {
+      if (!ignore) setPlace(found);
+    });
     getReviewsForRestaurant(id).then((loaded) => {
       if (!ignore) setReviews(loaded);
     });

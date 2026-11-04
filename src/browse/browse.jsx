@@ -9,8 +9,7 @@ import './browse.css';
 const fakeUsers = ['user_42', 'provo_foodie', 'celiac_sarah', 'glutenfree_mom3', 'mtn_biker_dave', 'byu_student'];
 
 // Stands in for a message arriving over the WebSocket when anyone posts a review
-function fakeReviewEvent() {
-  const places = getAllPlaces();
+function fakeReviewEvent(places) {
   const user = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
   const place = places[Math.floor(Math.random() * places.length)];
   return { id: crypto.randomUUID(), text: `${user} reviewed ${place.name}`, time: Date.now() };
@@ -18,25 +17,31 @@ function fakeReviewEvent() {
 
 export function Browse() {
   const [reviews, setReviews] = React.useState([]);
+  const [places, setPlaces] = React.useState([]);
   const [activity, setActivity] = React.useState([]);
 
-  // Load the reviews once, when the page opens
+  // Load the reviews and the restaurants once, when the page opens
   React.useEffect(() => {
     getReviews().then(setReviews);
+    getAllPlaces().then(setPlaces);
   }, []);
 
   // Mock WebSocket: a fake review event arrives every 5 seconds, and the feed keeps the newest 5.
   // The cleanup stops the timer when the user leaves the page.
+  // It starts once the restaurants have loaded, because the fake events name a random restaurant.
   React.useEffect(() => {
+    if (places.length === 0) {
+      return;
+    }
     const timer = setInterval(() => {
-      setActivity((previous) => [fakeReviewEvent(), ...previous].slice(0, 5));
+      setActivity((previous) => [fakeReviewEvent(places), ...previous].slice(0, 5));
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [places]);
 
   // One row per restaurant that has at least one review, best rated first.
   // Worked out on every render, so a new or deleted review changes the table.
-  const rows = getAllPlaces()
+  const rows = places
     .map((place) => ({ place, summary: summarize(reviews.filter((review) => review.restaurantId === place.id)) }))
     .filter((row) => row.summary.count > 0)
     .sort((a, b) => b.summary.rating - a.summary.rating);

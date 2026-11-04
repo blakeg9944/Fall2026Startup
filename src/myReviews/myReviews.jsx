@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getPlaceDetails } from '../data/places';
+import { getAllPlaces } from '../data/places';
 import { deleteReview, getReviewsByUser } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating } from '../data/stats';
 import { timeAgo } from '../timeAgo';
 import './myReviews.css';
 
 // Stands in for a notification arriving over the WebSocket, about one of the user's own reviews
-function fakeNotification(review) {
-  const place = getPlaceDetails(review.restaurantId);
-  const name = place ? place.name : 'a restaurant';
+function fakeNotification(review, placeName) {
+  const name = placeName ?? 'a restaurant';
   const people = 1 + Math.floor(Math.random() * 4);
   const text = Math.random() < 0.5 ? `${people} ${people === 1 ? 'person' : 'people'} marked your ${name} review helpful` : `Someone replied to your ${name} review`;
   return { id: crypto.randomUUID(), text, time: Date.now() };
@@ -17,7 +16,17 @@ function fakeNotification(review) {
 
 export function MyReviews({ userName, onLogout }) {
   const [reviews, setReviews] = React.useState([]);
+  const [places, setPlaces] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
+
+  // Load the restaurants once, so each review can show its restaurant's name
+  React.useEffect(() => {
+    getAllPlaces().then(setPlaces);
+  }, []);
+
+  function placeName(restaurantId) {
+    return places.find((place) => place.id === restaurantId)?.name;
+  }
 
   // Load this user's reviews on mount, and again if someone else logs in
   React.useEffect(() => {
@@ -43,10 +52,10 @@ export function MyReviews({ userName, onLogout }) {
     }
     const timer = setInterval(() => {
       const review = reviews[Math.floor(Math.random() * reviews.length)];
-      setNotifications((previous) => [fakeNotification(review), ...previous].slice(0, 5));
+      setNotifications((previous) => [fakeNotification(review, placeName(review.restaurantId)), ...previous].slice(0, 5));
     }, 6000);
     return () => clearInterval(timer);
-  }, [reviews]);
+  }, [reviews, places]);
 
   async function remove(review, placeName) {
     if (!window.confirm(`Delete your review of ${placeName}? This can't be undone.`)) {
@@ -129,14 +138,14 @@ export function MyReviews({ userName, onLogout }) {
           ) : (
             <ul className="review-list">
               {reviews.map((review) => {
-                const place = getPlaceDetails(review.restaurantId);
+                const name = placeName(review.restaurantId) ?? review.restaurantId;
                 const rating = reviewRating(review);
                 return (
                   <li className="review-item" key={review.id}>
                     <div className="review-head">
                       <div className="review-title">
                         <Link className="restaurant-link" to={`/restaurant/${review.restaurantId}`}>
-                          {place ? place.name : review.restaurantId}
+                          {name}
                         </Link>
                         <time className="review-date" dateTime={review.date}>
                           {review.date}
@@ -156,7 +165,7 @@ export function MyReviews({ userName, onLogout }) {
                       <Link className="btn btn-sm btn-outline-success" to={`/review/${review.restaurantId}?edit=${review.id}`}>
                         Edit
                       </Link>
-                      <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => remove(review, place ? place.name : 'this restaurant')}>
+                      <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => remove(review, name)}>
                         Delete
                       </button>
                     </div>
