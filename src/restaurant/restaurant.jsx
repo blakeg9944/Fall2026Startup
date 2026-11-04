@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
+import { geocode } from '../data/geocode';
 import { getReviewsForRestaurant } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating, summarize } from '../data/stats';
 import { timeAgo } from '../timeAgo';
@@ -32,6 +33,8 @@ export function Restaurant({ userName }) {
   // undefined means still loading, null means the id doesn't match any restaurant
   const [place, setPlace] = React.useState(undefined);
   const [reviews, setReviews] = React.useState([]);
+  // undefined means still looking, null means Nominatim couldn't find the address
+  const [location, setLocation] = React.useState(undefined);
   const [viewers, setViewers] = React.useState(7);
   const [events, setEvents] = React.useState([]);
 
@@ -50,6 +53,23 @@ export function Restaurant({ userName }) {
       ignore = true;
     };
   }, [id]);
+
+  // Ask Nominatim where the restaurant is once its address is known.
+  // The ignore flag drops the answer if the user moves to another restaurant first.
+  const address = place?.address;
+  React.useEffect(() => {
+    if (!address) {
+      return;
+    }
+    let ignore = false;
+    setLocation(undefined);
+    geocode(address).then((found) => {
+      if (!ignore) setLocation(found);
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [address]);
 
   // Mock WebSocket: every few seconds the viewer count drifts and a fake event arrives.
   // The cleanup function stops the timer when the user leaves or the id changes. Without it,
@@ -148,6 +168,24 @@ export function Restaurant({ userName }) {
               Log in to write a review
             </Link>
           )}
+        </section>
+
+        <section className="gg-card" id="location">
+          <h3>Location</h3>
+          {location === undefined && <p className="feed-empty">Looking up the location...</p>}
+          {location === null && <p>We couldn't find this address on the map.</p>}
+          {location && (
+            <p>
+              {place.address} is at <strong>{location.lat.toFixed(5)}, {location.lng.toFixed(5)}</strong>.
+            </p>
+          )}
+          <p className="placeholder-note">
+            Coordinates come from the OpenStreetMap{' '}
+            <a href="https://nominatim.org/" target="_blank" rel="noreferrer">
+              Nominatim
+            </a>{' '}
+            geocoding service.
+          </p>
         </section>
 
         <section className="gg-card" id="live-activity">
