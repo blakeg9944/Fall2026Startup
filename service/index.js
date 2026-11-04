@@ -74,11 +74,6 @@ apiRouter.delete('/auth/logout', async (req, res) => {
   res.status(204).end();
 });
 
-// Anything that isn't a file or an endpoint gets the frontend, so React Router can handle the path
-app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
-});
-
 // Middleware for endpoints that need a logged in user.
 // It looks up the user that owns the cookie's token and rejects the request if there isn't one.
 async function verifyAuth(req, res, next) {
@@ -224,6 +219,11 @@ function setAuthCookie(res, token) {
     sameSite: 'strict',
   });
 }
+
+// Anything that isn't a file or an endpoint gets the frontend, so React Router can handle the path
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
 
 app.listen(port, () => {
   console.log(`GlutenGuard service listening on port ${port}`);
