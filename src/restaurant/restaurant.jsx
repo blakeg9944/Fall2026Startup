@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
 import { geocode } from '../data/geocode';
+import { LocationMap } from './locationMap';
 import { getReviewsForRestaurant } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating, summarize } from '../data/stats';
 import { timeAgo } from '../timeAgo';
@@ -175,16 +176,23 @@ export function Restaurant({ userName }) {
           {location === undefined && <p className="feed-empty">Looking up the location...</p>}
           {location === null && <p>We couldn't find this address on the map.</p>}
           {location && (
-            <p>
-              {place.address} is at <strong>{location.lat.toFixed(5)}, {location.lng.toFixed(5)}</strong>.
-            </p>
+            <>
+              <LocationMap lat={location.lat} lng={location.lng} name={place.name} />
+              <p className="coordinates">
+                {place.address} is at{' '}
+                <strong>
+                  {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
+                </strong>
+                .
+              </p>
+            </>
           )}
           <p className="placeholder-note">
             Coordinates come from the OpenStreetMap{' '}
             <a href="https://nominatim.org/" target="_blank" rel="noreferrer">
               Nominatim
             </a>{' '}
-            geocoding service.
+            geocoding service, and the map is drawn with Leaflet using OpenStreetMap tiles.
           </p>
         </section>
 

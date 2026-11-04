@@ -193,3 +193,17 @@
     display: block;
   }
 }
+
+/* ---------- Location map ---------- */
+
+.location-map {
+  height: 260px;
+  border-radius: var(--radius, 0.5rem);
+  margin-bottom: var(--space-3, 1rem);
+  /* Keeps Leaflet's map panes below the sticky header and dropdown menu */
+  z-index: 0;
+}
+
+.coordinates {
+  margin-bottom: 0;
+}
