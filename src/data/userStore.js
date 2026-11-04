@@ -10,6 +10,17 @@ export function createAccount(email, password) {
   return sendCredentials('/api/auth/create', email, password);
 }
 
+// Asks the service who the cookie belongs to, so a page refresh keeps the user logged in.
+// Returns the user name, or '' if nobody is logged in or the service can't be reached.
+export async function getCurrentUser() {
+  try {
+    const response = await fetch('/api/auth/me');
+    return response.ok ? (await response.json()).userName : '';
+  } catch {
+    return '';
+  }
+}
+
 export async function logout() {
   try {
     await fetch('/api/auth/logout', { method: 'DELETE' });

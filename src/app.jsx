@@ -8,21 +8,28 @@ import { Browse } from './browse/browse';
 import { Restaurant } from './restaurant/restaurant';
 import { Review } from './review/review';
 import { MyReviews } from './myReviews/myReviews';
-import { logout as logoutRequest } from './data/userStore';
+import { getCurrentUser, logout as logoutRequest } from './data/userStore';
 
 export default function App() {
-  // The logged in user is kept in localStorage until the service handles authentication
-  const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+  // The service remembers who is logged in with a cookie. The frontend only keeps the name it shows.
+  const [userName, setUserName] = React.useState('');
+  // The pages wait until the service has answered, so a logged in user never sees a flash of "Log in"
+  const [authChecked, setAuthChecked] = React.useState(false);
+
+  React.useEffect(() => {
+    getCurrentUser().then((name) => {
+      setUserName(name);
+      setAuthChecked(true);
+    });
+  }, []);
 
   function login(name) {
-    localStorage.setItem('userName', name);
     setUserName(name);
   }
 
   function logout() {
     // Tell the service to forget the token, then clear the name the frontend is showing
     logoutRequest();
-    localStorage.removeItem('userName');
     setUserName('');
   }
 
@@ -75,14 +82,16 @@ export default function App() {
           </nav>
         </header>
 
-        <Routes>
-          <Route path="/" element={<Home userName={userName} onLogin={login} onLogout={logout} />} />
-          <Route path="/browse" element={<Browse />} />
-          <Route path="/restaurant/:id" element={<Restaurant userName={userName} />} />
-          <Route path="/review/:id" element={<Review userName={userName} />} />
-          <Route path="/my-reviews" element={<MyReviews userName={userName} onLogout={logout} />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        {authChecked && (
+          <Routes>
+            <Route path="/" element={<Home userName={userName} onLogin={login} onLogout={logout} />} />
+            <Route path="/browse" element={<Browse />} />
+            <Route path="/restaurant/:id" element={<Restaurant userName={userName} />} />
+            <Route path="/review/:id" element={<Review userName={userName} />} />
+            <Route path="/my-reviews" element={<MyReviews userName={userName} onLogout={logout} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        )}
 
         <footer>
           <div className="container footer-inner">
