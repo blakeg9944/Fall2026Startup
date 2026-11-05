@@ -51,11 +51,9 @@ apiRouter.post('/auth/create', async (req, res) => {
 apiRouter.post('/auth/login', async (req, res) => {
   const { email, password } = req.body;
   const user = email ? await findUser('email', email) : null;
-  if (!user) {
-    return res.status(401).send({ msg: 'No account found for that email. Use Create Account to make one.' });
-  }
-  if (!(await bcrypt.compare(password ?? '', user.password))) {
-    return res.status(401).send({ msg: 'Incorrect password.' });
+  // The same message for an unknown email and a wrong password, so the response doesn't reveal which emails have accounts
+  if (!user || !(await bcrypt.compare(password ?? '', user.password))) {
+    return res.status(401).send({ msg: 'Invalid email or password.' });
   }
 
   // A fresh token on every login means old tokens stop working
