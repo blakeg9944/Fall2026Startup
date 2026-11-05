@@ -16,6 +16,9 @@ let reviews = [...seedReviews];
 
 const authCookieName = 'token';
 
+// Longest comment a review can have, so one request can't store an enormous string
+const maxCommentLength = 2000;
+
 // The deployment runs the service on port 4000. A port can be passed on the command line to override it.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -176,7 +179,7 @@ function pickReviewFields(body) {
   const scores = [1, 2, 3, 4, 5];
   const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = body ?? {};
 
-  const valid = [fryer, grill, prep, menu].every((answer) => answers.includes(answer)) && scores.includes(celiac) && scores.includes(sensitive) && typeof staff === 'boolean' && typeof comments === 'string';
+  const valid = [fryer, grill, prep, menu].every((answer) => answers.includes(answer)) && scores.includes(celiac) && scores.includes(sensitive) && typeof staff === 'boolean' && typeof comments === 'string' && comments.length <= maxCommentLength;
   return valid ? { fryer, grill, prep, menu, celiac, sensitive, staff, comments } : null;
 }
 

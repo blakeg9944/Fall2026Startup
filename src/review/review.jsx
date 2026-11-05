@@ -228,7 +228,7 @@ export function Review({ userName }) {
             <label htmlFor="comments" className="form-label">
               Tell other diners what happened
             </label>
-            <textarea className="form-control" id="comments" name="comments" rows={6} value={form.comments} onChange={(e) => update('comments', e.target.value)} placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?" />
+            <textarea className="form-control" id="comments" name="comments" rows={6} maxLength={2000} value={form.comments} onChange={(e) => update('comments', e.target.value)} placeholder="What did you order? Did you ask about cross-contamination? How did you feel afterward?" />
           </div>
 
           <label htmlFor="photo" className="form-label">
