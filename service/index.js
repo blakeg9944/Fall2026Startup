@@ -71,7 +71,8 @@ apiRouter.delete('/auth/logout', async (req, res) => {
   if (user) {
     delete user.token;
   }
-  res.clearCookie(authCookieName);
+  // clearCookie must use the same path the cookie was set with, or the browser keeps it
+  res.clearCookie(authCookieName, { path: authCookieOptions.path });
   res.status(204).end();
 });
 
@@ -212,13 +213,18 @@ function normalize(email) {
   return email.trim().toLowerCase();
 }
 
-// httpOnly keeps the token away from frontend JavaScript, and sameSite keeps other sites from sending it
+// httpOnly keeps the token away from frontend JavaScript, and sameSite keeps other sites from sending it.
+// The path limits the cookie to the service endpoints. Secure is on unless NODE_ENV=development,
+// since some browsers refuse Secure cookies over plain http://localhost.
+const authCookieOptions = {
+  path: '/api',
+  secure: process.env.NODE_ENV !== 'development',
+  httpOnly: true,
+  sameSite: 'strict',
+};
+
 function setAuthCookie(res, token) {
-  res.cookie(authCookieName, token, {
-    secure: true,
-    httpOnly: true,
-    sameSite: 'strict',
-  });
+  res.cookie(authCookieName, token, authCookieOptions);
 }
 
 // Anything that isn't a file or an endpoint gets the frontend, so React Router can handle the path
