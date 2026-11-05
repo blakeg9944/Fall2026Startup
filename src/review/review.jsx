@@ -46,13 +46,20 @@ export function Review({ userName }) {
   const editId = searchParams.get('edit');
   // undefined means still loading, null means the id doesn't match any restaurant
   const [place, setPlace] = React.useState(undefined);
+  // True when the service couldn't be reached, which is different from the id not matching a restaurant
+  const [loadFailed, setLoadFailed] = React.useState(false);
 
   React.useEffect(() => {
     let ignore = false;
     setPlace(undefined);
-    getPlaceDetails(id).then((found) => {
-      if (!ignore) setPlace(found);
-    });
+    setLoadFailed(false);
+    getPlaceDetails(id)
+      .then((found) => {
+        if (!ignore) setPlace(found);
+      })
+      .catch(() => {
+        if (!ignore) setLoadFailed(true);
+      });
     return () => {
       ignore = true;
     };
@@ -120,6 +127,17 @@ export function Review({ userName }) {
     } catch (err) {
       setSaveError(err.message);
     }
+  }
+
+  if (loadFailed) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Couldn't load this restaurant</h2>
+          <p>The service didn't respond. Please try again in a moment.</p>
+        </section>
+      </main>
+    );
   }
 
   if (place === undefined) {

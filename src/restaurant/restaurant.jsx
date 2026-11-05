@@ -44,9 +44,14 @@ export function Restaurant({ userName }) {
     // If the id changes before the answers arrive, the old answers are ignored so they can't overwrite the new restaurant's data
     let ignore = false;
     setPlace(undefined);
-    getPlaceDetails(id).then((found) => {
-      if (!ignore) setPlace(found);
-    });
+    setLoadFailed(false);
+    getPlaceDetails(id)
+      .then((found) => {
+        if (!ignore) setPlace(found);
+      })
+      .catch(() => {
+        if (!ignore) setLoadFailed(true);
+      });
     getReviewsForRestaurant(id).then((loaded) => {
       if (!ignore) setReviews(loaded);
     });
@@ -87,6 +92,17 @@ export function Restaurant({ userName }) {
 
   // Worked out from the reviews on every render, so it is always in step with the table
   const summary = summarize(reviews);
+
+  if (loadFailed) {
+    return (
+      <main className="container">
+        <section className="gg-card text-center">
+          <h2>Couldn't load this restaurant</h2>
+          <p>The service didn't respond. Please try again in a moment.</p>
+        </section>
+      </main>
+    );
+  }
 
   if (place === undefined) {
     return <main className="container" />;

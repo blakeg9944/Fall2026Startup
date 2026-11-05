@@ -18,10 +18,11 @@ export function MyReviews({ userName, onLogout }) {
   const [reviews, setReviews] = React.useState([]);
   const [places, setPlaces] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
+  const [placesFailed, setPlacesFailed] = React.useState(false);
 
   // Load the restaurants once, so each review can show its restaurant's name
   React.useEffect(() => {
-    getAllPlaces().then(setPlaces);
+    getAllPlaces().then(setPlaces).catch(() => setPlacesFailed(true));
   }, []);
 
   function placeName(restaurantId) {
@@ -90,6 +91,12 @@ export function MyReviews({ userName, onLogout }) {
       <div className="page-intro">
         <h2>My reviews</h2>
       </div>
+
+      {placesFailed && (
+        <p className="text-danger" role="alert">
+          Couldn't load the restaurant list. Please refresh to try again.
+        </p>
+      )}
 
       <div className="my-reviews-grid">
         <section className="gg-card" id="user-summary">

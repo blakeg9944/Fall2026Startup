@@ -19,11 +19,12 @@ export function Browse() {
   const [reviews, setReviews] = React.useState([]);
   const [places, setPlaces] = React.useState([]);
   const [activity, setActivity] = React.useState([]);
+  const [placesFailed, setPlacesFailed] = React.useState(false);
 
   // Load the reviews and the restaurants once, when the page opens
   React.useEffect(() => {
     getReviews().then(setReviews);
-    getAllPlaces().then(setPlaces);
+    getAllPlaces().then(setPlaces).catch(() => setPlacesFailed(true));
   }, []);
 
   // Mock WebSocket: a fake review event arrives every 5 seconds, and the feed keeps the newest 5.
@@ -52,6 +53,12 @@ export function Browse() {
         <h2>Browse reviews near you</h2>
         <p>Every pin is a restaurant that GlutenGuard users have reviewed. Pick one to read the full safety profile.</p>
       </div>
+
+      {placesFailed && (
+        <p className="text-danger" role="alert">
+          Couldn't load the restaurant list. Please refresh to try again.
+        </p>
+      )}
 
       <div className="browse-grid">
         <section className="gg-card" id="map">

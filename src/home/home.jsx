@@ -11,14 +11,23 @@ export function Home({ userName, onLogin, onLogout }) {
   const [query, setQuery] = React.useState('');
 
   const [results, setResults] = React.useState([]);
+  const [searchFailed, setSearchFailed] = React.useState(false);
 
   // Search the service whenever the query changes.
   // If the user types again before an answer arrives, the cleanup marks the old answer as stale so it can't overwrite the newer results.
   React.useEffect(() => {
     let ignore = false;
-    searchPlaces(query).then((found) => {
-      if (!ignore) setResults(found);
-    });
+    searchPlaces(query)
+      .then((found) => {
+        if (ignore) return;
+        setResults(found);
+        setSearchFailed(false);
+      })
+      .catch(() => {
+        if (ignore) return;
+        setResults([]);
+        setSearchFailed(true);
+      });
     return () => {
       ignore = true;
     };
@@ -65,7 +74,12 @@ export function Home({ userName, onLogin, onLogout }) {
 
           <h4>Search results</h4>
           {!query.trim() && <p className="search-hint">Start typing a restaurant name or address.</p>}
-          {query.trim() && results.length === 0 && <p className="search-hint">No restaurants match "{query.trim()}".</p>}
+          {searchFailed && (
+            <p className="text-danger" role="alert">
+              Couldn't reach the service to search. Please try again.
+            </p>
+          )}
+          {query.trim() && !searchFailed && results.length === 0 && <p className="search-hint">No restaurants match "{query.trim()}".</p>}
           {results.length > 0 && (
             <div className="list-group">
               {results.map((place) => (
