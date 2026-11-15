@@ -34,6 +34,8 @@ export function Restaurant({ userName }) {
   // undefined means still loading, null means the id doesn't match any restaurant
   const [place, setPlace] = React.useState(undefined);
   const [reviews, setReviews] = React.useState([]);
+  // True when the service could not be reached or answered with an error
+  const [loadFailed, setLoadFailed] = React.useState(false);
   // undefined means still looking, null means Nominatim couldn't find the address
   const [location, setLocation] = React.useState(undefined);
   const [viewers, setViewers] = React.useState(7);
