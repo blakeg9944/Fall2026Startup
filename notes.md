@@ -161,3 +161,13 @@ Interesting things I have learned about React
 - Leaflet draws into a DOM element by itself, so the component only gives it a `<div ref={...}>` and creates the map inside `useEffect`. The effect returns `() => map.remove()`. Without that, going back to the page tries to start a second map on the same element and throws an error. Leaflet's tile images load through `<img>` tags, so only the Nominatim lookup is a `fetch`.
 - Leaflet finds its marker icon images by guessing file paths, and that breaks after Vite bundles the app. The fix is to import the PNGs from `leaflet/dist/images/` and pass the URLs to `L.icon`.
 - `deployService.sh` (copied from Simon Service) builds the frontend into `build/public`, copies `service/*.js` and `service/*.json` beside it, uploads that, runs `npm install` on the server, and runs `pm2 restart startup`. `pm2 restart` needs a process named `startup` to already exist on the server, and Caddy has to proxy the subdomain to port 4000.
+
+## Simon DB
+
+- Live at https://simon.glutenguard.click, deployed with `./deployService.sh -k keys/default.pem -h glutenguard.click -s simon`.
+- Simon is now three layers: React frontend, Express service (behind Caddy, run by pm2), and MongoDB Atlas for the database. Users, password hashes, tokens, and scores are stored in the database, so they survive a service restart.
+- The credentials live in `service/dbConfig.json` (`hostname`, `userName`, `password`). It is in `.gitignore` so it never reaches GitHub. `deployService.sh` copies `service/*.json`, so the file is uploaded to the server with the service.
+- `database.js` connects with `mongodb+srv://user:password@host` and pings the database on startup. If the ping fails the service exits, so a bad credential shows up right away in `pm2 logs` instead of as odd errors later.
+- MongoDB stores JavaScript-like objects, so most functions are a pass-through: `findOne({ email })`, `insertOne(user)`, `updateOne({ email }, { $set: user })`. Only `getHighScores` has real logic: `find({ score: { $gt: 0, $lt: 900 } }, { sort: { score: -1 }, limit: 10 })`.
+- Collections are created the first time something is inserted. There is no schema, so MongoDB won't reject a document with a field I didn't expect. Anything a client sends must be validated by the server before it goes into a query or an update.
+- Atlas only accepts connections from allowed IP addresses, so the server's Elastic IP has to be on the Network Access list.
