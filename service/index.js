@@ -2,9 +2,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
-const { restaurants, seedReviews } = require('./seedData');
+const { seedReviews } = require('./seedData');
 const googleConfig = require('./googleConfig.json');
-const { searchPlaces } = require('./googlePlaces');
+const { searchPlaces, getPlaceDetails } = require('./googlePlaces');
 
 // The Google key stays on the server. It is gitignored like dbConfig.json, and the browser only ever talks to /api/places.
 // Warn at startup so a missing key shows up in the logs right away instead of as a failed search later.
@@ -116,13 +116,18 @@ apiRouter.get('/places', async (req, res) => {
   }
 });
 
-apiRouter.get('/places/:id', (req, res) => {
-  // This will be replaced with a Google Places details request
-  const place = restaurants.find((p) => p.id === req.params.id);
-  if (!place) {
-    return res.status(404).send({ msg: 'Place not found' });
+// One restaurant by Google place ID: { id, name, address, location, hours }
+apiRouter.get('/places/:id', async (req, res) => {
+  try {
+    const place = await getPlaceDetails(req.params.id);
+    if (!place) {
+      return res.status(404).send({ msg: 'Place not found' });
+    }
+    res.send(place);
+  } catch (ex) {
+    console.log(ex.message);
+    res.status(502).send({ msg: 'Place details are unavailable right now' });
   }
-  res.send(place);
 });
 
 // Anyone can read reviews. Optional filters: ?restaurantId=... or ?userName=...
