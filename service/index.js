@@ -3,6 +3,13 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const { restaurants, seedReviews } = require('./seedData');
+const googleConfig = require('./googleConfig.json');
+
+// The Google key stays on the server. It is gitignored like dbConfig.json, and the browser only ever talks to /api/places.
+// Warn at startup so a missing key shows up in the logs right away instead of as a failed search later.
+if (!googleConfig.apiKey || googleConfig.apiKey.startsWith('PASTE_')) {
+  console.log('Warning: service/googleConfig.json has no Google API key, so place searches will fail');
+}
 
 const app = express();
 
