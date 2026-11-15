@@ -1,44 +1,12 @@
-// Seed data for the service until the database exists.
-// Restaurants stand in for Google Places results, and reviews stand in for the reviews collection.
+// Seed reviews for the service until the database exists.
+// Each review's restaurantId is a real Google place ID. The name, address, and location come from the Google Places API.
+// Place IDs: black-sheep ChIJ50M6bVOXTYcRVJxCNDmZO7s, communal ChIJwa39R1OXTYcRYgQ30IZqY3Y,
+// taste-117 ChIJTw9JTFOXTYcR_kwclvX6AZg, gurus ChIJf7T5BVOXTYcRI_s9NYj6OSU, backdoor-brgr ChIJA773mgmRTYcR4882sIaPcxE
 
-const restaurants = [
-  {
-    id: 'black-sheep-cafe',
-    name: 'Black Sheep Cafe',
-    address: '19 N University Ave, Provo UT',
-    hours: 'Open until 9:00 PM',
-  },
-  {
-    id: 'communal-restaurant',
-    name: 'Communal Restaurant',
-    address: '102 N University Ave, Provo UT',
-    hours: 'Open until 10:00 PM',
-  },
-  {
-    id: 'rockwell-ice-cream',
-    name: 'Rockwell Ice Cream Co.',
-    address: '165 N University Ave, Provo UT',
-    hours: 'Open until 11:00 PM',
-  },
-  {
-    id: 'gurus-cafe',
-    name: "Guru's Cafe",
-    address: '45 E Center St, Provo UT',
-    hours: 'Open until 9:00 PM',
-  },
-  {
-    id: 'backdoor-burger',
-    name: 'Backdoor Burger',
-    address: '1240 N University Ave, Provo UT',
-    hours: 'Open until 10:00 PM',
-  },
-];
-
-// Kitchen answers are 'yes', 'no', or 'unsure'. Confidence answers are 1 (would not risk it) to 5 (very confident).
 const seedReviews = [
   {
     id: 'seed-1',
-    restaurantId: 'black-sheep-cafe',
+    restaurantId: 'ChIJ50M6bVOXTYcRVJxCNDmZO7s',
     userName: 'celiac_sarah',
     date: '2026-09-14',
     fryer: 'yes',
@@ -53,7 +21,7 @@ const seedReviews = [
   },
   {
     id: 'seed-2',
-    restaurantId: 'black-sheep-cafe',
+    restaurantId: 'ChIJ50M6bVOXTYcRVJxCNDmZO7s',
     userName: 'mtn_biker_dave',
     date: '2026-09-09',
     fryer: 'yes',
@@ -68,7 +36,7 @@ const seedReviews = [
   },
   {
     id: 'seed-3',
-    restaurantId: 'black-sheep-cafe',
+    restaurantId: 'ChIJ50M6bVOXTYcRVJxCNDmZO7s',
     userName: 'glutenfree_mom3',
     date: '2026-08-28',
     fryer: 'unsure',
@@ -83,7 +51,7 @@ const seedReviews = [
   },
   {
     id: 'seed-4',
-    restaurantId: 'backdoor-burger',
+    restaurantId: 'ChIJA773mgmRTYcR4882sIaPcxE',
     userName: 'celiac_sarah',
     date: '2026-09-20',
     fryer: 'yes',
@@ -101,7 +69,7 @@ const seedReviews = [
   },
   {
     id: 'seed-5',
-    restaurantId: 'communal-restaurant',
+    restaurantId: 'ChIJwa39R1OXTYcRYgQ30IZqY3Y',
     userName: 'celiac_sarah',
     date: '2026-08-30',
     fryer: 'yes',
@@ -116,7 +84,7 @@ const seedReviews = [
   },
   {
     id: 'seed-6',
-    restaurantId: 'communal-restaurant',
+    restaurantId: 'ChIJwa39R1OXTYcRYgQ30IZqY3Y',
     userName: 'mtn_biker_dave',
     date: '2026-09-02',
     fryer: 'yes',
@@ -131,7 +99,7 @@ const seedReviews = [
   },
   {
     id: 'seed-7',
-    restaurantId: 'gurus-cafe',
+    restaurantId: 'ChIJf7T5BVOXTYcRI_s9NYj6OSU',
     userName: 'celiac_sarah',
     date: '2026-08-12',
     fryer: 'no',
@@ -146,7 +114,7 @@ const seedReviews = [
   },
   {
     id: 'seed-8',
-    restaurantId: 'gurus-cafe',
+    restaurantId: 'ChIJf7T5BVOXTYcRI_s9NYj6OSU',
     userName: 'provo_foodie',
     date: '2026-09-11',
     fryer: 'no',
@@ -161,7 +129,7 @@ const seedReviews = [
   },
   {
     id: 'seed-9',
-    restaurantId: 'rockwell-ice-cream',
+    restaurantId: 'ChIJTw9JTFOXTYcR_kwclvX6AZg',
     userName: 'provo_foodie',
     date: '2026-09-05',
     fryer: 'unsure',
@@ -176,7 +144,7 @@ const seedReviews = [
   },
   {
     id: 'seed-10',
-    restaurantId: 'rockwell-ice-cream',
+    restaurantId: 'ChIJTw9JTFOXTYcR_kwclvX6AZg',
     userName: 'glutenfree_mom3',
     date: '2026-08-21',
     fryer: 'unsure',
@@ -191,4 +159,4 @@ const seedReviews = [
   },
 ];
 
-module.exports = { restaurants, seedReviews };
+module.exports = { seedReviews };
