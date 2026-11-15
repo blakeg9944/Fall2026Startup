@@ -19,7 +19,7 @@ const app = express();
 const users = [];
 
 // Reviews also live in memory until the database exists. They start with the seed reviews.
-// Each review is { id, restaurantId, userName, date, fryer, grill, prep, menu, celiac, sensitive, staff, comments, photos }
+// Each review is { id, restaurantId, userName, date, rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments, photos }
 let reviews = [...seedReviews];
 
 const authCookieName = 'token';
@@ -199,10 +199,10 @@ apiRouter.delete('/reviews/:id', verifyAuth, (req, res) => {
 function pickReviewFields(body) {
   const answers = ['yes', 'no', 'unsure'];
   const scores = [1, 2, 3, 4, 5];
-  const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = body ?? {};
+  const { rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments } = body ?? {};
 
-  const valid = [fryer, grill, prep, menu].every((answer) => answers.includes(answer)) && scores.includes(celiac) && scores.includes(sensitive) && typeof staff === 'boolean' && typeof comments === 'string' && comments.length <= maxCommentLength;
-  return valid ? { fryer, grill, prep, menu, celiac, sensitive, staff, comments } : null;
+  const valid = [fryer, grill, prep, menu].every((answer) => answers.includes(answer)) && scores.includes(rating) && scores.includes(celiac) && scores.includes(sensitive) && typeof staff === 'boolean' && typeof comments === 'string' && comments.length <= maxCommentLength;
+  return valid ? { rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments } : null;
 }
 
 // YYYY-MM-DD in the server's time zone
