@@ -1,8 +1,9 @@
 // Turns a list of reviews into the numbers shown on the Browse and Restaurant pages.
 
-// A review's rating is the average of its two confidence answers (1 to 5)
+// A review's rating is the 1 to 5 score its author chose.
+// Reviews saved before ratings existed fall back to the average of their two confidence answers.
 export function reviewRating(review) {
-  return (review.celiac + review.sensitive) / 2;
+  return review.rating ?? (review.celiac + review.sensitive) / 2;
 }
 
 // Matches the .rating-badge color classes in app.css

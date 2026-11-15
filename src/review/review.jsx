@@ -19,13 +19,22 @@ const confidenceOptions = [
   { value: 1, label: 'Would not risk it' },
 ];
 
+// The reviewer's own overall score, shown with the same radio buttons as the confidence questions
+const ratingOptions = [
+  { value: 5, label: '5 - Excellent' },
+  { value: 4, label: '4 - Good' },
+  { value: 3, label: '3 - Okay' },
+  { value: 2, label: '2 - Poor' },
+  { value: 1, label: '1 - Not safe' },
+];
+
 // A group of radio buttons whose checked state comes from the form instead of the browser
-function ConfidenceQuestion({ field, question, value, onChange }) {
+function ConfidenceQuestion({ field, question, value, onChange, options = confidenceOptions }) {
   return (
     <>
       <p className="question">{question}</p>
       <div className="choice-row">
-        {confidenceOptions.map((option) => (
+        {options.map((option) => (
           <div className="form-check" key={option.value}>
             <input className="form-check-input" type="radio" name={field} id={`${field}-${option.value}`} value={option.value} checked={value === option.value} onChange={() => onChange(field, option.value)} />
             <label className="form-check-label" htmlFor={`${field}-${option.value}`}>
@@ -72,6 +81,7 @@ export function Review({ userName }) {
     grill: 'unsure',
     prep: 'unsure',
     menu: 'unsure',
+    rating: null,
     celiac: null,
     sensitive: null,
     staff: false,
@@ -100,7 +110,9 @@ export function Review({ userName }) {
       setExisting(saved);
       if (saved) {
         const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = saved;
-        setForm({ fryer, grill, prep, menu, celiac, sensitive, staff, comments });
+        // Reviews saved before ratings existed get the average of their two confidence answers as a starting point
+        const rating = saved.rating ?? Math.round((celiac + sensitive) / 2);
+        setForm({ rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments });
       }
     });
     return () => {
@@ -226,6 +238,12 @@ export function Review({ userName }) {
         </fieldset>
 
         <fieldset className="gg-card">
+          <legend>Overall rating</legend>
+
+          <ConfidenceQuestion field="rating" question="How would you rate this restaurant for gluten-free dining?" value={form.rating} onChange={update} options={ratingOptions} />
+        </fieldset>
+
+        <fieldset className="gg-card">
           <legend>Confidence</legend>
 
           <ConfidenceQuestion field="celiac" question="How confident would someone with celiac disease feel eating here?" value={form.celiac} onChange={update} />
@@ -261,7 +279,7 @@ export function Review({ userName }) {
           </p>
         )}
         <div className="button-row">
-          <button type="submit" className="btn btn-success" disabled={!form.celiac || !form.sensitive}>
+          <button type="submit" className="btn btn-success" disabled={!form.rating || !form.celiac || !form.sensitive}>
             {editId ? 'Save changes' : 'Submit review'}
           </button>
           <Link className="btn btn-outline-secondary" to={editId ? '/my-reviews' : `/restaurant/${place.id}`}>
