@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const { restaurants, seedReviews } = require('./seedData');
 const googleConfig = require('./googleConfig.json');
+const { searchPlaces } = require('./googlePlaces');
 
 // The Google key stays on the server. It is gitignored like dbConfig.json, and the browser only ever talks to /api/places.
 // Warn at startup so a missing key shows up in the logs right away instead of as a failed search later.
@@ -99,12 +100,20 @@ apiRouter.get('/auth/me', verifyAuth, (req, res) => {
   res.send({ userName: req.user.userName });
 });
 
-// Mock of the Google Places API. The shape matches what the real API call will return: { id, name, address, hours }.
-// GET /api/places?q=text searches by name or address, and with no q it returns every place.
-apiRouter.get('/places', (req, res) => {
-  const text = (req.query.q ?? '').toString().trim().toLowerCase();
-  // This will be replaced with a Google Places text search
-  res.send(restaurants.filter((place) => !text || place.name.toLowerCase().includes(text) || place.address.toLowerCase().includes(text)));
+// Searches Google Places for restaurants. Each result is { id, name, address, location }.
+// GET /api/places?q=text. Google can't list every place, so a missing q returns an empty list.
+apiRouter.get('/places', async (req, res) => {
+  const text = (req.query.q ?? '').toString().trim();
+  if (!text) {
+    return res.send([]);
+  }
+  try {
+    res.send(await searchPlaces(text));
+  } catch (ex) {
+    // The details go to the logs only, because they can mention the key setup
+    console.log(ex.message);
+    res.status(502).send({ msg: 'Place search is unavailable right now' });
+  }
 });
 
 apiRouter.get('/places/:id', (req, res) => {
