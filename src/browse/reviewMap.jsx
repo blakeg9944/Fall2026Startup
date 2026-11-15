@@ -48,7 +48,7 @@ export function ReviewMap({ places }) {
 
       for (const place of places) {
         if (!place.location || place.location.lat == null) continue;
-        const marker = new AdvancedMarkerElement({ map: mapRef.current, position: place.location, title: place.name });
+        const marker = new AdvancedMarkerElement({ map: mapRef.current, position: place.location, title: place.name, gmpClickable: true });
         marker.addEventListener('gmp-click', () => {
           // Built from DOM nodes with textContent, so a restaurant name can never be read as HTML
           const box = document.createElement('div');
