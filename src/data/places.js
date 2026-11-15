@@ -1,5 +1,6 @@
-// Restaurant names and addresses come from the service's places endpoints.
-// For now the service answers with mock data shaped like the Google Places API: { id, name, address, hours }.
+// Restaurant names, addresses, and locations come from the service's places endpoints, which call the Google Places API.
+// A place looks like { id, name, address, location: { lat, lng } }, and details add today's hours.
+// The id is the Google place ID, and it is the only part reviews store. Everything else is looked up when it is needed.
 // A failed request (network down or a server error) throws, so the page can tell the user something went wrong
 // instead of showing "no results". The only quiet outcome is getPlaceDetails returning null for an unknown id.
 
@@ -16,8 +17,11 @@ export async function getPlaceDetails(id) {
   return readJson(`/api/places/${encodeURIComponent(id)}`, true);
 }
 
-export async function getAllPlaces() {
-  return readJson('/api/places');
+// Looks up several places at once, e.g. the restaurants that have reviews. Google has no "list every place" call,
+// so pages that need a list build it from the place IDs they already have. IDs Google doesn't know are left out.
+export async function getPlacesByIds(ids) {
+  const places = await Promise.all([...new Set(ids)].map((id) => getPlaceDetails(id)));
+  return places.filter(Boolean);
 }
 
 // Throws if the request fails or the service answers with an error.

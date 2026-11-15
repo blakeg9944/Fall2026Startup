@@ -90,7 +90,7 @@ export function Home({ userName, onLogin, onLogout }) {
               ))}
             </div>
           )}
-          <p className="placeholder-note">Restaurant names and addresses come from the GlutenGuard service. They are sample data for now and will come from the Google Places API.</p>
+          <p className="placeholder-note">Restaurant names and addresses come from the Google Places API.</p>
         </section>
 
         <section className="gg-card" id="login-card">

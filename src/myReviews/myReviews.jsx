@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getAllPlaces } from '../data/places';
+import { getPlacesByIds } from '../data/places';
 import { deleteReview, getReviewsByUser } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating } from '../data/stats';
 import { timeAgo } from '../timeAgo';
@@ -20,10 +20,26 @@ export function MyReviews({ userName, onLogout }) {
   const [notifications, setNotifications] = React.useState([]);
   const [placesFailed, setPlacesFailed] = React.useState(false);
 
-  // Load the restaurants once, so each review can show its restaurant's name
+  // Look up the restaurants this user reviewed, so each review can show its restaurant's name.
+  // The key is the list of place IDs, so deleting one of several reviews of the same place doesn't look them up again.
+  const placeIds = [...new Set(reviews.map((review) => review.restaurantId))].join(',');
   React.useEffect(() => {
-    getAllPlaces().then(setPlaces).catch(() => setPlacesFailed(true));
-  }, []);
+    if (!placeIds) {
+      setPlaces([]);
+      return;
+    }
+    let ignore = false;
+    getPlacesByIds(placeIds.split(','))
+      .then((loaded) => {
+        if (!ignore) setPlaces(loaded);
+      })
+      .catch(() => {
+        if (!ignore) setPlacesFailed(true);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [placeIds]);
 
   function placeName(restaurantId) {
     return places.find((place) => place.id === restaurantId)?.name;

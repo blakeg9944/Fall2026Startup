@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getAllPlaces } from '../data/places';
+import { getPlacesByIds } from '../data/places';
 import { getReviews } from '../data/reviewStore';
 import { badgeClass, formatRating, summarize } from '../data/stats';
 import { timeAgo } from '../timeAgo';
@@ -21,11 +21,29 @@ export function Browse() {
   const [activity, setActivity] = React.useState([]);
   const [placesFailed, setPlacesFailed] = React.useState(false);
 
-  // Load the reviews and the restaurants once, when the page opens
+  // Load the reviews once, when the page opens
   React.useEffect(() => {
     getReviews().then(setReviews);
-    getAllPlaces().then(setPlaces).catch(() => setPlacesFailed(true));
   }, []);
+
+  // Look up the restaurants that have reviews. The key is the list of place IDs, so it only runs when a new restaurant appears.
+  const placeIds = [...new Set(reviews.map((review) => review.restaurantId))].join(',');
+  React.useEffect(() => {
+    if (!placeIds) {
+      return;
+    }
+    let ignore = false;
+    getPlacesByIds(placeIds.split(','))
+      .then((loaded) => {
+        if (!ignore) setPlaces(loaded);
+      })
+      .catch(() => {
+        if (!ignore) setPlacesFailed(true);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [placeIds]);
 
   // Mock WebSocket: a fake review event arrives every 5 seconds, and the feed keeps the newest 5.
   // The cleanup stops the timer when the user leaves the page.
