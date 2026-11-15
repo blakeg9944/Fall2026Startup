@@ -43,6 +43,12 @@
   overflow: hidden;
 }
 
+/* The Google map needs an explicit size to draw into */
+.map-canvas {
+  width: 100%;
+  height: 360px;
+}
+
 /* Let grid columns shrink so the wide table scrolls instead of overflowing */
 .browse-grid > * {
   min-width: 0;

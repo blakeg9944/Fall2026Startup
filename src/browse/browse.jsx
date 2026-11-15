@@ -4,6 +4,7 @@ import { getPlacesByIds } from '../data/places';
 import { getReviews } from '../data/reviewStore';
 import { badgeClass, formatRating, summarize } from '../data/stats';
 import { timeAgo } from '../timeAgo';
+import { ReviewMap } from './reviewMap';
 import './browse.css';
 
 const fakeUsers = ['user_42', 'provo_foodie', 'celiac_sarah', 'glutenfree_mom3', 'mtn_biker_dave', 'byu_student'];
@@ -65,6 +66,9 @@ export function Browse() {
     .filter((row) => row.summary.count > 0)
     .sort((a, b) => b.summary.rating - a.summary.rating);
 
+  // Memoized so the map only redraws its pins when the places or reviews change, not on every fake activity tick
+  const mapPlaces = React.useMemo(() => places.filter((place) => reviews.some((review) => review.restaurantId === place.id)), [places, reviews]);
+
   return (
     <main className="container">
       <div className="page-intro">
@@ -81,11 +85,10 @@ export function Browse() {
       <div className="browse-grid">
         <section className="gg-card" id="map">
           <h3>Map</h3>
-          {/* Placeholder: replaced by an interactive map from the Google Maps API */}
           <div className="map-frame">
-            <img src="/placeholder.png" alt="Map of reviewed restaurants near Provo, Utah" />
+            <ReviewMap places={mapPlaces} />
           </div>
-          <p className="placeholder-note">This map is rendered by the Google Maps API and pinned using place IDs from the Google Places API.</p>
+          <p className="placeholder-note">Pins are the restaurants GlutenGuard users have reviewed. The map and place data are provided by Google.</p>
         </section>
 
         <section className="gg-card" id="restaurant-list">
