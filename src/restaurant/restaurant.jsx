@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
-import { geocode } from '../data/geocode';
 import { LocationMap } from './locationMap';
 import { getReviewsForRestaurant } from '../data/reviewStore';
 import { badgeClass, formatRating, reviewRating, summarize } from '../data/stats';
@@ -36,8 +35,6 @@ export function Restaurant({ userName }) {
   const [reviews, setReviews] = React.useState([]);
   // True when the service could not be reached or answered with an error
   const [loadFailed, setLoadFailed] = React.useState(false);
-  // undefined means still looking, null means Nominatim couldn't find the address
-  const [location, setLocation] = React.useState(undefined);
   const [viewers, setViewers] = React.useState(7);
   const [events, setEvents] = React.useState([]);
 
@@ -61,23 +58,6 @@ export function Restaurant({ userName }) {
       ignore = true;
     };
   }, [id]);
-
-  // Ask Nominatim where the restaurant is once its address is known.
-  // The ignore flag drops the answer if the user moves to another restaurant first.
-  const address = place?.address;
-  React.useEffect(() => {
-    if (!address) {
-      return;
-    }
-    let ignore = false;
-    setLocation(undefined);
-    geocode(address).then((found) => {
-      if (!ignore) setLocation(found);
-    });
-    return () => {
-      ignore = true;
-    };
-  }, [address]);
 
   // Mock WebSocket: every few seconds the viewer count drifts and a fake event arrives.
   // The cleanup function stops the timer when the user leaves or the id changes. Without it,
@@ -191,27 +171,21 @@ export function Restaurant({ userName }) {
 
         <section className="gg-card" id="location">
           <h3>Location</h3>
-          {location === undefined && <p className="feed-empty">Looking up the location...</p>}
-          {location === null && <p>We couldn't find this address on the map.</p>}
-          {location && (
+          {place.location?.lat == null ? (
+            <p>We couldn't find this address on the map.</p>
+          ) : (
             <>
-              <LocationMap lat={location.lat} lng={location.lng} name={place.name} />
+              <LocationMap lat={place.location.lat} lng={place.location.lng} name={place.name} />
               <p className="coordinates">
                 {place.address} is at{' '}
                 <strong>
-                  {location.lat.toFixed(5)}, {location.lng.toFixed(5)}
+                  {place.location.lat.toFixed(5)}, {place.location.lng.toFixed(5)}
                 </strong>
                 .
               </p>
             </>
           )}
-          <p className="placeholder-note">
-            Coordinates come from the OpenStreetMap{' '}
-            <a href="https://nominatim.org/" target="_blank" rel="noreferrer">
-              Nominatim
-            </a>{' '}
-            geocoding service, and the map is drawn with Leaflet using OpenStreetMap tiles.
-          </p>
+          <p className="placeholder-note">The coordinates come from the Google Places API, and the map is drawn with Leaflet using OpenStreetMap tiles.</p>
         </section>
 
         <section className="gg-card" id="live-activity">
