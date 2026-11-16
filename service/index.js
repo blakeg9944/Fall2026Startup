@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const { seedReviews } = require('./seedData');
 const googleConfig = require('./googleConfig.json');
 const { searchPlaces, getPlaceDetails } = require('./googlePlaces');
+const { users } = require('./database');
 
 // The Google key stays on the server. It is gitignored like dbConfig.json, and the browser only ever talks to /api/places.
 // Warn at startup so a missing key shows up in the logs right away instead of as a failed search later.
@@ -14,9 +15,8 @@ if (!googleConfig.apiKey || googleConfig.apiKey.startsWith('PASTE_')) {
 
 const app = express();
 
-// Accounts live in memory until the database exists, so they reset whenever the service restarts.
+// Accounts live in the users collection (see database.js).
 // Each user is { email, userName, password (bcrypt hash), token }
-const users = [];
 
 // Reviews also live in memory until the database exists. They start with the seed reviews.
 // Each review is { id, restaurantId, userName, date, rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments, photos }
@@ -68,8 +68,9 @@ apiRouter.post('/auth/login', async (req, res) => {
   }
 
   // A fresh token on every login means old tokens stop working
-  user.token = uuid.v4();
-  setAuthCookie(res, user.token);
+  const token = uuid.v4();
+  await users.updateOne({ email: user.email }, { $set: { token } });
+  setAuthCookie(res, token);
   res.send({ userName: user.userName });
 });
 
@@ -77,7 +78,7 @@ apiRouter.post('/auth/login', async (req, res) => {
 apiRouter.delete('/auth/logout', async (req, res) => {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
-    delete user.token;
+    await users.updateOne({ email: user.email }, { $unset: { token: '' } });
   }
   // clearCookie must use the same path the cookie was set with, or the browser keeps it
   res.clearCookie(authCookieName, { path: authCookieOptions.path });
@@ -220,14 +221,16 @@ async function createUser(email, password) {
     password: await bcrypt.hash(password, 10),
     token: uuid.v4(),
   };
-  users.push(user);
+  await users.insertOne(user);
   return user;
 }
 
+// field is 'email' or 'token'. Both are only ever passed in by this file, never taken from a request.
+// The value is forced to a string so a JSON body like { "email": { "$ne": "" } } can't turn into a query operator.
 async function findUser(field, value) {
-  if (!value) return null;
+  if (!value || typeof value !== 'string') return null;
   const match = field === 'email' ? normalize(value) : value;
-  return users.find((user) => user[field] === match) ?? null;
+  return users.findOne({ [field]: match });
 }
 
 function normalize(email) {

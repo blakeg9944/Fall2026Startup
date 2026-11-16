@@ -10,6 +10,10 @@ const db = client.db('glutenguard');
 const users = db.collection('users');
 const reviews = db.collection('reviews');
 
+// Two accounts can't share an email, even if two signups arrive at the same moment.
+// The findUser check in index.js gives a friendly message, and this index is what actually enforces it.
+users.createIndex({ email: 1 }, { unique: true });
+
 // Ping on startup so a bad credential or a blocked IP shows up right away in the logs.
 // If the connection fails the service exits instead of running and failing on every request.
 (async function testConnection() {
