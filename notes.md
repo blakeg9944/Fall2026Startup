@@ -171,6 +171,8 @@ Interesting things I have learned about React
 - MongoDB stores JavaScript-like objects, so most functions are a pass-through: `findOne({ email })`, `insertOne(user)`, `updateOne({ email }, { $set: user })`. Only `getHighScores` has real logic: `find({ score: { $gt: 0, $lt: 900 } }, { sort: { score: -1 }, limit: 10 })`.
 - Collections are created the first time something is inserted. There is no schema, so MongoDB won't reject a document with a field I didn't expect. Anything a client sends must be validated by the server before it goes into a query or an update.
 - Atlas only accepts connections from allowed IP addresses, so the server's Elastic IP has to be on the Network Access list.
+- A unique index is the real guard against duplicate emails, because the "does this user exist" check and the insert are two separate steps and two signups can slip between them. The second insert then fails with error code `11000` (duplicate key). GlutenGuard catches that code and answers 409, the same as the friendly check, and rethrows anything else.
+- `database.js` exports a `connect()` function instead of pinging in a function that runs on import. `index.js` awaits it before `app.listen()`, so the server never starts accepting requests without a database. The unique index is created inside `connect()` and awaited too, so a failure there isn't silently lost.
 
 ## Google Places and Maps
 
