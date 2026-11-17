@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getPlaceDetails } from '../data/places';
 import { addReview, getReview, updateReview } from '../data/reviewStore';
+import { staffAnswer } from '../data/stats';
 import './review.css';
 
 const practiceQuestions = [
@@ -84,7 +85,7 @@ export function Review({ userName }) {
     rating: null,
     celiac: null,
     sensitive: null,
-    staff: false,
+    staff: 'unsure',
     comments: '',
   });
 
@@ -112,7 +113,7 @@ export function Review({ userName }) {
         const { fryer, grill, prep, menu, celiac, sensitive, staff, comments } = saved;
         // Reviews saved before ratings existed get the average of their two confidence answers as a starting point
         const rating = saved.rating ?? Math.round((celiac + sensitive) / 2);
-        setForm({ rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments });
+        setForm({ rating, fryer, grill, prep, menu, celiac, sensitive, staff: staffAnswer(staff), comments });
       }
     });
     return () => {
@@ -249,11 +250,15 @@ export function Review({ userName }) {
           <ConfidenceQuestion field="celiac" question="How confident would someone with celiac disease feel eating here?" value={form.celiac} onChange={update} />
           <ConfidenceQuestion field="sensitive" question="How confident would someone who is gluten-sensitive feel eating here?" value={form.sensitive} onChange={update} />
 
-          <div className="form-check form-switch">
-            <input className="form-check-input" type="checkbox" role="switch" id="staff" name="staff" checked={form.staff} onChange={(e) => update('staff', e.target.checked)} />
-            <label className="form-check-label" htmlFor="staff">
+          <div>
+            <label htmlFor="staff" className="form-label">
               Did the staff understand celiac safety?
             </label>
+            <select className="form-select" id="staff" name="staff" value={form.staff} onChange={(e) => update('staff', e.target.value)}>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unsure">Unsure</option>
+            </select>
           </div>
         </fieldset>
 

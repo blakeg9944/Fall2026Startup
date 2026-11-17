@@ -31,10 +31,18 @@ export function summarize(reviews) {
     grill: practice(reviews.map((review) => review.grill)),
     prep: practice(reviews.map((review) => review.prep)),
     menu: practice(reviews.map((review) => review.menu)),
-    staff: practice(reviews.map((review) => (review.staff ? 'yes' : 'no'))),
+    staff: practice(reviews.map((review) => staffAnswer(review.staff))),
     celiac: confidence(reviews.map((review) => review.celiac)),
     sensitive: confidence(reviews.map((review) => review.sensitive)),
   };
+}
+
+// The staff question used to be an on/off switch saved as true or false.
+// A switch left off looked the same as a real "no", so old false answers count as "unsure".
+export function staffAnswer(staff) {
+  if (staff === true) return 'yes';
+  if (staff === false) return 'unsure';
+  return staff;
 }
 
 // Combines everyone's yes/no/unsure answers to one kitchen question.

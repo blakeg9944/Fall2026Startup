@@ -210,7 +210,7 @@ function pickReviewFields(body) {
   const scores = [1, 2, 3, 4, 5];
   const { rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments } = body ?? {};
 
-  const valid = [fryer, grill, prep, menu].every((answer) => answers.includes(answer)) && scores.includes(rating) && scores.includes(celiac) && scores.includes(sensitive) && typeof staff === 'boolean' && typeof comments === 'string' && comments.length <= maxCommentLength;
+  const valid = [fryer, grill, prep, menu, staff].every((answer) => answers.includes(answer)) && scores.includes(rating) && scores.includes(celiac) && scores.includes(sensitive) && typeof comments === 'string' && comments.length <= maxCommentLength;
   return valid ? { rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments } : null;
 }
 
