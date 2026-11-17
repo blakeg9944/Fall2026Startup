@@ -54,7 +54,17 @@ apiRouter.post('/auth/create', async (req, res) => {
     return res.status(409).send({ msg: 'An account with that email already exists. Try logging in.' });
   }
 
-  const user = await createUser(email, password);
+  let user;
+  try {
+    user = await createUser(email, password);
+  } catch (ex) {
+    // Two signups with the same email can both pass the findUser check above, and the unique index rejects the second insert.
+    // 11000 is MongoDB's duplicate key error code, so that case gets the same answer as the check. Anything else is a real failure.
+    if (ex.code === 11000) {
+      return res.status(409).send({ msg: 'An account with that email already exists. Try logging in.' });
+    }
+    throw ex;
+  }
   setAuthCookie(res, user.token);
   res.send({ userName: user.userName });
 });
