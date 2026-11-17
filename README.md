@@ -188,7 +188,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 **Tested on the live site:** I logged in, wrote a review, saw its pin on the Browse map, and ran `pm2 restart startup` on the server. After the restart I was still logged in and the review was still there.
 
-**Fix found while testing:** "Did the staff understand celiac safety?" was an on/off switch saved as `true` or `false`, so a switch left untouched was saved as "No" and the restaurant page showed "Staff trained on celiac safety: No". It is now a Yes / No / Unsure dropdown that starts on Unsure, like the kitchen questions, and `pickReviewFields` only accepts `yes`, `no`, or `unsure`. Reviews already saved as `false` count as Unsure, since `false` can't tell a real "no" from an untouched switch (`staffAnswer` in `src/data/stats.js`).
+**Fix found while testing:** testing also turned up a bug in the staff question on the review form, which I fixed. The details are in [notes.md](notes.md).
 
 ## 🚀 WebSocket deliverable
 
