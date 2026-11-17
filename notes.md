@@ -184,3 +184,13 @@ Interesting things I have learned about React
 - Advanced markers only fire `gmp-click` if they are created with `gmpClickable: true`. Without it the pins drew correctly and did nothing when clicked, so checking that the pins appear isn't enough, the click needs testing too.
 - A list handed to a map component has to keep the same identity between renders (`useMemo`). The fake WebSocket tick re-rendered Browse every 5 seconds, and a new array each time would have redrawn every pin and closed any open popup.
 - `deployService.sh` already copies `service/*.json` to the server, so `googleConfig.json` goes up the same way `dbConfig.json` does.
+
+## Startup DB
+
+- The startup service now uses the same three layers as Simon DB. `service/database.js` connects to MongoDB Atlas with `service/dbConfig.json` (gitignored, and copied to the server by `deployService.sh`), and exports the `users` and `reviews` collections. It uses its own database, `glutenguard`, in the same Atlas cluster as Simon, so the two apps never share data.
+- Moving from arrays to a database made every helper `async`. `findUser` was already `async` and awaited, so `verifyAuth` didn't need to change, but each review endpoint had to become `async` and `await` its query. Express 5 catches a rejected promise from an async handler and answers 500, so a database error doesn't crash the service.
+- MongoDB has no schema, and it reads an object in a query as an operator. A login body of `{"email": {"$ne": ""}}` would match the first user in the collection. `findUser` only accepts strings, and the review filters only accept strings from `req.query`.
+- `insertOne` adds an `_id` to the object it is given. The POST handler inserts a copy so the response doesn't have an `_id`, and reads use `{ projection: { _id: 0 } }`.
+- Uniqueness belongs in the database. The `findUser` check before creating an account can lose a race with a second signup, so `users.createIndex({ email: 1 }, { unique: true })` is what actually enforces it.
+- `$set` changes only the fields I name, and `$unset` removes one. Logging in sets a new token, so an old token stops working, and logging out unsets it. `updateOne({ id }, { $set: fields })` only gets the fields that passed `pickReviewFields`, so a client still can't change a review's author or date.
+- To test it I started the service with `NODE_ENV=development` so the cookie works over `http://localhost`, then used `curl -c` and `-b` to keep the cookie between calls. `curl` treats `[` and `]` in a URL as a pattern, so a URL with brackets needs `-g`.
