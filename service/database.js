@@ -10,20 +10,18 @@ const db = client.db('glutenguard');
 const users = db.collection('users');
 const reviews = db.collection('reviews');
 
-// Two accounts can't share an email, even if two signups arrive at the same moment.
-// The findUser check in index.js gives a friendly message, and this index is what actually enforces it.
-users.createIndex({ email: 1 }, { unique: true });
-
-// Ping on startup so a bad credential or a blocked IP shows up right away in the logs.
-// If the connection fails the service exits instead of running and failing on every request.
-(async function testConnection() {
+// index.js awaits this before it starts listening, so the web server never runs without a database.
+// The ping makes a bad credential or a blocked IP show up right away in the logs, and the error is thrown to the caller to handle.
+async function connect() {
   try {
     await db.command({ ping: 1 });
+    // Two accounts can't share an email, even if two signups arrive at the same moment.
+    // The findUser check in index.js gives a friendly message, and this index is what actually enforces it.
+    await users.createIndex({ email: 1 }, { unique: true });
     console.log('Connected to the database');
   } catch (ex) {
-    console.log(`Unable to connect to the database at ${config.hostname}: ${ex.message}`);
-    process.exit(1);
+    throw new Error(`Unable to connect to the database at ${config.hostname}: ${ex.message}`);
   }
-})();
+}
 
-module.exports = { users, reviews };
+module.exports = { connect, users, reviews };

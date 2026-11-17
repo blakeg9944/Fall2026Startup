@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const googleConfig = require('./googleConfig.json');
 const { searchPlaces, getPlaceDetails } = require('./googlePlaces');
-const { users, reviews } = require('./database');
+const { connect, users, reviews } = require('./database');
 
 // The Google key stays on the server. It is gitignored like dbConfig.json, and the browser only ever talks to /api/places.
 // Warn at startup so a missing key shows up in the logs right away instead of as a failed search later.
@@ -274,6 +274,14 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-app.listen(port, () => {
-  console.log(`GlutenGuard service listening on port ${port}`);
-});
+// Connect first, and exit instead of listening if the database is unreachable
+connect()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`GlutenGuard service listening on port ${port}`);
+    });
+  })
+  .catch((ex) => {
+    console.log(ex.message);
+    process.exit(1);
+  });
