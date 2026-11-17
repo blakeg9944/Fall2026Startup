@@ -2,10 +2,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
-const { seedReviews } = require('./seedData');
 const googleConfig = require('./googleConfig.json');
 const { searchPlaces, getPlaceDetails } = require('./googlePlaces');
-const { users } = require('./database');
+const { users, reviews } = require('./database');
 
 // The Google key stays on the server. It is gitignored like dbConfig.json, and the browser only ever talks to /api/places.
 // Warn at startup so a missing key shows up in the logs right away instead of as a failed search later.
@@ -18,9 +17,11 @@ const app = express();
 // Accounts live in the users collection (see database.js).
 // Each user is { email, userName, password (bcrypt hash), token }
 
-// Reviews also live in memory until the database exists. They start with the seed reviews.
+// Reviews live in the reviews collection (see database.js), which starts empty.
 // Each review is { id, restaurantId, userName, date, rating, fryer, grill, prep, menu, celiac, sensitive, staff, comments, photos }
-let reviews = [...seedReviews];
+
+// Every read leaves out MongoDB's own _id field, since reviews already have their own id
+const hideMongoId = { projection: { _id: 0 } };
 
 const authCookieName = 'token';
 
@@ -132,13 +133,19 @@ apiRouter.get('/places/:id', async (req, res) => {
 });
 
 // Anyone can read reviews. Optional filters: ?restaurantId=... or ?userName=...
-apiRouter.get('/reviews', (req, res) => {
-  const { restaurantId, userName } = req.query;
-  res.send(reviews.filter((review) => (!restaurantId || review.restaurantId === restaurantId) && (!userName || review.userName === userName)));
+apiRouter.get('/reviews', async (req, res) => {
+  // Only plain strings go into the query, so a repeated or nested query parameter can't smuggle in an operator
+  const query = {};
+  for (const field of ['restaurantId', 'userName']) {
+    if (typeof req.query[field] === 'string' && req.query[field]) {
+      query[field] = req.query[field];
+    }
+  }
+  res.send(await reviews.find(query, hideMongoId).toArray());
 });
 
-apiRouter.get('/reviews/:id', (req, res) => {
-  const review = reviews.find((r) => r.id === req.params.id);
+apiRouter.get('/reviews/:id', async (req, res) => {
+  const review = await reviews.findOne({ id: req.params.id }, hideMongoId);
   if (!review) {
     return res.status(404).send({ msg: 'Review not found' });
   }
@@ -146,9 +153,9 @@ apiRouter.get('/reviews/:id', (req, res) => {
 });
 
 // Writing reviews requires a logged in user. The author comes from the token, never from the request body.
-apiRouter.post('/reviews', verifyAuth, (req, res) => {
+apiRouter.post('/reviews', verifyAuth, async (req, res) => {
   const fields = pickReviewFields(req.body);
-  if (!fields || !req.body.restaurantId) {
+  if (!fields || typeof req.body.restaurantId !== 'string' || !req.body.restaurantId) {
     return res.status(400).send({ msg: 'Invalid review' });
   }
 
@@ -160,13 +167,14 @@ apiRouter.post('/reviews', verifyAuth, (req, res) => {
     date: today(),
     photos: [],
   };
-  reviews.push(review);
+  // insertOne adds an _id to the object it is given, so send back a copy that doesn't have one
+  await reviews.insertOne({ ...review });
   res.send(review);
 });
 
 // Only the author can edit or delete a review
-apiRouter.put('/reviews/:id', verifyAuth, (req, res) => {
-  const review = reviews.find((r) => r.id === req.params.id);
+apiRouter.put('/reviews/:id', verifyAuth, async (req, res) => {
+  const review = await reviews.findOne({ id: req.params.id }, hideMongoId);
   if (!review) {
     return res.status(404).send({ msg: 'Review not found' });
   }
@@ -178,12 +186,12 @@ apiRouter.put('/reviews/:id', verifyAuth, (req, res) => {
     return res.status(400).send({ msg: 'Invalid review' });
   }
 
-  Object.assign(review, fields);
-  res.send(review);
+  await reviews.updateOne({ id: review.id }, { $set: fields });
+  res.send({ ...review, ...fields });
 });
 
-apiRouter.delete('/reviews/:id', verifyAuth, (req, res) => {
-  const review = reviews.find((r) => r.id === req.params.id);
+apiRouter.delete('/reviews/:id', verifyAuth, async (req, res) => {
+  const review = await reviews.findOne({ id: req.params.id }, hideMongoId);
   if (!review) {
     return res.status(404).send({ msg: 'Review not found' });
   }
@@ -191,7 +199,7 @@ apiRouter.delete('/reviews/:id', verifyAuth, (req, res) => {
     return res.status(403).send({ msg: 'You can only delete your own reviews' });
   }
 
-  reviews = reviews.filter((r) => r.id !== review.id);
+  await reviews.deleteOne({ id: review.id });
   res.status(204).end();
 });
 
